@@ -1,0 +1,166 @@
+\documentclass[11pt,dvipsnames,svgnames]{report}
+
+%PRÉAMBULE
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[normalem]{ulem}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{fancybox}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{ulem}
+\usepackage{eurosym}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{amssymb,amsmath,latexsym}
+\usepackage{mathrsfs}
+\usepackage[a4paper]{geometry}
+\usepackage[bottom]{footmisc}
+\usepackage{perpage}
+\usepackage{multicol}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[breaklinks]{hyperref}
+\usepackage[final]{pdfpages} 
+\usepackage{appendix}
+\usepackage{caption}
+\usepackage{minitoc}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{titlesec}
+ \usepackage{float}
+ \usepackage[section]{placeins}
+\usepackage{rotating}
+\usepackage{subfigure}
+\usepackage{epsfig}
+%\usepackage{mathpazo}
+%\usepackage[scaled]{beramono}
+\usepackage{menukeys}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+\geometry{hmargin=2.5cm,vmargin=2cm}
+
+
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+
+% En-têtes et pieds-de-page
+\pagestyle{fancy}
+\renewcommand\headrulewidth{1pt}
+\fancyhead[L]{\small{\leftmark}}
+\fancyhead[R]{\includegraphics[scale=0.2]{images/logoasi.png}}
+\fancyhfoffset{0pt}
+\fancyfoot[R]{\setstretch{0,8}\small{GD - AH - MJ - RJ - AL}}
+\fancyfoot[L]{\includegraphics[scale=0.14]{images/LogoINSA.png}}
+\renewcommand{\headrule}{{%
+ \color{black}\hrule \headwidth \headrulewidth \vskip-\headrulewidth}}
+\titleformat{\section}%
+[hang]% style du titre (hang, display, runin, leftmargin, drop, wrap)
+{\Large\bfseries}%changement de fonte commun au numéro et au titre
+{\thesection}% spécification du numéro
+{1em}% espace entre le numéro et le titre
+{}% changement de fonte du titre
+
+
+\begin{document}
+
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+\center 
+\vspace*{\stretch{1}}\textsc{\huge Institut National des Sciences Appliquées de Rouen}\\[0.7cm] 
+\LARGE Département ASI~\\[0.5cm]
+\Large{Architecture des Systèmes d'Information} ~\\[1.5cm]
+\textsc{\Large EC Informatique Répartie}\\[0.5cm] 
+\textsc{\large Projet}\\[0.8cm]
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Document de Spécifications}\\[0.2cm] \HRule \\[1.5cm]
+ 
+\LARGE \emph{\textbf{Sujet du projet :}} \\
+\textbf{Messagerie instantanée et visio/audio-conférence}\\[1.3cm]
+
+\large
+	\emph{\textbf{Auteurs :}}\\
+	Gautier \textsc{Darchen} \\ 
+	Alexandre \textsc{Huat} \\ 
+	Marie-Andrée \textsc{Jolibois} \\ 
+	Romain \textsc{Judic} \\ 
+	Alexandre \textsc{Le Lain}\\[0.3cm]
+	\textbf{Étudiants en ASI4}
+	
+~\\[0.5cm]
+\Large \emph{\textbf{Version}}\\
+	\textsc{v0.00}
+~\\[1cm]
+
+\vfill{\today} 
+
+\begin{figure}
+\includegraphics[width=4cm]{images/LogoINSA.png}\hfill
+\includegraphics[width=3cm]{images/logoasi.png}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+
+\vspace*{\stretch{1}} 
+ \end{titlepage}
+
+\newpage
+\tableofcontents
+
+\newpage
+
+
+\chapter{Introduction}
+
+L'application à développer est une plateforme de messagerie instantanée entre deux interlocuteurs. Elle permettra à ces interlocuteurs de communiquer tout en étant connectés sur des machines distantes. 
+
+\section{Fonctions principales}
+Les interlocuteurs pourront s'envoyer des messages écrits et auront éventuellement la possibilité de communiquer \emph{via} un système de visio/audio-conférence intégré à l'application. 
+
+Par ailleurs, un système de filtrage des messages sera mis en place (pour agir comme un contrôle parental...). Les utilisateurs auront la possibilité de paramétrer ce système de filtrage.
+
+Enfin, un système d'avatar pourra être utilisé par les utilisateurs dans différents cas (comme l'absence d'une webcam ou encore lors d'une discussion en messages écrits).
+
+\section{Utilisateurs}
+L'application pourra fonctionner si un seul ou plusieurs utilisateurs humains sont connectés :
+\begin{itemize}
+\item \textbf{1 humain : } l'utilisateur dialoguera avec un (ou plusieurs) personnages virtuels pour lesquels une IA\footnote{Intelligence Artificielle.} minimaliste aura été développée ;
+\item \textbf{2 humains ou plus : } les utilisateurs communiqueront ensemble selon les deux types de dialogue : messages écrits au visio/audio-conférence.
+
+\end{itemize}
+
+~\\\indent
+Pour utiliser l'application, les utilisateurs devront simplement avoir les compétences informatiques de base (se connecter à Internet, utiliser une plateforme en ligne...).
+
+\section{Contraintes}
+\subsection{Contraintes matérielles}
+L'application sera accessible en ligne car elle sera hébergée sur un serveur. De ce fait, la seule contrainte matérielle du point de vue de l'utilisateur est de disposer d'une machine reliée à Internet. 
+
+La majorité des calculs sera réalisée côté serveur, ce qui n'implique pas un besoin de ressources conséquent côté client.
+
+\subsection{Contraintes logicielles}
+Pour utiliser l'application de messagerie, l'utilisateur devra se connecter \emph{via} un navigateur web. En effet, l'application sera stockée sur un serveur distant. 
+
+Du point de vue de l'utilisateur, la seule contrainte logicielle est d'utiliser un navigateur web relativement récent et à jour, qui supporte les technologies web les plus répandues (PHP, JavaScript, ...).
+
+
+\chapter{Besoins détaillés}
+\section{Spécifications fonctionnelles}
+
+\section{Spécifications d'interfaces}
+
+\section{Spécifications opérationnelles}
+
+\end{document}
