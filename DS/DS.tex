@@ -32,15 +32,14 @@
 \usepackage{tikz}
 \usepackage{setspace}
 \usepackage{titlesec}
- \usepackage{float}
- \usepackage[section]{placeins}
+\usepackage{float}
+\usepackage[section]{placeins}
 \usepackage{rotating}
 \usepackage{subfigure}
 \usepackage{epsfig}
 %\usepackage{mathpazo}
 %\usepackage[scaled]{beramono}
 \usepackage{menukeys}
-
 \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
@@ -101,7 +100,7 @@
 	
 ~\\[0.5cm]
 \Large \emph{\textbf{Version}}\\
-	\textsc{v0.00}
+	\textsc{v1.00}
 ~\\[1cm]
 
 \vfill{\today} 
@@ -147,6 +146,9 @@ Pour utiliser l'application, les utilisateurs devront simplement avoir les comp�
 \section{Contraintes}
 \subsection{Contraintes matérielles}
 L'application sera accessible en ligne car elle sera hébergée sur un serveur. De ce fait, la seule contrainte matérielle du point de vue de l'utilisateur est de disposer d'une machine reliée à Internet. 
+
+Pour pouvoir profiter du service visio, l'utilisateur devra posséder un matériel de capture vidéo (Webcam,...) et pour le service audio, l'utilisateur devra posséder une entrée audio pour émettre des messages audios et une sortie audio pour les recevoir.
+
 
 La majorité des calculs sera réalisée côté serveur, ce qui n'implique pas un besoin de ressources conséquent côté client.
 
