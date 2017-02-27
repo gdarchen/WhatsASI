@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+
+rectangle "Application client" as R1 {
+    (Analyser\nmessages) as (UC1)
+    (Supprimer\nmessages) as (UC2)
+    (Afficher message\nde modération) as (UC3)
+}
+
+note top of R1
+    Le modérateur choisit de se connecter
+    en tant que tel au démarrage de l'application.
+end note
+
+:Modérateur: as U1
+
+U1 -- (UC1)
+U1 -- (UC2)
+U1 -- (UC3)
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+rectangle "Application client" as R1 {
+    (Se connecter) as (UC1)
+    (Choisir avatar) as (UC2)
+    (Choisir pseudo) as (UC3)
+}
+
+note top of R1
+    Ce cas d'utilisation est le premier que rencontre
+    l'utilisateur lorsqu'il ouvre l'application.
+end note
+
+:Utilisateur\nhumain: as U1
+
+U1 -right- (UC1)
+(UC2) <.. (UC1) : <<include>>
+(UC3) <.. (UC1) : <<include>>
+@enduml
