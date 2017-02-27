@@ -1,0 +1,35 @@
+@startuml
+title Modèle du domaine : A FINIR (par Alexandre Huat, pas toucher svp)
+
+class Compte
+class Utilisateur
+class Admin
+class IA
+class Conversation
+interface Filtre
+class FiltreEcrit
+class MessageEcrit
+class MessageDeModeration
+class ConversationEcrite
+class ConversationVideo
+class ConversationAudio
+
+Compte "*" -- "*" Conversation : participe à >
+
+Compte <|-- Admin
+Compte <|-- Utilisateur
+Compte <|-- IA
+
+Conversation <|-- ConversationVideo
+Conversation <|-- ConversationAudio
+Conversation <|-- ConversationEcrite
+
+Filtre <|.. FiltreEcrit
+FiltreEcrit "*" o-- java.lang.String
+Filtre "*" -- "*" Utilisateur
+
+Conversation "*" <-- "*" Filtre : < s'applique sur
+
+MessageEcrit <|-- MessageDeModeration
+MessageEcrit "1" -down-o "*" ConversationEcrite
+@enduml

@@ -125,44 +125,25 @@
 
 L'application à développer est une plateforme de messagerie instantanée entre deux interlocuteurs. Elle permettra à ces interlocuteurs de communiquer tout en étant connectés sur des machines distantes. 
 
-\section{Fonctions principales}
+\chapter{Fonctions principales}
 Les fonctions principales de cette application peuvent être scindées en trois catégories : 
-D'une part, \textbf{l'échange de message}, d'autre part, \textbf{ le filtrage des messages en fonction de leur contenu}, \textbf{l'utilisation d'un avatar}.\\ \\
+D'une part, \textbf{l'échange de message}, d'autre part, \textbf{ le filtrage des messages en fonction de leur contenu}, \textbf{l'utilisation d'un avatar}.
 
-Concernant la première fonctionalité, 
-les interlocuteurs pourront s'envoyer des messages écrits de façon instantanée. Ils auront en plus la possibilité de communiquer avec d'autres formats \emph{via} un système de visio ou audio-conférence intégré à l'application. \\ \\
+Concernant la première fonctionalité, les interlocuteurs pourront s'envoyer des messages écrits de façon instantanée. Ils auront en plus la possibilité de communiquer avec d'autres formats via un système de visio ou audio-conférence intégré à l'application.
 
-Concernant le filtrage des messages,
-il concernera le contenu et permettra deux sous-fonctionnalités à savoir le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus ce dernier pourra être personnalisé.\\ \\
+Concernant le filtrage des messages, il concernera le contenu et permettra deux sous-fonctionnalités, à savoir le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus ce dernier pourra être personnalisé.
 
-Concernant la dernière fonctionalité, 
-un système d'avatar pourra être utilisé par les utilisateurs dans différents cas (absence d'une webcam ou encore lors d'une discussion en messages écrits).
+Concernant la dernière fonctionalité, un système d'avatar pourra être utilisé par les utilisateurs dans différents cas (absence d'une webcam ou encore lors d'une discussion en messages écrits).
 
-\section{Utilisateurs}
+\chapter{Utilisateurs}
 L'application pourra fonctionner si un seul ou plusieurs utilisateurs humains sont connectés :
 \begin{itemize}
-\item \textbf{1 humain : } l'utilisateur dialoguera avec un (ou plusieurs) personnages virtuels pour lesquels une IA\footnote{Intelligence Artificielle.} minimaliste aura été développée ;
-\item \textbf{2 humains ou plus : } les utilisateurs communiqueront ensemble selon les deux types de dialogue : messages écrits au visio/audio-conférence.
-
+\item \textbf{1 humain : } l'utilisateur dialoguera avec un(des) personnage(s) virtuel(s) pour lesquels une IA\footnote{Intelligence Artificielle} minimaliste aura été développée ;
+\item \textbf{2 humains ou plus : } les utilisateurs communiqueront ensemble selon les deux types de dialogue : messages écrits ou visio- ou audio-conférence.
 \end{itemize}
+\vskip \baselineskip
 
-~\\\indent
-Pour utiliser l'application, les utilisateurs devront simplement avoir les compétences informatiques de base (se connecter à Internet, utiliser une plateforme en ligne...).
-
-\section{Contraintes}
-\subsection{Contraintes matérielles}
-L'application sera accessible en ligne car elle sera hébergée sur un serveur. De ce fait, la seule contrainte matérielle du point de vue de l'utilisateur est de disposer d'une machine reliée à Internet. 
-
-Pour pouvoir profiter du service visio, l'utilisateur devra posséder un matériel de capture vidéo (Webcam,...) et pour le service audio, l'utilisateur devra posséder une entrée audio pour émettre des messages audios et une sortie audio pour les recevoir.
-
-
-La majorité des calculs sera réalisée côté serveur, ce qui n'implique pas un besoin de ressources conséquent côté client.
-
-\subsection{Contraintes logicielles}
-Pour utiliser l'application de messagerie, l'utilisateur devra se connecter \emph{via} un navigateur web. En effet, l'application sera stockée sur un serveur distant. 
-
-Du point de vue de l'utilisateur, la seule contrainte logicielle est d'utiliser un navigateur web relativement récent et à jour, qui supporte les technologies web les plus répandues (PHP, JavaScript, ...).
-
+Pour utiliser l'application, les utilisateurs devront simplement avoir les compétences informatiques de base (se connecter à internet, utiliser une plateforme en ligne...).
 
 \chapter{Besoins détaillés}
 \section{Spécifications fonctionnelles}
@@ -170,5 +151,20 @@ Du point de vue de l'utilisateur, la seule contrainte logicielle est d'utiliser 
 \section{Spécifications d'interfaces}
 
 \section{Spécifications opérationnelles}
+
+\chapter{Contraintes}
+\section{Contraintes matérielles}
+L'application est accessible en ligne car elle est hébergée sur un serveur. De ce fait, l'utilisateur doit de disposer d'une machine reliée à internet.
+
+Pour profiter du service visio, l'utilisateur doit posséder un matériel de capture vidéo (webcam).
+
+Pour utiliser le service audio, l'utilisateur doit posséder une entrée et une sortie audio.
+
+La majorité des calculs est réalisée côté serveur, ce qui n'implique pas un besoin de ressources conséquent côté client.
+
+\section{Contraintes logicielles}
+Pour utiliser l'application de messagerie, l'utilisateur devra se connecter via un navigateur web. En effet, l'application sera hébergée sur un serveur distant. 
+
+Du point de vue de l'utilisateur, la seule contrainte logicielle est d'utiliser un navigateur web récent et à jour, qui supporte les technologies web les plus répandues (PHP, JavaScript, etc.).
 
 \end{document}
