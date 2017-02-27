@@ -1,35 +1,38 @@
 @startuml
-title Modèle du domaine : A FINIR (par Alexandre Huat, pas toucher svp)
+title Modèle du domaine
 
-class Compte
+abstract class Compte
 class Utilisateur
 class Admin
+interface Moderateur
 class IA
 class Conversation
-interface Filtre
-class FiltreEcrit
+class Filtre
 class MessageEcrit
 class MessageDeModeration
 class ConversationEcrite
 class ConversationVideo
 class ConversationAudio
 
-Compte "*" -- "*" Conversation : participe à >
+Compte "*" -- "*" Conversation
 
 Compte <|-- Admin
 Compte <|-- Utilisateur
+Admin ..|> Moderateur
 Compte <|-- IA
 
 Conversation <|-- ConversationVideo
 Conversation <|-- ConversationAudio
 Conversation <|-- ConversationEcrite
 
-Filtre <|.. FiltreEcrit
-FiltreEcrit "*" o-- java.lang.String
-Filtre "*" -- "*" Utilisateur
+Filtre "*" o-- java.lang.String
+Utilisateur "*" -- "*" Filtre
 
-Conversation "*" <-- "*" Filtre : < s'applique sur
+ConversationEcrite "*" -- "*" Filtre
 
 MessageEcrit <|-- MessageDeModeration
 MessageEcrit "1" -down-o "*" ConversationEcrite
+
+Compte "1" -right- "*" MessageEcrit
+MessageDeModeration "*" -- "1" Moderateur
 @enduml
