@@ -14,5 +14,5 @@ end note
 
 U1 -- (UC1)
 U1 -- (UC2)
-(UC1) .right.> (UC3) : <<include>>
+(UC2) .right.> (UC3) : <<include>>
 @enduml
