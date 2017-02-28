@@ -98,7 +98,7 @@
 	
 ~\\[0.5cm]
 \Large \emph{\textbf{Version}}\\
-	\textsc{v1.00}
+	\textsc{v0.00}
 
 \vfill{\today} 
 
@@ -125,92 +125,110 @@ L'application à développer est une plateforme de messagerie instantanée entre
 
 \section{Fonctions principales}
 Les fonctions principales de cette application peuvent être scindées en trois catégories : 
-D'une part, \textbf{l'échange de message}, d'autre part, \textbf{ le filtrage des messages en fonction de leur contenu}, \textbf{l'utilisation d'un avatar}.
+\begin{itemize}
+\item l'échange de messages ;
+\item le filtrage des messages en fonction de leur contenu ;
+\item l'utilisation d'un avatar.
+\end{itemize}
 
-Concernant la première fonctionalité, les interlocuteurs pourront s'envoyer des messages écrits de façon instantanée. Ils auront en plus la possibilité de communiquer avec d'autres formats via un système de visio ou audio-conférence intégré à l'application.
+Concernant la première fonctionnalité, les interlocuteurs pourront s'envoyer des messages écrits de façon instantanée. Ils auront en plus la possibilité de communiquer avec d'autres formats via un système de visio- ou audio-conférence intégré à l'application.
 
-Concernant le filtrage des messages, il concernera le contenu et permettra deux sous-fonctionnalités, à savoir le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus ce dernier pourra être personnalisé.
+Le filtrage des messages prend en charge le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus, ce dernier pourra être personnalisé.
 
-Concernant la dernière fonctionalité, un système d'avatar pourra être utilisé par les utilisateurs dans différents cas (absence d'une webcam ou encore lors d'une discussion en messages écrits).
+Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites.
 
 
 \section{Utilisateurs}
-L'application pourra fonctionner si un seul ou plusieurs utilisateurs humains sont connectés :
-\begin{itemize}
-\item \textbf{Humain utilisateur : } capable de créer une conversation, de participer à une conversation qu'il sélectionne, d'envoyer des messages et de dialoguer via audio ou visio conférence. L'utilisateur peut choisir ses données de pramétrages de filtrage. A la connexion il choisit aussi un login et une image.
-\item \textbf{Humain administrateur flitrage} Peut supprimer un message qu'il n'a pas émis. L'analyser le filtrer et générer un message générique expliquant la modération.
-\end{itemize}
+Il existe plusieurs types d'utilisateurs dont les droits diffèrent.
+\begin{description}
+\item[Utilisateur \emph{lambda} :] il peut créer (ouvrir) une conversation, participer à une conversation qu'il sélectionne. Il peut paramétrer ses filtres. À la connexion, il choisit aussi un login et un avatar.
+\item[Modérateur :] il peut émettre des messages de modération et supprimer des messages d'utilisateurs.
+\end{description}
 \vskip \baselineskip
 
-Pour utiliser l'application, les utilisateurs devront simplement avoir les compétences informatiques de base (se connecter à internet, utiliser une plateforme en ligne...).
+Les seuls prérequis à l'utilisation sont l'installation et ouverture d'une application.
 
 \chapter{Besoins détaillés}
+
 \section{Spécifications fonctionnelles}
+
 \subsection*{Cas d'utilisation}
+
+Cette section présente les cas d'utilisation suivants :
+\begin{itemize}
+\item discuter ;
+\item paramétrer le filtrage ;
+\item filtrer les messages ;
+\item se connecter.
+\end{itemize}
+
 \begin{figure}[H]
 \includegraphics[scale=0.55]{images/uc-discuter.png}
 \caption{Cas d'utilisation \textbf{discuter}}
-	Ce cas d'utilisation représente les interactions entre les différents interlocuteurs ( Humain et IA ) et les différents moyens mis à leur disposition pour effectuer cette action.
+\label{cas1}
 \end{figure}
+Le cas d'utilisation (figure \ref{cas1}) représente les interactions entre les différents interlocuteurs et les différents moyens mis à leur disposition pour communiquer.
 
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[scale=0.7]{images/uc-filtrerMessages.png}
 \vspace{5\baselineskip}
-\caption{Cas d'utilisation \textbf{filtrer les messages}}	
-	Ici, le cas d'utilisation indique qu'un utilisateur possédant le rôle de modérateur est en mesure de filtrer des conversations (Analyse des messages, suppression de messages ne respectant pas le filtre choisi par le modérateur,...).
+\caption{Cas d'utilisation \textbf{filtrer les messages}}
 \end{figure}
 
 \begin{figure}
 \includegraphics[scale=0.6]{images/uc-parametrerFiltrage.png}
 \caption{Cas d'utilisation \textbf{paramétrer le filtrage}}
-	Dans la continuation du cas d'utilisation précédent, l'utilisateur peut choisir d'appliquer ou non des filtres à ses conversations en fonctions de différents paramètres.
 \end{figure}
 
 \begin{figure}
 \includegraphics[scale=0.7]{images/uc-seConnecter.png}
-\caption{Cas d'utilisation \textbf{se Connecter}}
-	Ce cas d'utilisation représente l'action "se Connecter" qui permet à l'utilisateur d’accéder aux services de l'application.
+\caption{Cas d'utilisation \textbf{se connecter}}
 \end{figure}
 
 \end{center}
 
 \section{Spécifications d'interfaces}
 \subsection*{Maquettes}
-\begin{center}
-\begin{figure}
-\includegraphics[width=\textwidth]{maquette/maquette1.png}
-\caption{\textbf{Un exemple de conversation}}
+
+Cette section présente les maquettes de l'application.
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.95\textwidth]{maquette/maquette1.png}}
+\caption{Un exemple de conversation}
 \end{figure}
 
-\begin{figure}
-\includegraphics[width=\textwidth]{maquette/maquette2.png}
-\caption{\textbf{Autre exemple de conversation}}
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette2.png}}
+\caption{Autre exemple de conversation}
 \end{figure}
 
-\begin{figure}
-\includegraphics[width=\textwidth]{maquette/maquette3.png}
-\caption{\textbf{Interface des paramètres}}
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette3.png}}
+\caption{Interface des paramètres}
 \end{figure}
-\end{center}
 
 
 \section{Spécifications opérationnelles}
 
-Le système de messagerie est instannaté il faudra donc répondre dans un temps raisonnable. De plus, les messages sont suvegardés tant qu'il subsiste un utlisateur sur la conversation qui est connecté.
+Le système de messagerie répond instantanément.
+
+De plus, les messages sont sauvegardés tant qu'il subsiste un utilisateur connecté à la conversation.
+
+Le serveur qui héberge l'application est disponible à chaque instant $t$ pour permettre aux utilisateurs d'utiliser le service à n'importe quel moment.
+
 \chapter{Contraintes}
 \section{Contraintes matérielles}
-L'application est accessible en ligne car elle est hébergée sur un serveur. De ce fait, l'utilisateur doit de disposer d'une machine reliée à internet.
+L'utilisateur doit disposer d'une machine reliée à internet.
 
-Pour profiter du service visio, l'utilisateur doit posséder un matériel de capture vidéo (webcam).
+Pour profiter du service visio, l'utilisateur doit posséder un matériel de capture vidéo (webcam) et d'entrées/sorties audio.
 
 Pour utiliser le service audio, l'utilisateur doit posséder une entrée et une sortie audio.
 
-La majorité des calculs est réalisée côté serveur, ce qui n'implique pas un besoin de ressources conséquent côté client.
+La majorité des calculs est réalisée côté serveur, ce qui n'implique pas un besoin de ressources conséquentes côté client.
 
 \section{Contraintes logicielles}
-L'application sera hébergée sur un serveur distant.
-Pour utiliser l'application il est nécessaire d'être connecté à internet, de plus le serveur qui héberge l'application doit tourner.
 
+Le client doit disposer du Java Runtime Environnement 8.
 
 \end{document}
