@@ -135,7 +135,7 @@ Concernant la première fonctionnalité, les interlocuteurs pourront s'envoyer d
 
 Le filtrage des messages prend en charge le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus, ce dernier pourra être personnalisé.
 
-Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites.
+Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites. Cette image n'est pas animée. 
 
 
 \section{Utilisateurs}
@@ -146,11 +146,34 @@ Il existe plusieurs types d'utilisateurs dont les droits diffèrent.
 \end{description}
 \vskip \baselineskip
 
+\textcolor{red}{Plusieurs utilisateurs peuvent discuter en même temps sur une même conversation.}\\
+
 Les seuls prérequis à l'utilisation sont l'installation et ouverture d'une application.
 
 \chapter{Besoins détaillés}
 
 \section{Spécifications fonctionnelles}
+
+\textcolor{red}{L'IA est basique et à l'image d'un helpbot. L'IA est donc présente sur chaque conversation. L'utilisateur peut entrer des mots-clefs dans la conversation pour avoir des indications sur l'utilisation de l'application. }
+
+~\\
+\textcolor{red}{ Mots-clefs:
+\begin{description}
+\item[\og \textbackslash bonjour$\_$sophisme \fg\ :] répond à l'utilisateur \og Bonjour \texttt{<login>} \fg.
+\item[\og \textbackslash help \fg\ :] affiche un menu d'aide avec l'ensemble des mots-clefs.
+\item[\og \textbackslash help$\_$profil \fg\ :] indique à l'utilisateur comment paramétrer son profil.
+\item[\og \textbackslash help$\_$filtre \fg\ :] indique à l'utilisateur comment paramétrer les filtres.
+\item[\og \textbackslash help$\_$chat1 \fg\ :] indique à l'utilisateur comment ouvrir un salon de chat.
+\item[\og \textbackslash help$\_$chat2 \fg\ :] indique à l'utilisateur comment rejoindre une conversation.
+\item[\og \textbackslash help$\_$video \fg\ :] indique à l'utilisateur comment démarrer une conversation vidéo.
+\item[\og \textbackslash help$\_$audio \fg\ :] indique à l'utilisateur comment démarrer une conversation audio.
+\end{description}
+}
+
+~\\\\
+\textcolor{red}{	Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page \og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).}
+~\\\\
+\textcolor{red}{Par défaut, lorsqu'un utilisateur démarre une conversation, il est seul avec l'IA jusqu'à l'arrivée d'autres utilisateurs.}
 
 \subsection*{Cas d'utilisation}
 
@@ -195,12 +218,17 @@ Cette section présente les maquettes de l'application.
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=0.95\textwidth]{maquette/maquette1.png}}
-\caption{Un exemple de conversation}
+\caption{Un exemple de conversation texte}
+\end{figure}
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette4.png}}
+\caption{Conversation vidéo}
 \end{figure}
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette2.png}}
-\caption{Autre exemple de conversation}
+\caption{Liste des conversations}
 \end{figure}
 
 \begin{figure}[H]
