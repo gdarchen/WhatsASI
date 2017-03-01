@@ -1,0 +1,54 @@
+EN CAS DE MODIFICATION :
+GARDER TOUT LE CODE DES PRÉCÉDENTES VERSIONS EN DEHORS DES BALISES @startuml et @enduml
+
+@startuml
+title Diagramme de classes v0.00
+
+abstract class Compte {
+	+String pseudo
+	+ImageIcon avatar
+	+boolean video
+	+boolean audio
+}
+class Utilisateur
+class Moderateur
+class IA {
+	{static} +String pseudo = "Sophisme"
+}
+
+class Conversation {
+	+List<Message> messages
+}
+class Filtre {
+	+Collection<String> motsInterdits
+}
+class Message {
+	+Compte auteur
+	+Date date
+	+String message
+}
+
+class MessageDeModeration
+class Conversation
+interface Video
+interface Audio
+
+Compte "*" -- "*" Conversation
+
+Compte <|-- Moderateur
+Compte <|-- Utilisateur
+Compte <|-- IA
+
+Conversation <|.. Video
+Conversation <|.. Audio
+
+Utilisateur "*" -- "*" Filtre : choisit >
+
+Conversation "*" -- "*" Filtre : < filtre
+
+Message <|-- MessageDeModeration
+Message "1" -down-o "*" Conversation
+
+Compte "1" -right- "*" Message : écrit >
+MessageDeModeration "*" -- "1" Moderateur : < écrit
+@enduml
