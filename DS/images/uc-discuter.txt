@@ -1,7 +1,8 @@
 @startuml
 rectangle "Application client" as R1 {
-    (Démarrer\nconversation) as (UC1)
-    (Ouvrir conversation) as (UC2)
+    (Ouvrir\nconversation) as (UC1)
+    (Créer\nconversation) as (UC2)
+    (Rejoindre\nconversation) as (UC2.1)
     (Choisir mode\nde communication) as (UC3)
     (Communiquer\npar messages) as (UC4)
     (Communiquer\npar audio) as (UC5)
@@ -21,6 +22,7 @@ U1 - (UC7)
 U2 -left- (UC4)
 U3 - (UC7)
 (UC2) ..> (UC1) : <<extends>>
+(UC2.1) ..> (UC1) : <<extends>>
 (UC3) ..> (UC1) : <<extends>>
 (UC5) .up.> (UC4) : <<extends>>
 (UC6) .up.> (UC4) : <<extends>>
