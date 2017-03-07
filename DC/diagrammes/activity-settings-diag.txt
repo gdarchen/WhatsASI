@@ -1,0 +1,25 @@
+@startuml
+title Diagramme d'activité : conection au service v0.00
+
+start
+
+:Arrivée de l'utilisateur sur la Messagerie;
+:Affichage des paramètres;
+:Informations;
+fork
+  :Choisir Avatar;
+  :selectAvatar();
+fork again
+  :Choisir Pseudo;
+  :enterPseudo();
+endfork
+:Filtrage;
+if (Filtrer()?) then (yes)
+  while (Filtrer des mots) is (addAnotherFilter)
+    :addFilter();
+  endwhile(validate)
+else (nope)
+:Valider;
+endif
+stop
+@enduml
