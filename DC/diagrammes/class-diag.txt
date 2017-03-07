@@ -1,8 +1,9 @@
-EN CAS DE MODIFICATION :
-GARDER TOUT LE CODE DES PRÉCÉDENTES VERSIONS EN DEHORS DES BALISES @startuml et @enduml
-
 @startuml
 title Diagramme de classes v0.00
+
+class Messagerie {
+        +List<Conversation> conversations
+}
 
 abstract class Compte {
 	+String pseudo
@@ -32,6 +33,8 @@ class MessageDeModeration
 class Conversation
 interface Video
 interface Audio
+
+Messagerie "*" -- "1" Conversation
 
 Compte "*" -- "*" Conversation
 
