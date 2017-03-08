@@ -1,0 +1,18 @@
+@startuml
+title Diagramme de l'activité ouvrir une conversation V0.00
+
+start
+:Arrivée de l'utilisateur sur la liste des conversations;
+fork
+  :afficherListeConversations();
+  :afficherCreerConversation();
+  if (sélectionnerChoix) then (rejoindreConversation)
+   :Rejoindre une conversation existante;
+   :joinConvSelected();
+  else (creerConversation)
+   :Ouvrir une nouvelle conversation;
+   :openNewConv();
+  endif
+
+stop
+@enduml

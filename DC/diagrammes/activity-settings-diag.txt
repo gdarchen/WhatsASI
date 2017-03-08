@@ -21,5 +21,6 @@ if (Filtrer()?) then (yes)
 else (nope)
 :Valider;
 endif
+:creerProfile();
 stop
 @enduml

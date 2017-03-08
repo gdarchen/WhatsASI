@@ -1,0 +1,24 @@
+@startuml
+title Diagramme de l'activité ouverture conversation V0.00
+
+start
+:Arrivée de l'utilisateur sur la conversation;
+:afficherListeParticipants();
+:afficherInterface();
+:afficherMessages();
+:afficherAvatar();
+:afficherPseudo();
+:afficherHeureMsg();
+:afficherChat();
+if (afficher vidéo ?) then (yes)
+  :afficherVideosParticipants();
+else (no)
+  :desactiverVideos();
+endif
+if (afficher audio ?) then (yes)
+  :activaterAudio();
+else (no)
+  :desactiverAudio();
+endif
+stop
+@enduml
