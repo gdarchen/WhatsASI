@@ -1,8 +1,14 @@
 @startuml
 title Diagramme de l'activité ouverture conversation V0.00
 
+|Client|
 start
 :Arrivée de l'utilisateur sur la conversation;
+:getChatInformations();
+|#AntiqueWhite|Serveur|
+:appliquerFiltres();
+:sendChatInformations();
+|Client|
 :afficherListeParticipants();
 :afficherInterface();
 :afficherMessages();
@@ -10,13 +16,17 @@ start
 :afficherPseudo();
 :afficherHeureMsg();
 :afficherChat();
-if (afficher vidéo ?) then (yes)
-  :afficherVideosParticipants();
-else (no)
+if (afficher vidéo ?) then (no)
   :desactiverVideos();
+else (yes)
+  :getVideosFlux();
+  |Serveur|
+  :sendVideosFlux();
+  |Client|
+  :afficherVideosParticipants();
 endif
-if (afficher audio ?) then (yes)
-  :activaterAudio();
+if (activer audio ?) then (yes)
+  :activerAudio();
 else (no)
   :desactiverAudio();
 endif
