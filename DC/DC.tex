@@ -3,12 +3,13 @@
 %PRÉAMBULE
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[table]{xcolor}
+%\usepackage[table]{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage[normalem]{ulem}
 \usepackage{verbatim}
 \usepackage{fancyhdr}
-\usepackage{xcolor}
+\usepackage{mdframed}
+%\usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{fancybox}
 \usepackage{amsfonts}
@@ -29,7 +30,7 @@
 \usepackage{appendix}
 \usepackage{caption}
 \usepackage{minitoc}
-\usepackage{tikz}
+%\usepackage{tikz}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{float}
@@ -45,6 +46,7 @@
 \patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
 \patchcmd{\ttlh@hang}{\noindent}{}{}{}
 \makeatother
+
 
 \geometry{hmargin=2.5cm,vmargin=2cm}
 
@@ -146,7 +148,9 @@ Il existe plusieurs types d'utilisateurs dont les droits diffèrent.
 \end{description}
 \vskip \baselineskip
 
-\textcolor{red}{Plusieurs utilisateurs peuvent discuter en même temps sur une même conversation.}\\
+\begin{mdframed}[topline=false,rightline=false,bottomline=false, linewidth=3pt,linecolor=red]
+Plusieurs utilisateurs peuvent discuter en même temps sur une même conversation.
+\end{mdframed}
 
 Les seuls prérequis à l'utilisation sont l'installation et ouverture d'une application.
 
@@ -154,10 +158,11 @@ Les seuls prérequis à l'utilisation sont l'installation et ouverture d'une app
 
 \subsection{Spécifications fonctionnelles}
 
-\textcolor{red}{L'IA est basique et à l'image d'un helpbot. L'IA est donc présente sur chaque conversation. L'utilisateur peut entrer des mots-clefs dans la conversation pour avoir des indications sur l'utilisation de l'application. }
+\begin{mdframed}[topline=false,rightline=false,bottomline=false, linewidth=3pt,linecolor=red]
+L'IA est basique et à l'image d'un helpbot. L'IA est donc présente sur chaque conversation. L'utilisateur peut entrer des mots-clefs dans la conversation pour avoir des indications sur l'utilisation de l'application.
 
 ~\\
-\textcolor{red}{ Mots-clefs:
+Mots-clefs:
 \begin{description}
 \item[\og \textbackslash bonjour$\_$sophisme \fg\ :] répond à l'utilisateur \og Bonjour \texttt{<login>} \fg.
 \item[\og \textbackslash help \fg\ :] affiche un menu d'aide avec l'ensemble des mots-clefs.
@@ -168,12 +173,14 @@ Les seuls prérequis à l'utilisation sont l'installation et ouverture d'une app
 \item[\og \textbackslash help$\_$video \fg\ :] indique à l'utilisateur comment démarrer une conversation vidéo.
 \item[\og \textbackslash help$\_$audio \fg\ :] indique à l'utilisateur comment démarrer une conversation audio.
 \end{description}
-}
 
-~\\\\
-\textcolor{red}{	Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page \og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).}
-~\\\\
-\textcolor{red}{Par défaut, lorsqu'un utilisateur démarre une conversation, il est seul avec l'IA jusqu'à l'arrivée d'autres utilisateurs.}
+~\\\\ 	
+
+Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page \og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).
+
+~\\\\ 
+Par défaut, lorsqu'un utilisateur démarre une conversation, il est seul avec l'IA jusqu'à l'arrivée d'autres utilisateurs.
+\end{mdframed}
 
 \subsection{Spécifications opérationnelles}
 
@@ -244,7 +251,7 @@ Le client doit disposer du Java Runtime Environnement 8.
 
 Ici sont listées les signatures externes des différents composants de chacun des \emph{packages} de l'application.
 
-\paragraph{Classe Messagerie}
+\paragraph*{Classe Messagerie}
 \begin{itemize}
 \item \texttt{public List<Conversation> getConversations()} ;
 \end{itemize}
