@@ -7,21 +7,18 @@ package "Gestion des conversations" {
   interface Video
   interface Audio
   class Message
+  class MessageDeModeration
 }
 
 package "Gestion des utilisateurs" {
   abstract class Compte 
   class Utilisateur
   class IA
+  class Moderateur
 }
 
 package "Gestion du filtrage" {
   class Filtre
-}
-
-package "Moderation" {
-  class Moderateur
-  class MessageDeModeration
 }
 
 
@@ -45,7 +42,6 @@ Message "1" -down-o "*" Conversation
 
 Compte "1" -right- "*" Message : écrit >
 MessageDeModeration "*" -- "1" Moderateur : < écrit
-
 
 
 @enduml
