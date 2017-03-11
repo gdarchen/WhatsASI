@@ -1,0 +1,51 @@
+@startuml
+title Diagramme de packages v0.00
+
+package "Gestion des conversations" {
+  class Messagerie 
+  class Conversation
+  interface Video
+  interface Audio
+  class Message
+}
+
+package "Gestion des utilisateurs" {
+  abstract class Compte 
+  class Utilisateur
+  class IA
+}
+
+package "Gestion du filtrage" {
+  class Filtre
+}
+
+package "Moderation" {
+  class Moderateur
+  class MessageDeModeration
+}
+
+
+Messagerie "*" -- "1" Conversation
+
+Compte "*" -- "*" Conversation
+
+Compte <|-- Moderateur
+Compte <|-- Utilisateur
+Compte <|-- IA
+
+Conversation <|.. Video
+Conversation <|.. Audio
+
+Utilisateur "*" -- "*" Filtre : choisit >
+
+Conversation "*" -- "*" Filtre : < filtre
+
+Message <|-- MessageDeModeration
+Message "1" -down-o "*" Conversation
+
+Compte "1" -right- "*" Message : écrit >
+MessageDeModeration "*" -- "1" Moderateur : < écrit
+
+
+
+@enduml
