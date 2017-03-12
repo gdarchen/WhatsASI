@@ -1,0 +1,12 @@
+@startuml
+title Diagramme de séquence d'analyse de Modérer v0.00
+actor "Modérateur" as H
+boundary "Système (Client)" as S
+
+H -> S : ouvrirConversation()
+H <-- S : fenêtre de la conversation,\n liste des messages
+H -> S : supprimerMessage()
+H <-- S : liste des messages mise à jour
+H -> S : écrireMessageDeModération()
+H <-- S : confirmation, erreur
+@enduml
