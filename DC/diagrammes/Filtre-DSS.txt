@@ -1,0 +1,30 @@
+@startuml
+title Diagramme de séquence système Modifier Filtre compteUtilisateur  :Par v0.00
+actor UtilisateurHumain
+boundary CompteUtilisateur
+control Filtre
+entity MotInterdit
+UtilisateurHumain -> CompteUtilisateur : selectionModificaionDeCompte()
+CompteUtilisateur -> CompteUtilisateur : getCompte()
+CompteUtilisateur -> CompteUtilisateur : afficherFenetreParamétrage()
+UtilisateurHumain -> CompteUtilisateur : ajouterMotInterdit()
+CompteUtilisateur -> Filtre: setFiltre()
+Filtre -> MotInterdit : setMots()
+MotInterdit -> MotInterdit: addMotToList()
+MotInterdit -> Filtre :<ListeMotInterdit>
+Filtre -> Filtre : majFiltre()
+Filtre -> CompteUtilisateur : <Filtre>
+CompteUtilisateur -> CompteUtilisateur : getCompte()
+CompteUtilisateur -> UtilisateurHumain : afficherFenetreParamétrage()
+UtilisateurHumain -> CompteUtilisateur : selectionMotInterdit()
+CompteUtilisateur -> CompteUtilisateur: afficherMotSelectionné()
+UtilisateurHumain -> CompteUtilisateur : enleverMotInterdit()
+CompteUtilisateur -> Filtre: setFiltre()
+Filtre -> MotInterdit : setMots()
+MotInterdit -> MotInterdit: removeMotFromList()
+MotInterdit -> Filtre :<ListeMotInterdit>
+Filtre -> Filtre : majFiltre()
+Filtre -> CompteUtilisateur : <Filtre>
+CompteUtilisateur -> CompteUtilisateur : getCompte()
+CompteUtilisateur -> CompteUtilisateur : afficherFenetreParamétrage()
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+title Diagramme de séquence système Se Connecter  :Par v0.00
+actor UtilisateurHumain
+boundary Messagerie
+control CompteUtilisateur
+entity Pseudo
+entity Filtre
+entity MotInterdit
+entity Avatar
+UtilisateurHumain -> Messagerie : ouvrirApplication()
+Messagerie -> Messagerie : ouvrirFenetreParametrage()
+CompteUtilisateur -> CompteUtilisateur: afficherFenetreParamétrage()
+UtilisateurHumain -> CompteUtilisateur : modifierPseudo()
+CompteUtilisateur -> Pseudo: setPseudo(nouveauPseudo)
+Pseudo -> Pseudo: majPseudo()
+Pseudo -> CompteUtilisateur : <Pseudo>
+CompteUtilisateur -> UtilisateurHumain : <Pseudo>
+UtilisateurHumain -> CompteUtilisateur : ajouterMotInterdit()
+CompteUtilisateur -> Filtre: setFiltre()
+Filtre -> MotInterdit : setMots()
+MotInterdit -> MotInterdit: addMotToList()
+MotInterdit -> Filtre :<ListeMotInterdit>
+Filtre -> Filtre : majFiltre()
+Filtre -> CompteUtilisateur : <Filtre>
+CompteUtilisateur -> CompteUtilisateur : getCompte()
+CompteUtilisateur -> UtilisateurHumain : afficherFenetreParamétrage()
+UtilisateurHumain -> CompteUtilisateur : selectionMotInterdit()
+CompteUtilisateur -> CompteUtilisateur: afficherMotSelectionné()
+UtilisateurHumain -> CompteUtilisateur : enleverMotInterdit()
+CompteUtilisateur -> Filtre: setFiltre()
+Filtre -> MotInterdit : setMots()
+MotInterdit -> MotInterdit: removeMotFromList()
+MotInterdit -> Filtre :<ListeMotInterdit>
+Filtre -> Filtre : majFiltre()
+Filtre -> CompteUtilisateur : <Filtre>
+UtilisateurHumain -> CompteUtilisateur : modifierAvatar()
+CompteUtilisateur -> UtilisateurHumain : afficherFenetreRechercheImage()
+UtilisateurHumain -> CompteUtilisateur : selectionImage()
+CompteUtilisateur -> Avatar: setAvatar(Avatar)
+Avatar -> Avatar: majAvatar()
+Avatar -> CompteUtilisateur : <Avatar>
+CompteUtilisateur -> UtilisateurHumain : <Avatar>
+UtilisateurHumain -> Messagerie : Valider()
+Messagerie -> CompteUtilisateur : setCompteUtilisateur()
+CompteUtilisateur -> CompteUtilisateur : majCompteUtilisateur()
+CompteUtilisateur -> UtilisateurHumain : <<Profil Complet!>>
+Messagerie -> Messagerie : AfficherListeConversations()
+@enduml
