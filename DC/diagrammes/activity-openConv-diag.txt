@@ -1,34 +1,27 @@
-@startuml
-title Diagramme de l'activité ouverture conversation V0.00
+﻿@startuml
+title Diagramme de l'activité Ouverture d'une conversation V0.00
 
 |Client|
 start
 :Arrivée de l'utilisateur sur la conversation;
-:getChatInformations();
 |#AntiqueWhite|Serveur|
-:appliquerFiltres();
-:sendChatInformations();
+:Appliquer les filtres;
+:Enoyer les messages de la conversation;
 |Client|
-:afficherListeParticipants();
-:afficherInterface();
-:afficherMessages();
-:afficherAvatar();
-:afficherPseudo();
-:afficherHeureMsg();
-:afficherChat();
+:Afficher les messages;
 if (afficher vidéo ?) then (no)
-  :desactiverVideos();
+  :Désactiver la vidéo;
 else (yes)
-  :getVideosFlux();
+  :Obtenir les flux vidéos;
   |Serveur|
-  :sendVideosFlux();
+  :Envoyer les flux vidéos;
   |Client|
-  :afficherVideosParticipants();
+  :Afficher les vidéos des participants;
 endif
 if (activer audio ?) then (yes)
-  :activerAudio();
+  :Activer l'audio;
 else (no)
-  :desactiverAudio();
+  :Désactiver l'audio;
 endif
 stop
 @enduml

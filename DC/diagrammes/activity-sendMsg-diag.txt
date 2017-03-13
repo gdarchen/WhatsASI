@@ -1,19 +1,18 @@
-@startuml
-title Diagramme de l'activité comuniquer via chat V0.00
+﻿@startuml
+title Diagramme de l'activité communiquer via chat V0.00
 
 |Client|
 start
 :Envoi d'un message par l'utilisateur;
-:sendMsg();
 |#AntiqueWhite|Serveur|
-:addMsgInList();
-:broadcastMsg();
-:aknowledgeMsgToSender();
+:Ajouter le message dans la conversation;
+:Envoyer le message à tous les participants;
+:Notifier le client;
 |Client|
 if (message bien transmis ?) then (yes)
-:afficherMsg();
+:Afficher le message;
 else(no)
-:afficherErreur();
+:Afficher une erreur;
 endif
 stop
 @enduml
