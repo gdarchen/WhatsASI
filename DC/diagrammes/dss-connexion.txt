@@ -1,5 +1,5 @@
 @startuml
-title Diagramme de séquence d'analyse de Se connecter v0.00
+title Diagramme de séquence système de Se connecter v0.00
 actor "Utilisateur Humain" as H
 boundary "Système (Client)" as S
 

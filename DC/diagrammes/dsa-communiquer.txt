@@ -1,0 +1,81 @@
+@startuml
+title Diagramme de séquence d'analyse de Communiquer v0.00
+actor "Utilisateur Humain" as H
+boundary "a:Application" as A
+control "m:Messagerie" as M
+entity "c:Conversation" as C
+entity "msg:Message" as Msg
+
+note left of H
+    Pré-condition :
+    l'utilisateur est déjà connecté.
+endnote
+
+
+H -> A : ouvrirConversation()
+activate A
+    A -> M : getConversation()
+    activate M
+    A <-- M : refConv
+    deactivate M
+    A -> C : activerSynchronisation()
+    activate C
+    A <-- C
+    deactivate C
+H <-- A : afficher conversation
+H -> A : choisirModeDeCommunication()
+    A -> M : setModeDeCommunication(mode, refConv)
+    activate M
+        M -> C : setMode(mode)
+        activate C
+        M <-- C
+        deactivate C
+    A <-- M
+    deactivate M
+H <-- A : fenêtre mise à jour
+H -> A : écrireMessage()
+    A -> M : addMessage(msg, refCompte, refConv)
+    activate M
+        activate C
+        M -> C : addMessage(msg, refCompte)
+        create Msg
+
+        C -> Msg : <<create>>
+        C <-- Msg : refMsg
+        M <-- C : confirmation, erreur
+        deactivate C
+        M -> M : notifierAutresMembres()
+    A <-- M : confirmation, erreur
+    deactivate M
+H <-- A : confirmation, erreur
+H <-- A : nouveaux messages
+note over H
+    Si audio activé
+endnote
+H -> A : capturerAudio()
+    A -> M : envoyerAudio(flux, refConv)
+    activate M
+        M -> C : envoyerAudio(flux)
+        activate C
+        M <-- C
+        deactivate C
+    A <-- M
+    deactivate M
+H <-- A
+H <-- A : diffuser audio
+note over H
+    Si vidéo activée
+endnote
+H -> A : capturerVidéo()
+    A -> M : envoyerVidéo(flux, refConv)
+    activate M
+        M -> C : envoyerVidéo(flux)
+        activate C
+        M <-- C
+        deactivate C
+    A <-- M
+    deactivate M
+H <-- A
+H <-- A : diffuserVidéo
+deactivate A
+@enduml

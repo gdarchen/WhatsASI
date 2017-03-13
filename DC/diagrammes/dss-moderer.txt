@@ -1,5 +1,5 @@
 @startuml
-title Diagramme de séquence d'analyse de Modérer v0.00
+title Diagramme de séquence système de Modérer v0.00
 actor "Modérateur" as H
 boundary "Système (Client)" as S
 

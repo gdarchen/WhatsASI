@@ -1,10 +1,8 @@
 @startuml
-title Diagramme de séquence d'analyse de Communiquer v0.00
+title Diagramme de séquence système de Communiquer v0.00
 actor "Utilisateur Humain" as H
 boundary "Système (Client)" as S
 
-H -> S : ouvrirConversation()
-H <-- S : fenêtre de la conversation
 H -> S : choisirModeDeCommunication()
 H <-- S : fenêtre mise à jour
 H -> S : écrireMessage()
@@ -19,5 +17,5 @@ note over H
     Si vidéo activée
 endnote
 H -> S : capturerVidéo()
-H <-- S : diffuserVidéo()
+H <-- S : diffuser vidéo
 @enduml

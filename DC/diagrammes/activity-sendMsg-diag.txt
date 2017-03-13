@@ -1,5 +1,5 @@
 @startuml
-title Diagramme de l'activité comuniquer via chat V0.00
+title Diagramme de l'activité Comuniquer via chat V0.00
 
 |Client|
 start

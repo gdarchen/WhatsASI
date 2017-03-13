@@ -1,26 +1,22 @@
 @startuml
-title Diagramme d'activité : conection au service v0.00
+title Diagramme de l'activité Se connecter v0.00
 
 start
-
-:Arrivée de l'utilisateur sur la Messagerie;
+:Ouvrir l'application;
 :Affichage des paramètres;
-:Informations;
 fork
-  :Choisir Avatar;
-  :selectAvatar();
+    :Choisir avatar;
+    :Afficher fenêtre de recherche;
+    :Mettre à jour l'avatar;
 fork again
-  :Choisir Pseudo;
-  :enterPseudo();
+  :Taper pseudo;
 endfork
-:Filtrage;
-if (Filtrer()?) then (yes)
-  while (Filtrer des mots) is (addAnotherFilter)
-    :addFilter();
-  endwhile(validate)
-else (nope)
-:Valider;
+if (Filtrer ?) then (yes)
+  while (Nouveau mot à filtrer ?) is (yes)
+    :Ajouter un\nmot interdit;
+  endwhile(no)
+else (no)
 endif
-:creerProfile();
+:Valider;
 stop
 @enduml

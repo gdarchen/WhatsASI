@@ -1,5 +1,5 @@
 @startuml
-title Diagramme de l'activité ouvrir une conversation V0.00
+title Diagramme de l'activité Afficher les conversations V0.00
 
 |Client|
 start
