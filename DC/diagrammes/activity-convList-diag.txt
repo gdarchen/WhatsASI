@@ -4,18 +4,15 @@ title Diagramme de l'activité Afficher les conversations V0.00
 |Client|
 start
 :Arrivée de l'utilisateur sur la liste des conversations;
-:getConversations();
 |#AntiqueWhite|Serveur|
-:sendConversations();
+:Envoyer les conversations;
 |Client|
-:afficherListeConversations();
-:afficherCreerConversation();
+:Afficher la liste des conversations;
+:Afficher l'option créer une conversation;
 if (sélectionnerChoix) then (rejoindreConversation)
   :Rejoindre une conversation existante;
-  :joinConvSelected();
  else (creerConversation)
    :Ouvrir une nouvelle conversation;
-   :openNewConv();
 endif
 
 stop
