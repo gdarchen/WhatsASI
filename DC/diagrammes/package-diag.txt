@@ -1,31 +1,42 @@
 @startuml
 title Diagramme de packages v0.00
 
-package "Gestion des conversations"{
-  class Messagerie
-  class Conversation
-  class Video
-  class Audio
-  class Message
-  class MessageDeModeration
-  interface Flux
+package Serveur{
+
+  package "Gestion des conversations"{
+    class Messagerie
+    class Conversation
+    class Video
+    class Audio
+    class Message
+    class MessageDeModeration
+    interface Flux
+  }
+
+  package "Gestion des utilisateurs" {
+    abstract class Compte
+    class Utilisateur
+    class Moderateur
+    class IA
+  }
+
+  package "Gestion du filtrage" {
+    class Filtre
+  }
+
 }
 
-package "Gestion des utilisateurs" {
-  abstract class Compte
-  class Utilisateur
-  class Moderateur
-  class IA
+package "Client" {
+  class MessagerieClient
+  class Client
 }
-
-package "Gestion du filtrage" {
-  class Filtre
-}
-
 
 Messagerie "1" *-down- "*" Conversation
 
 Compte "*" -- "*" Conversation
+
+Client "1" -- "1" MessagerieClient
+MessagerieClient "*" -- "1" Messagerie
 
 Messagerie "1" *-down- "*" Compte
 
