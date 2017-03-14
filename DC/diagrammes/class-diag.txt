@@ -1,5 +1,5 @@
 @startuml
-title Diagramme de classes v0.00
+title Modèle du domaine v0.00
 
 class Messagerie {
         +List<Conversation> conversations

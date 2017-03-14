@@ -206,45 +206,39 @@ Le client doit disposer du Java Runtime Environnement 8.
 
 \chapter{Conception préliminaire}
 
-\section{Diagramme de classe}
+\section{Modèle du domaine}
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=0.95\textwidth]{diagrammes/class-diag.png}}
-\caption{Le diagramme des classes de conception préliminaire}
+\caption{Modèle du domaine}
 \end{figure}
 
 \section{Diagrammes de séquence système}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/Avatar-DSS.png}}
-\caption{Le diagramme de séquence \og Modifier Avatar Utilisateur \fg}
+\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-communiquer.png}}
+\caption{Le diagramme de séquence système de \og communiquer \fg}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/connexion-DSS.png}}
-\caption{Le diagramme de séquence \og se connecter \fg}
+\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-connexion.png}}
+\caption{Le diagramme de séquence système de \og se connecter \fg}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/Discuter-DSS.png}}
-\caption{Le diagramme de séquence \og Discuter \fg}
+\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-moderer.png}}
+\caption{Le diagramme de séquence système de \og modérer \fg}
 \end{figure}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/Filtre-DSS.png}}
-\caption{Le diagramme de séquence \og Modifier Filtre Utilisateur \fg}
-\end{figure}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/ModererMessage-DSS.png}}
-\caption{Le diagramme de séquence \og Modérer Message \fg}
-\end{figure}
+
+
 
 
 
 \section{Diagrammes d'activités}
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.90\textwidth]{diagrammes/activity-settings-diag.png}}
+\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-settings-diag.png}}
 \caption{Le diagramme de l'activité \og se connecter \fg}
 \end{figure}
 
@@ -266,6 +260,22 @@ Le client doit disposer du Java Runtime Environnement 8.
 
 \section{Diagrammes d’interaction}
 
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-connexion.png}}
+\caption{Le diagramme de séquence d'analyse \og se connecter \fg}
+\end{figure}
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-communiquer.png}}
+\caption{Le diagramme de séquence d'analyse \og Communiquer \fg}
+\end{figure}
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/dsa-moderer.png}}
+\caption{Le diagramme de séquence d'analyse \og Modérer Message \fg}
+\end{figure}
+
+
 \section{Packages du projet et signatures externes}
 
 \subsection{Découpage de l'application en \emph{packages}}
@@ -279,93 +289,95 @@ Le client doit disposer du Java Runtime Environnement 8.
 
 Ici sont listées les signatures externes des différents composants de chacun des \emph{packages} de l'application.
 
-\paragraph*{Classe Messagerie}
-\begin{itemize}
-\item \texttt{public List<Conversation> getConversations()} ;
-\end{itemize}
-
-\paragraph*{Classe Conversation}
-\begin{itemize}
-\item \texttt{public List<Message> getMessages()} ;
-\item \texttt{public List<Compte> getListeParticipants()} ;
-\item \texttt{public void afficherConversation()} ;
-\item \texttt{public void supprMessageInList(Message msg)} ;
-\item \texttt{public void broadcastInMsg()} ;
-\item \texttt{public void addMessageInList(Message msg)} ;
-
-\end{itemize}
-
-\paragraph*{Interface Video}
-\begin{itemize}
-\item \texttt{public void startVideo()} ;
-\item \texttt{public void endVideo()} ;
-\end{itemize}
-
-\paragraph*{Interface Audio}
-\begin{itemize}
-\item \texttt{public void startAudio()} ;
-\item \texttt{public void endAudio()} ;
-\end{itemize}
-
-\paragraph*{Classe Message}
-\begin{itemize}
-\item \texttt{public Compte getAuteur()} ;
-\item \texttt{public Date getDate()} ;
-\item \texttt{public String getMessage()} ;
-\end{itemize}
-
-\paragraph*{Classe MessageDeModeration}
-\begin{itemize}
-\item \texttt{public void sendMessageDeModeration(String message)} ;
-
-\end{itemize}
-
-\subsubsection{\og Gestion des utilisateurs \fg}
-
-\paragraph*{Classe Abstraite Compte}
-\begin{itemize}
-\item \texttt{public String getPseudo()} ;
-\item \texttt{public ImageIcon getAvatar()} ;
-\item \texttt{public boolean canVideo()} ;
-\item \texttt{public boolean canAudio()} ;
-\item \texttt{public void setVideo(boolean b)} ;
-\item \texttt{public void setAudio(boolean b)} ;
-\end{itemize}
-
-\paragraph*{Classe Moderateur}~\\
-Hérite de la classe abstraite \texttt{Compte}.
-\begin{itemize}
-\item \texttt{public void selectionnerConversation()} ;
-\item \texttt{public bool supprimerMessage(Message msg)} ;
-\item \texttt{public void messageDeModeration(Message msg)} ;
-\end{itemize}
-
-\paragraph*{Classe IA}~\\
-Hérite de la classe abstraite \texttt{Compte}.
-\begin{itemize}
-\item \texttt{public Collection<String> getMessagesPossiblesIA()} ;
-\item \texttt{public String answerMessage(String messageRecu)} ;
-\end{itemize}
-
-\paragraph*{Classe Utilisateur}~\\
-Hérite de la classe abstraite \texttt{Compte}.
-\begin{itemize}
-\item \texttt{public Filtre getFiltre()} ;
-\item \texttt{public void selectionModificationDeCompte()} ;
-\item \texttt{public void modifierAvatar()} ;
-\item \texttt{public void selectionImage()} ;
-\item \texttt{public void modifierPseudo()} ;
-\end{itemize}
 
 
-\subsubsection{\og Gestion du filtrage \fg}
-
-\paragraph*{Classe Filtre}
-\begin{itemize}
-\item \texttt{public Collection<String> getMotsInterdits()} ;
-\item \texttt{public void addMotInterdit(String mot)} ;
-\end{itemize}
-
+%\paragraph*{Classe Messagerie}
+%\begin{itemize}
+%\item \texttt{public List<Conversation> getConversations()} ;
+%\end{itemize}
+%
+%\paragraph*{Classe Conversation}
+%\begin{itemize}
+%\item \texttt{public List<Message> getMessages()} ;
+%\item \texttt{public List<Compte> getListeParticipants()} ;
+%\item \texttt{public void afficherConversation()} ;
+%\item \texttt{public void supprMessageInList(Message msg)} ;
+%\item \texttt{public void broadcastInMsg()} ;
+%\item \texttt{public void addMessageInList(Message msg)} ;
+%
+%\end{itemize}
+%
+%\paragraph*{Interface Video}
+%\begin{itemize}
+%\item \texttt{public void startVideo()} ;
+%\item \texttt{public void endVideo()} ;
+%\end{itemize}
+%
+%\paragraph*{Interface Audio}
+%\begin{itemize}
+%\item \texttt{public void startAudio()} ;
+%\item \texttt{public void endAudio()} ;
+%\end{itemize}
+%
+%\paragraph*{Classe Message}
+%\begin{itemize}
+%\item \texttt{public Compte getAuteur()} ;
+%\item \texttt{public Date getDate()} ;
+%\item \texttt{public String getMessage()} ;
+%\end{itemize}
+%
+%\paragraph*{Classe MessageDeModeration}
+%\begin{itemize}
+%\item \texttt{public void sendMessageDeModeration(String message)} ;
+%
+%\end{itemize}
+%
+%\subsubsection{\og Gestion des utilisateurs \fg}
+%
+%\paragraph*{Classe Abstraite Compte}
+%\begin{itemize}
+%\item \texttt{public String getPseudo()} ;
+%\item \texttt{public ImageIcon getAvatar()} ;
+%\item \texttt{public boolean canVideo()} ;
+%\item \texttt{public boolean canAudio()} ;
+%\item \texttt{public void setVideo(boolean b)} ;
+%\item \texttt{public void setAudio(boolean b)} ;
+%\end{itemize}
+%
+%\paragraph*{Classe Moderateur}~\\
+%Hérite de la classe abstraite \texttt{Compte}.
+%\begin{itemize}
+%\item \texttt{public void selectionnerConversation()} ;
+%\item \texttt{public bool supprimerMessage(Message msg)} ;
+%\item \texttt{public void messageDeModeration(Message msg)} ;
+%\end{itemize}
+%
+%\paragraph*{Classe IA}~\\
+%Hérite de la classe abstraite \texttt{Compte}.
+%\begin{itemize}
+%\item \texttt{public Collection<String> getMessagesPossiblesIA()} ;
+%\item \texttt{public String answerMessage(String messageRecu)} ;
+%\end{itemize}
+%
+%\paragraph*{Classe Utilisateur}~\\
+%Hérite de la classe abstraite \texttt{Compte}.
+%\begin{itemize}
+%\item \texttt{public Filtre getFiltre()} ;
+%\item \texttt{public void selectionModificationDeCompte()} ;
+%\item \texttt{public void modifierAvatar()} ;
+%\item \texttt{public void selectionImage()} ;
+%\item \texttt{public void modifierPseudo()} ;
+%\end{itemize}
+%
+%
+%\subsubsection{\og Gestion du filtrage \fg}
+%
+%\paragraph*{Classe Filtre}
+%\begin{itemize}
+%\item \texttt{public Collection<String> getMotsInterdits()} ;
+%\item \texttt{public void addMotInterdit(String mot)} ;
+%\end{itemize}
+%
 
 
 
