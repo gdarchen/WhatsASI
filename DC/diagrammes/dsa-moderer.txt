@@ -8,9 +8,12 @@ entity "m:MessageDeModeration" as MsgMd
 
 H -> A : ouvrirConversation()
 activate A
-    A -> M : getConversation()
+    A -> M : getContenu(refConv)
     activate M
-    A <-- M : refConv
+    M -> C : getContenu()
+    activate C
+    M <-- C : liste<Message>
+    A <-- M : liste<Message>
     deactivate M
 H <-- A : fenêtre de la conversation,\n liste des messages
 H -> A : supprimerMessage()

@@ -74,12 +74,6 @@ H -> A : supprimerMotInterdit()
 H <-- A : liste mise à jour
 
 H -> A : valider()
-    A -> A : setCompte(refCompte)
-activate A
-    A -> M : getCompte(refCompte)
-    activate M
-    A <-- M : compteUtilisateur
-    deactivate M
 H <-- A : confirmation
 deactivate A
 deactivate A
