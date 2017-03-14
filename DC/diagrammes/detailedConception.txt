@@ -1,0 +1,115 @@
+@startuml
+title Diagramme de classes v0.00
+
+class MessagerieClient {
+    +String refConv, refCompte
+    *lancer()
+    *entrerPseudo(String pseudo)
+    *choisirAvatar()
+    *validerAvatar(Image avatar)
+    *entrerMotInterdit(String mot)
+    *supprimerMotInterdit(String mot)
+    *validerConnection()
+    *ouvrirConversation()
+    *choisirModeDeCommunication()
+    *ecrireMessage()
+    *ecrireMessageDeModeration()
+    *supprimerMessage(String refMsg)
+    *capturerAudio()
+    *capturerVideo()
+}
+
+
+class Messagerie {
+    +String refCompte, refConv
+    +List<Conversation> conversations
+    *creerCompte()
+    *setPseudo(String pseudo, String refConv)
+    *setAvatar(Image avatar, String refConv)
+    *ajouterMotInterdit(String mot, String refConv)
+    *supprimerMotInterdit(String mot, String refConv)
+    *getContenu(String refConv)
+    *setModeDeCommunication(String mode, String refConv)
+    *addMessage(String msg, String refCompte, String refConv)
+    *addMessageDeModeration(String msg, String refCompte, String refConv)
+    *supprimerMessage(String refMsg, String refConv)
+    *envoyerAudio(Flux flux, String refConv)
+    *envoyerVideo(Flux flux, String refConv)
+    *notifierAutresMembres(String refConv, String refMsg)
+}
+
+abstract class Compte {
+	+String pseudo
+	+Image avatar
+	+boolean video
+	+boolean audio
+}
+
+class Utilisateur {
+    *setPseudo(String pseudo)
+    *setAvatar(Image avatar)
+}
+
+class Moderateur
+class IA {
+	{static} +String pseudo = "Sophisme"
+}
+
+class Conversation {
+    +List<Message> messages
+    *getFiltre()
+    *getContenu()
+    *addUtilisateur(String refCompte)
+    *setMode(String mode)
+    *addMessage(String message, String refCompte)
+    *addMessageDeModeration(String message, String refCompte)
+    *supprimerMessage(String refMsg)
+    *envoyerAudio(Flux flux)
+    *envoyerVideo(Flux flux)
+}
+class Filtre {
+    +Collection<String> motsInterdits
+    *ajouterMotInterdit(String mot)
+    *supprimerMotInterdit(String mot)
+}
+class Message {
+	+Compte auteur
+	+Date date
+	+String message
+}
+
+class MessageDeModeration
+class Conversation
+class Video
+class Audio
+interface Flux {
+    *diffuser()
+}
+
+Messagerie "1" *-down- "*" Conversation
+
+Compte "*" -- "*" Conversation
+
+Messagerie "1" *-down- "*" Compte
+
+Compte <|-- Moderateur
+Compte <|-- Utilisateur
+Compte <|-- IA
+
+Conversation "1" *- "1" Flux
+Flux <|.. Video
+Flux <|.. Audio
+
+Utilisateur "*" -- "*" Filtre : choisit >
+
+Conversation "*" -- "*" Filtre : < filtre
+
+Message <|-- MessageDeModeration
+Message "*" -down-* "1" Conversation
+
+MessagerieClient "*" -- "1" Messagerie
+MessagerieClient "*" -- "*" Message
+
+Compte "1" -right- "*" Message : écrit >
+MessageDeModeration "*" -- "1" Moderateur : < écrit
+@enduml

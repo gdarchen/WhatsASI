@@ -1,7 +1,7 @@
 @startuml
 title Diagramme de séquence d'analyse de Communiquer v0.00
 actor "Utilisateur Humain" as H
-boundary "a:Application" as A
+boundary "mc:MessagerieClient" as A
 control "m:Messagerie" as M
 entity "c:Conversation" as C
 entity "msg:Message" as Msg

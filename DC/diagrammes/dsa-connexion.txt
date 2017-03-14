@@ -1,7 +1,7 @@
 @startuml
 title Diagramme de séquence d'analyse de Se Connecter v0.00
 actor UtilisateurHumain as H
-boundary "app:Application" as A
+boundary "mc:MessagerieClient" as A
 control "m:Messagerie" as M
 entity "compteUtilisateur:Utilisateur" as C
 entity "f:Filtre" as F

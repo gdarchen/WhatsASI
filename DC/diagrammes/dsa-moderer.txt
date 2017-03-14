@@ -1,7 +1,7 @@
 @startuml
 title Diagramme de séquence d'analyse de Modérer Message v0.00
 actor UtilisateurModérateur as H
-boundary "app:Application" as A
+boundary "mc:MessagerieClient" as A
 control "m:Messagerie" as M
 entity "c:Conversation" as C
 entity "m:MessageDeModeration" as MsgMd
