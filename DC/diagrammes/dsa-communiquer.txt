@@ -12,16 +12,22 @@ note left of H
 endnote
 
 
-H -> A : ouvrirConversation()
+H -> A : ouvrirConversation(id)
 activate A
-    A -> M : getConversation()
+    A -> M : getContenu(refConv)
     activate M
-    A <-- M : refConv
-    deactivate M
-    A -> C : activerSynchronisation()
+    M -> C : getContenu()
     activate C
-    A <-- C
+    M <-- C : liste<Messages>
     deactivate C
+    A <-- M : liste<Messages>
+    deactivate M
+    A -> M : activerSynchronisation()
+     activate M
+    M -> C : addUtilisateur()
+    M <-- C
+    A <-- M
+    deactivate M
 H <-- A : afficher conversation
 H -> A : choisirModeDeCommunication()
     A -> M : setModeDeCommunication(mode, refConv)
