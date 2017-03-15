@@ -1,4 +1,4 @@
-package whatsasi.serveur.conversations;
+package serveur.conversations;
 
 public class MessageDeModeration extends Message{
 
