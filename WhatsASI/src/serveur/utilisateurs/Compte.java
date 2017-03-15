@@ -2,29 +2,13 @@ package serveur.utilisateurs;
 
 import javax.swing.ImageIcon;
 
-public class Compte {
+public abstract class Compte {
     private String pseudo;
     private ImageIcon avatar;
     private boolean video;
     private boolean audio;
 
-    // ---------- Constructeurs ----------------
-	public Compte() {
-		super();
-	}
-
-	public Compte(String pseudo, ImageIcon avatar, boolean video, boolean audio) {
-		super();
-		this.pseudo = pseudo;
-		this.avatar = avatar;
-		this.video = video;
-		this.audio = audio;
-	}
-
-    // ---------- Methodes --------------------
-
-
-	public String getPseudo() {
+    public String getPseudo() {
 		return pseudo;
 	}
 
