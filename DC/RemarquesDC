@@ -1,0 +1,21 @@
+Diagramme d'activité se connecter -> filtrer
+Ajouter les use case
+Sécurité sur la ref compte le problème est signalé
+Dans les diagrammes de séquence ajouter la communication entre client et serveur 
+Vue avec digarmme d'activité 
+Formalisation des protocoles de communication
+Mettre comment ça passe de client à serveur pour justifier le mode de communication et la technologie qu'on choisit
+En refaire ajouter les protocoles de communication
+Analyse de communiquer
+Interface garde ref du compte
+
+Nouveaux messagesc'est là qu'on aura des problèmes
+Préciser comment on va le faire
+
+Ajouter un diagramme pour le notifier 
+Faire des sous parties pour assynchronismes 
+Recevoir message
+Compte collection de conversations 
+gérer les conversations dans compte
+
+
