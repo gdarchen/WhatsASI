@@ -1,10 +1,11 @@
 @startuml
-title Diagramme de packages v0.00
+title Diagramme de packages v1.00
 
 package Serveur{
+  
+  class Messagerie
 
   package "Gestion des conversations"{
-    class Messagerie
     class Conversation
     class Video
     class Audio
