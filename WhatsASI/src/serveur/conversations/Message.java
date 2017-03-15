@@ -1,6 +1,7 @@
 package serveur.conversations;
 
 import serveur.utilisateurs.Compte;
+import java.util.Date;
 
 public class Message{
 
