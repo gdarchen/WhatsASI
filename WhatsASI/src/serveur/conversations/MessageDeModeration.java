@@ -1,5 +1,8 @@
 package serveur.conversations;
 
+import serveur.utilisateurs.Compte;
+import java.util.Date;
+
 public class MessageDeModeration extends Message{
 
   public MessageDeModeration(Compte compte, Date date, String message){

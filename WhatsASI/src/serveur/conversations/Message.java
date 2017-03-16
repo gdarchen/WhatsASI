@@ -3,7 +3,7 @@ package serveur.conversations;
 import serveur.utilisateurs.Compte;
 import java.util.Date;
 
-public class Message{
+public class Message {
 
   Compte compte;
   Date date;
@@ -15,15 +15,15 @@ public class Message{
     this.message = message;
   }
 
-  public setCompte(Compte compte){
+  public void setCompte(Compte compte){
     this.compte = compte;
   }
 
   public Compte getCompte(){
-    return this.comtpe;
+    return this.compte;
   }
 
-  public setDate(Date date){
+  public void setDate(Date date){
     this.date = date;
   }
 
@@ -31,7 +31,7 @@ public class Message{
     return this.date;
   }
 
-  public setMessage(Message msg){
+  public void setMessage(String msg){
     this.message = msg;
   }
 

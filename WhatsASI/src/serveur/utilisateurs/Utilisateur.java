@@ -1,20 +1,19 @@
 package serveur.utilisateurs;
 
 import serveur.filtrage.Filtre;
+import javax.swing.ImageIcon;
 
 public class Utilisateur extends Compte {
-    private Filtre filtre;
+
+  private Filtre filtre;
 
 	public Utilisateur(String pseudo, ImageIcon avatar, boolean video, boolean audio, Filtre filtre) {
-		this.pseudo = pseudo;
-		this.avatar = avatar;
-		this.video = video;
-		this.audio = audio;
-        this.filtre = filtre;
+    super(pseudo,avatar,video,audio);
+    this.filtre = filtre;
 	}
 
     public Filtre getFiltre(){
-        return filtre;
+        return this.filtre;
     }
 
     public void setFiltre(Filtre filtre){
