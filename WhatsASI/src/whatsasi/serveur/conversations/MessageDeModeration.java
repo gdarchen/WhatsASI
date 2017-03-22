@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class MessageDeModeration extends Message{
 
-  public MessageDeModeration(Compte compte, Date date, String message){
-    super(compte,date,message);
+  public MessageDeModeration(Compte compte, String message){
+    super(compte,message);
   }
 
 }
