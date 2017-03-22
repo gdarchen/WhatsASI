@@ -5,13 +5,13 @@ import java.util.Date;
 
 public class Message {
 
-  Compte compte;
-  Date date;
-  String message;
+  private Compte compte;
+  private Date date;
+  private String message;
 
-  public Message(Compte compte, Date date, String message){
+  public Message(Compte compte,String message){
     this.compte = compte;
-    this.date = date;
+    this.date = new Date();
     this.message = message;
   }
 

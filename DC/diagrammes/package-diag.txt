@@ -1,35 +1,39 @@
 @startuml
 title Diagramme de packages v1.00
 
-package Serveur{
-  
-  class Messagerie
+package WhatsASI{
 
-  package "Gestion des conversations"{
-    class Conversation
-    class Video
-    class Audio
-    class Message
-    class MessageDeModeration
-    interface Flux
+  package Serveur{
+
+    class Messagerie
+
+    package "Gestion des conversations"{
+      class Conversation
+      class Video
+      class Audio
+      class Message
+      class MessageDeModeration
+      interface Flux
+    }
+
+    package "Gestion des utilisateurs" {
+      abstract class Compte
+      class Utilisateur
+      class Moderateur
+      class IA
+    }
+
+    package "Gestion du filtrage" {
+      class Filtre
+    }
+
   }
 
-  package "Gestion des utilisateurs" {
-    abstract class Compte
-    class Utilisateur
-    class Moderateur
-    class IA
+  package "Client" {
+    class MessagerieClient
+    class Client
   }
 
-  package "Gestion du filtrage" {
-    class Filtre
-  }
-
-}
-
-package "Client" {
-  class MessagerieClient
-  class Client
 }
 
 Messagerie "1" *-down- "*" Conversation

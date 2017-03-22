@@ -26,7 +26,7 @@
 \usepackage{multicol}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[breaklinks]{hyperref}
-\usepackage[final]{pdfpages} 
+\usepackage[final]{pdfpages}
 \usepackage{appendix}
 \usepackage{caption}
 \usepackage{minitoc}
@@ -77,32 +77,32 @@
 \begin{document}
 
 \begin{titlepage}
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
-\center 
-\vspace*{\stretch{1}}\textsc{\huge Institut National des Sciences Appliquées de Rouen}\\[0.7cm] 
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\center
+\vspace*{\stretch{1}}\textsc{\huge Institut National des Sciences Appliquées de Rouen}\\[0.7cm]
 \LARGE Département ASI~\\[0.5cm]
 \Large{Architecture des Systèmes d'Information} ~\\[1.5cm]
-\textsc{\Large EC Informatique Répartie}\\[0.5cm] 
+\textsc{\Large EC Informatique Répartie}\\[0.5cm]
 
 \HRule \\[0.4cm]
 { \huge \bfseries Document de Spécifications}\\[0.18cm] \HRule \\[1.5cm]
- 
+
 \LARGE \emph{\textbf{Projet}} \\
 {Messagerie instantanée et visio/audio-conférence}\\[1.3cm]
 
 \large
 	\emph{\textbf{Auteurs}}\\
-	Gautier \textsc{Darchen} \\ 
-	Alexandre \textsc{Huat} \\ 
-	Marie-Andrée \textsc{Jolibois} \\ 
-	Romain \textsc{Judic} \\ 
+	Gautier \textsc{Darchen} \\
+	Alexandre \textsc{Huat} \\
+	Marie-Andrée \textsc{Jolibois} \\
+	Romain \textsc{Judic} \\
 	Alexandre \textsc{Le Lain}\\[0.3cm]
-	
+
 ~\\[0.5cm]
 \Large \emph{\textbf{Version}}\\
 	\textsc{v0.00}
 
-\vfill{\today} 
+\vfill{\today}
 
 \begin{figure}
 \includegraphics[width=4cm]{images/LogoINSA.png}\hfill
@@ -111,7 +111,7 @@
 
 %----------------------------------------------------------------------------------------
 
-\vspace*{\stretch{1}} 
+\vspace*{\stretch{1}}
  \end{titlepage}
 
 \newpage
@@ -122,11 +122,11 @@
 
 \chapter{Introduction}
 
-L'application à développer est une plateforme de messagerie instantanée entre deux interlocuteurs. Elle permettra à ces interlocuteurs de communiquer tout en étant connectés sur des machines distantes. 
+L'application à développer est une plateforme de messagerie instantanée entre deux interlocuteurs. Elle permettra à ces interlocuteurs de communiquer tout en étant connectés sur des machines distantes.
 
 
 \section{Fonctions principales}
-Les fonctions principales de cette application peuvent être scindées en trois catégories : 
+Les fonctions principales de cette application peuvent être scindées en trois catégories :
 \begin{itemize}
 \item l'échange de messages ;
 \item le filtrage des messages en fonction de leur contenu ;
@@ -137,7 +137,7 @@ Concernant la première fonctionnalité, les interlocuteurs pourront s'envoyer d
 
 Le filtrage des messages prend en charge le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus, ce dernier pourra être personnalisé.
 
-Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites. Cette image n'est pas animée. 
+Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites. Cette image n'est pas animée.
 
 
 \section{Utilisateurs}
@@ -174,11 +174,11 @@ Mots-clefs:
 \item[\og \textbackslash help$\_$audio \fg\ :] indique à l'utilisateur comment démarrer une conversation audio.
 \end{description}
 
-~\\\\ 	
+~\\\\
 
 Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page \og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).
 
-~\\\\ 
+~\\\\
 Par défaut, lorsqu'un utilisateur démarre une conversation, il est seul avec l'IA jusqu'à l'arrivée d'autres utilisateurs.
 \end{mdframed}
 
@@ -190,6 +190,7 @@ De plus, les messages sont sauvegardés tant qu'il subsiste un utilisateur conne
 
 Le serveur qui héberge l'application est disponible à chaque instant $t$ pour permettre aux utilisateurs d'utiliser le service à n'importe quel moment.
 
+Lors de l'utilisation de l'application, la reférence du compte est utilisée pour savoir qui participe à la conversation. Cett référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.
 \section{Contraintes}
 \subsection{Contraintes matérielles}
 L'utilisateur doit disposer d'une machine reliée à internet.
