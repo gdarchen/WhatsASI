@@ -1,14 +1,22 @@
-package serveur.utilisateurs;
+package whatsasi.serveur.utilisateurs;
 
 import javax.swing.ImageIcon;
 
 public abstract class Compte {
-    private String pseudo;
-    private ImageIcon avatar;
-    private boolean video;
-    private boolean audio;
 
-    public String getPseudo() {
+  private String pseudo;
+  private ImageIcon avatar;
+  private boolean video;
+  private boolean audio;
+
+  public Compte(String pseudo,ImageIcon avatar,boolean video,boolean audio){
+    this.pseudo = pseudo;
+		this.avatar = avatar;
+		this.video = video;
+		this.audio = audio;
+  }
+
+  public String getPseudo() {
 		return pseudo;
 	}
 
