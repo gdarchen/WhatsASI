@@ -1,0 +1,20 @@
+@startuml
+title Diagramme client/serveur se connecter v1.00
+
+Entity Client as C
+Entity Serveur as S
+
+C -> S : creerCompte()
+C <- S : <String refCompte>
+
+C -> S : setPseudo(String pseudo, String refCompte)
+C -> S : setPseudo(Avatar avatar, String refCompte)
+C -> S : ajouterMotInterdit(String mot, String refCompte)
+C -> S : supprimerMotInterdit(String mot, String refCompte)
+
+note right of S
+    A chaque set on a
+   un enregistrement au
+   niveau du serveur
+endnote
+@enduml

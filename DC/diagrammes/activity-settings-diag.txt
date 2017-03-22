@@ -11,7 +11,7 @@ fork
 fork again
   :Taper pseudo;
 endfork
-if (Filtrer ?) then (yes)
+if (Activer filtrage ?) then (yes)
   while (Nouveau mot à filtrer ?) is (yes)
     :Ajouter un\nmot interdit;
   endwhile(no)

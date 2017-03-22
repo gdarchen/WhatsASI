@@ -1,6 +1,8 @@
-Diagramme d'activité se connecter -> filtrer
+Diagramme d'activité se connecter -> filtrer mettre activer filtrage? ok
 Ajouter les use case
-Sécurité sur la ref compte le problème est signalé
+
+Sécurité sur la ref compte le problème est signalé ok
+
 Dans les diagrammes de séquence ajouter la communication entre client et serveur 
 Vue avec digarmme d'activité 
 Formalisation des protocoles de communication
@@ -15,7 +17,12 @@ Préciser comment on va le faire
 Ajouter un diagramme pour le notifier 
 Faire des sous parties pour assynchronismes 
 Recevoir message
+
 Compte collection de conversations 
 gérer les conversations dans compte
+==> mettre remarque dans le DC
+
+Metre une note pour préciser qu'on voit tout 
+peut accéder à mettre sur le lien metre voir ...
 
 

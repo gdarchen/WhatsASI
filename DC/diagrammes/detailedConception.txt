@@ -46,6 +46,7 @@ abstract class Compte {
 }
 
 class Utilisateur {
+    *getFiltre()
     *setPseudo(String pseudo)
     *setAvatar(Image avatar)
 }
@@ -57,12 +58,12 @@ class IA {
 
 class Conversation {
     +List<Message> messages
-    *getFiltre()
+    +Dict<String refCompte, String mode>
     *getContenu()
     *addUtilisateur(String refCompte)
-    *setMode(String mode)
+    *setMode(String refCompte, String mode)
     *addMessage(String message, String refCompte)
-    *addMessageDeModeration(String message, String refCompte)
+    *addMessageDeModeration(String message, String refModerateur)
     *supprimerMessage(String refMsg)
     *envoyerAudio(Flux flux)
     *envoyerVideo(Flux flux)
@@ -100,7 +101,7 @@ Conversation "1" *- "1" Flux
 Flux <|.. Video
 Flux <|.. Audio
 
-Utilisateur "*" -- "*" Filtre : choisit >
+Utilisateur "1" -- "1" Filtre : choisit >
 
 Conversation "*" -- "*" Filtre : < filtre
 

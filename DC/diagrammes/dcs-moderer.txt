@@ -1,0 +1,29 @@
+@startuml
+title Diagramme client/serveur modérer v1.00
+
+Entity Client as C
+Entity Serveur as S
+
+C -> S : getContenu(String, refConv)
+
+note left of C
+    Suite à l'ouverture
+    de la conversation
+endnote
+
+C <-- S : List<Messsage>
+
+
+
+C -> S : supprimerMessage(String nouveauMessage, String refCompte, String refConv)
+note right of S
+     Evenement : Notification vers les autres
+endnote
+C <-- S : Exception
+
+C -> S : addMessageModeration(String nouveauMessage, String refCompte, String refConv)
+note right of S
+     Evenement : Notification vers les autres
+endnote
+C <-- S : Exception
+@enduml
