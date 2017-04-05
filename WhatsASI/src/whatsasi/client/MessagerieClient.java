@@ -30,9 +30,10 @@ public class MessagerieClient extends Application {
     Accordion accordion = new Accordion(connexionPane, filterPane, chatPane);
     Rectangle2D screenSize = Screen.getPrimary().getBounds();
 
-    ImageView avatar = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 150, 150, true, false));
+    ImageView avatar = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
     TextField pseudoTextField = new TextField();
-    Button connexionButton = new Button("Se connecter");
+    Button connexionOK = new Button("Se connecter");
+    Button filterOK = new Button("Valider");
 
     private void initConnexionPane() {
         VBox vbox = new VBox(12);
@@ -51,8 +52,8 @@ public class MessagerieClient extends Application {
         grid.setAlignment(Pos.CENTER);
         vbox.getChildren().add(grid);
 
-        vbox.getChildren().add(connexionButton);
-        connexionButton.setOnAction(new ConnexionEventHandler());
+        vbox.getChildren().add(connexionOK);
+        connexionOK.setOnAction(new ConnexionEventHandler());
 
 
         connexionPane.setText("Connexion");
@@ -69,6 +70,11 @@ public class MessagerieClient extends Application {
     private void initFilterPane() {
         VBox vbox = new VBox(12);
 
+
+        FilterListView filterListView = new FilterListView();
+        
+        vbox.getChildren().add(filterOK);
+
         filterPane.setText("Filtres");
     }
 
@@ -80,8 +86,6 @@ public class MessagerieClient extends Application {
         public FilterListView(ObservableList<FilterCell> items) {
             super(items);
         }
-
-
     }
 
     public class FilterCell extends ListCell<String> {
