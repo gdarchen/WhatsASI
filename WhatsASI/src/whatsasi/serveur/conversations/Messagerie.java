@@ -6,12 +6,12 @@ import javax.swing.ImageIcon;
 import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.filtrage.Filtre;
 
-public class Messagerie {
+public class Messagerie implements MessagerieInterface {
 
     private List<Utilisateur> utilisateurs;
     private List<Conversation> conversations;
 
-    public Messagerie(){
+    public Messagerie() {
         this.utilisateurs = new ArrayList<Utilisateur>();
         this.conversations = new ArrayList<Conversation>();
     }
@@ -65,20 +65,19 @@ public class Messagerie {
         this.conversations.remove(conv);
     }
 
-	public List<Utilisateur> getUtilisateurs() {
-		return utilisateurs;
-	}
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
 
-	public void setUtilisateurs(List<Utilisateur> utilisateurs) {
-		this.utilisateurs = utilisateurs;
-	}
+    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
 
-	public List<Conversation> getConversations() {
-		return conversations;
-	}
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
 
-	public void setConversations(List<Conversation> conversations) {
-		this.conversations = conversations;
-	}
-
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
+    }
 }
