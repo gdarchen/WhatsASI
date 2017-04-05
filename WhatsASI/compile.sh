@@ -1,4 +1,5 @@
 export CLASSPATH=classes
+export CLASSPATH=$CLASSPATH:lib/jfxrt.jar
 export RESOURCESPATH=resources
 serveur=src/whatsasi/serveur
 client=src/whatsasi/client/*.java

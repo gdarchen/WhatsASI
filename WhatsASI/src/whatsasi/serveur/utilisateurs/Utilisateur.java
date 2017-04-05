@@ -1,6 +1,7 @@
 package whatsasi.serveur.utilisateurs;
 
 import whatsasi.serveur.filtrage.Filtre;
+import whatsasi.serveur.conversations.Mode;
 import javax.swing.ImageIcon;
 
 public class Utilisateur extends Compte {
