@@ -30,6 +30,7 @@ public class Messagerie {
             if (c.getPseudo().equals(pseudo))
                 return c;
         }
+        return null;
     }
 
     public void addMotInterdit(String mot,String pseudo){
