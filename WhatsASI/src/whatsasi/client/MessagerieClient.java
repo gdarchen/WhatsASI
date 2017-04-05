@@ -74,10 +74,13 @@ public class MessagerieClient extends Application {
         ObservableList<FilterCell> list = FXCollections.observableArrayList(new FilterCell("putain"),
                 new FilterCell("Voldemort"));
         FilterListView filterListView = new FilterListView();
-        
+
+        vbox.getChildren().add(filterListView);
         vbox.getChildren().add(filterOK);
 
         filterPane.setText("Filtres");
+
+        filterPane.setContent(vbox);
     }
 
     public class FilterListView extends ListView<FilterCell> {
