@@ -11,8 +11,9 @@ public class Conversation {
 
   private List<Message> messages;
   private List<MessageDeModeration> messagesDeModeration;
-  private Map<String,Mode> pipelettes;
-  private static int refConv = 0;
+  private Map<String,Mode> pipelettes; /*Lien entre utilisateur identifié via
+                                        pseudo et mode choisi pour sa conversation*/
+  private static int refConv = 0; /*Des que l'on en crée une cela incrémente*/
 
   public Conversation(List<Message> messages,String pseudo,Mode mode,List<MessageDeModeration> messagesDeModeration){
     this.messages = new ArrayList<Message>(messages);
