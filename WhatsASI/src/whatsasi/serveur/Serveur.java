@@ -10,17 +10,17 @@ public class Serveur {
 	public static void main ( String [ ] args ) {
 		try {
 
-				int port = 1099;
-				MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie () , 0);
-				System.out.println ( " Serveur pret " ) ;
-				Registry registry = LocateRegistry.getRegistry (port);
-				System.out.println ( " Service Messagerie enregistré " ) ;
-				if (!Arrays.asList(registry.list()).contains("Messagerie"))
-					registry.bind("Messagerie", skeleton );
-				else
-					registry.rebind ("Messagerie", skeleton );
+			int port = 1099;
+			MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie () , 0);
+			System.out.println ( " Serveur pret " ) ;
+			Registry registry = LocateRegistry.getRegistry (port);
+			System.out.println ( " Service Messagerie enregistré " ) ;
+			if (!Arrays.asList(registry.list()).contains("Messagerie"))
+				registry.bind("Messagerie", skeleton );
+			else
+				registry.rebind ("Messagerie", skeleton );
 		} catch ( Exception ex) {
 			ex.printStackTrace ();
-			}
+		}
 	}
 }
