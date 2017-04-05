@@ -72,10 +72,13 @@ public class MessagerieClient extends Application {
 
 
         FilterListView filterListView = new FilterListView();
-        
+
+        vbox.getChildren().add(filterListView);
         vbox.getChildren().add(filterOK);
 
         filterPane.setText("Filtres");
+
+        filterPane.setContent(vbox);
     }
 
     public class FilterListView extends ListView<FilterCell> {
