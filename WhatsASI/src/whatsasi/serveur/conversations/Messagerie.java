@@ -8,13 +8,18 @@ import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
 
-public class Messagerie {
+public class Messagerie implements MessagerieInterface {
 
     private List<Compte> comptes;
     private List<Conversation> conversations;
 
+<<<<<<< HEAD
     public Messagerie(){
         this.comptes = new ArrayList<Compte>();
+=======
+    public Messagerie() {
+        this.utilisateurs = new ArrayList<Utilisateur>();
+>>>>>>> 56e3b251c9a153955623db10d8889d8902ed6ce3
         this.conversations = new ArrayList<Conversation>();
     }
 
@@ -118,12 +123,15 @@ public class Messagerie {
 		this.comptes = comptes;
 	}
 
-	public List<Conversation> getConversations() {
-		return conversations;
-	}
+    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
 
-	public void setConversations(List<Conversation> conversations) {
-		this.conversations = conversations;
-	}
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
 
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
+    }
 }

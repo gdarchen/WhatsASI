@@ -1,6 +1,7 @@
 package whatsasi.client;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -70,12 +71,16 @@ public class MessagerieClient extends Application {
     private void initFilterPane() {
         VBox vbox = new VBox(12);
 
-
+        ObservableList<FilterCell> list = FXCollections.observableArrayList(new FilterCell("putain"),
+                new FilterCell("Voldemort"));
         FilterListView filterListView = new FilterListView();
-        
+
+        vbox.getChildren().add(filterListView);
         vbox.getChildren().add(filterOK);
 
         filterPane.setText("Filtres");
+
+        filterPane.setContent(vbox);
     }
 
     public class FilterListView extends ListView<FilterCell> {

@@ -57,14 +57,21 @@ class IA {
 }
 
 class Conversation {
+
     +List<Message> messages
-    +Dict<String refCompte, String mode>
-    *getContenu()
-    *addUtilisateur(String refCompte)
-    *setMode(String refCompte, String mode)
-    *addMessage(String message, String refCompte)
-    *addMessageDeModeration(String message, String refModerateur)
-    *supprimerMessage(String refMsg)
+    +List<MessageDeModeration> messagesDeModeration
+    +Dict<String, Enuméré mode>
+    +int refConv
+    *int getRefConv()
+    *setMessages(List<Message> messages)
+    *List<Message> getContenu()
+    *Map<String,Mode> getUtilisateurs()
+    *setUtilisateurs(Map<String,Mode> pipelettes)
+    *addUtilisateur(String pseudo,Mode mode)
+    *setMode(String pseudo,Mode mode)
+    *addMessage(String msg, Compte compte)
+    *addMessageDeModeration(String msg,Compte compte)
+    *supprimerMessage(Message message)
     *envoyerAudio(Flux flux)
     *envoyerVideo(Flux flux)
 }
