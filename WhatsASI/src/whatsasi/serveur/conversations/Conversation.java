@@ -12,12 +12,18 @@ public class Conversation {
   private List<Message> messages;
   private List<MessageDeModeration> messagesDeModeration;
   private Map<String,Mode> pipelettes;
+  private static int refConv = 0;
 
-  public Conversation(List<Message> messages,String refCompte,Mode mode,List<MessageDeModeration> messagesDeModeration){
+  public Conversation(List<Message> messages,String pseudo,Mode mode,List<MessageDeModeration> messagesDeModeration){
     this.messages = new ArrayList<Message>(messages);
     this.pipelettes = new HashMap<String,Mode>();
-    this.pipelettes.put(refCompte,mode);
+    this.pipelettes.put(pseudo,mode);
     this.messagesDeModeration = new ArrayList<MessageDeModeration>(messagesDeModeration);
+    this.refConv++;
+  }
+
+  public int getRefConv(){
+      return this.refConv;
   }
 
   public void setMessages(List<Message> messages){
@@ -36,12 +42,12 @@ public class Conversation {
     this.pipelettes = pipelettes;
   }
 
-  public void addUtilisateur(String refCompte,Mode mode){
-    this.pipelettes.put(refCompte,mode);
+  public void addUtilisateur(String pseudo,Mode mode){
+    this.pipelettes.put(pseudo,mode);
   }
 
-  public void setMode(String refCompte,Mode mode){
-    this.pipelettes.replace(refCompte,mode);
+  public void setMode(String pseudo,Mode mode){
+    this.pipelettes.replace(pseudo,mode);
   }
 
   public void addMessage(String msg, Compte compte){
