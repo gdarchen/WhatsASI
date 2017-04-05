@@ -2,56 +2,58 @@ package whatsasi.serveur.conversations;
 
 import java.util.ArrayList;
 import java.util.List;
-import whatsasi.serveur.utilisateurs.Compte;
+import javax.swing.ImageIcon;
+import whatsasi.serveur.utilisateurs.Utilisateur;
+import whatsasi.serveur.filtrage.Filtre;
 
 public class Messagerie {
 
-    private List<Compte> comptes;
+    private List<Utilisateur> utilisateurs;
     private List<Conversation> conversations;
 
     public Messagerie(){
-        this.comptes = new ArrayList<Compte>();
+        this.utilisateurs = new ArrayList<Utilisateur>();
         this.conversations = new ArrayList<Conversation>();
     }
 
-    public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode){
+    public boolean creerUtilisateur(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre){
         if (isPseudoAvailable(pseudo)){
-            this.addCompte(new Compte(pseudo,avatar,mode));
+            this.addUtilisateur(new Utilisateur(pseudo,avatar,mode,filtre));
             return true;
         }
         else
             return false;
     }
 
-    public Compte getCompte(String pseudo){
-        for (Compte c : comptes){
+    public Utilisateur getUtilisateur(String pseudo){
+        for (Utilisateur c : utilisateurs){
             if (c.getPseudo().equals(pseudo))
                 return c;
         }
     }
 
     public void addMotInterdit(String mot,String pseudo){
-        getCompte(pseudo).addMotInterdit(mot);
+        getUtilisateur(pseudo).addMotInterdit(mot);
     }
 
     public void removeMotInterdit(String mot,String pseudo){
-        getCompte(pseudo).removeMotInterdit(mot);
+        getUtilisateur(pseudo).removeMotInterdit(mot);
     }
 
 
     public boolean isPseudoAvailable(String pseudo){
-        if (getCompte(pseudo) == null)
+        if (getUtilisateur(pseudo) == null)
             return true;
         else
             return false;
     }
 
-    public void addCompte(Compte compte){
-        this.comptes.add(compte);
+    public void addUtilisateur(Utilisateur compte){
+        this.utilisateurs.add(compte);
     }
 
-    public void removeCompte(String pseudo){
-        this.comptes.remove(getCompte(pseudo));
+    public void removeUtilisateur(String pseudo){
+        this.utilisateurs.remove(getUtilisateur(pseudo));
     }
 
     public void addConversation(Conversation conv){
@@ -62,12 +64,12 @@ public class Messagerie {
         this.conversations.remove(conv);
     }
 
-	public List<Compte> getComptes() {
-		return comptes;
+	public List<Utilisateur> getUtilisateurs() {
+		return utilisateurs;
 	}
 
-	public void setComptes(List<Compte> comptes) {
-		this.comptes = comptes;
+	public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+		this.utilisateurs = utilisateurs;
 	}
 
 	public List<Conversation> getConversations() {
