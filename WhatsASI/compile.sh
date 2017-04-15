@@ -1,14 +1,15 @@
 export CLASSPATH=classes
 export CLASSPATH=$CLASSPATH:lib/jfxrt.jar
 export RESOURCESPATH=resources
-serveur=src/whatsasi/serveur
+serveurPath=src/whatsasi/serveur
 client=src/whatsasi/client/*.java
-conversations=$serveur/conversations/*.java
-filtrage=$serveur/filtrage/*.java
-utilisateurs=$serveur/utilisateurs/*.java
+serveur=$serveurPath/Serveur.java
+conversations=$serveurPath/conversations/*.java
+filtrage=$serveurPath/filtrage/*.java
+utilisateurs=$serveurPath/utilisateurs/*.java
 
 echo "Compilation des fichiers sources ..."
-javac -sourcepath src -d classes $client $conversations $filtrage $utilisateurs
+javac -sourcepath src -d classes $serveur $client $conversations $filtrage $utilisateurs
 if [ $? -eq 0 ]; then
   echo '...compilation réussie !'
 else
