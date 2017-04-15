@@ -4,5 +4,5 @@ if [ $1 == "terminal" ]
 then
     java -cp $CLASSPATH whatsasi.client.ClientTerminal
 else
-    java -cp $CLASSPATH whatsasi.client.Client
+    java -cp $CLASSPATH whatsasi.client.MessagerieClient
 fi
