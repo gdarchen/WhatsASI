@@ -1,7 +1,7 @@
 package whatsasi.serveur;
 
 import whatsasi.serveur.conversations.Messagerie;
-//import whatsasi.serveur.conversations.MessagerieInterface;
+import whatsasi.serveur.conversations.MessagerieInterface;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -43,19 +43,19 @@ public class Serveur {
         }
         else {
             System.out.println("Server is now running in JavaFX mode");
-            /*
+            int port = 1099;
             try {
                 MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie(),0);
                 System.out.println("Server is ready.");
-                registry = LocateRegistry.getRegistry (port);
+                Registry registry = LocateRegistry.getRegistry(port);
                 System.out.println("Service Messagerie enregistré");
                 if (!Arrays.asList(registry.list()).contains("Messagerie"))
                     registry.bind("Messagerie", skeleton);
                 else
-                    registry.rebind ("Messagerie", skeleton);
+                    registry.rebind("Messagerie", skeleton);
             } catch (Exception ex) {
-                ex.printStackTrace ();
-            }*/
+                System.out.println("[Exception Serveur] "+ex);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
 
-public class Messagerie {
+public class Messagerie implements MessagerieInterface{
 
     private List<Compte> comptes;
     private List<Conversation> conversations;
