@@ -14,6 +14,8 @@ public interface MessagerieInterface extends Remote {
 
     public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre) throws RemoteException;
 
+    public void creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration) throws RemoteException;
+
     public Compte getCompte(String pseudo) throws RemoteException;
 
     public void addMotInterdit(String mot,String pseudo) throws RemoteException;
@@ -51,4 +53,6 @@ public interface MessagerieInterface extends Remote {
     public List<Conversation> getConversations() throws RemoteException;
 
     public void setConversations(List<Conversation> conversations) throws RemoteException;
+
+    public String sayHi() throws RemoteException;
 }

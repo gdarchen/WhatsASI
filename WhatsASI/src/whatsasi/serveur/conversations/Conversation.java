@@ -4,23 +4,40 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.Serializable;
 import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.utilisateurs.Compte;
 
-public class Conversation {
+public class Conversation implements Serializable{
 
   private List<Message> messages;
   private List<MessageDeModeration> messagesDeModeration;
   private Map<String,Mode> pipelettes; /*Lien entre utilisateur identifié via
                                         pseudo et mode choisi pour sa conversation*/
   private static int refConv = 0; /*Des que l'on en crée une cela incrémente*/
+  private String titre;
 
-  public Conversation(List<Message> messages,String pseudo,Mode mode,List<MessageDeModeration> messagesDeModeration){
-    this.messages = new ArrayList<Message>(messages);
+  public Conversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration){
+    if (messages != null )
+        this.messages = new ArrayList<Message>(messages);
+    else
+        this.messages = new ArrayList<Message>();
     this.pipelettes = new HashMap<String,Mode>();
     this.pipelettes.put(pseudo,mode);
-    this.messagesDeModeration = new ArrayList<MessageDeModeration>(messagesDeModeration);
+    if (messagesDeModeration != null)
+        this.messagesDeModeration = new ArrayList<MessageDeModeration>(messagesDeModeration);
+    else
+        this.messagesDeModeration = new ArrayList<MessageDeModeration>();
     this.refConv++;
+    this.titre = titre;
+  }
+
+  public String getTitre(){
+      return this.titre;
+  }
+
+  public void setTitre(String titre){
+      this.titre = titre;
   }
 
   public int getRefConv(){

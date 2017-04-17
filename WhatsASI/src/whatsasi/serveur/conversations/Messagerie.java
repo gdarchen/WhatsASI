@@ -27,6 +27,10 @@ public class Messagerie implements MessagerieInterface{
             return false;
     }
 
+    public void creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration){
+        this.addConversation(new Conversation(messages,pseudo,titre,mode,messagesDeModeration));
+    }
+
     public Compte getCompte(String pseudo){
         for (Compte c : comptes){
             if (c.getPseudo().equals(pseudo))
@@ -125,4 +129,9 @@ public class Messagerie implements MessagerieInterface{
     public void setConversations(List<Conversation> conversations) {
         this.conversations = conversations;
     }
+
+    public String sayHi(){
+        return "\n\n******************   Bienvenue sur WhatsASI ! *****************\nVous devez d'abord choisir un pseudo pour rejoindre une conversation.";
+    }
+
 }
