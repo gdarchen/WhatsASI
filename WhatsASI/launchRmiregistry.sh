@@ -1,2 +1,2 @@
 export CLASSPATH=$CLASSPATH:classes
-rmiregistry &
+rmiregistry

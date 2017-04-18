@@ -41,6 +41,12 @@ public class MessagerieClient extends Application {
     ObservableList<String> filterList;
     Button filterOK = new Button("Valider");
 
+    //==== Chat nodes
+    ObservableList<String> items;
+    Label labelConv = new Label("Conversations");
+
+
+
     private void initConnexionPane() {
         VBox vbox = new VBox(12);
         vbox.setAlignment(Pos.CENTER);
@@ -100,11 +106,20 @@ public class MessagerieClient extends Application {
         vbox.getChildren().add(filterListView);
 
         filterOK.setAlignment(Pos.BASELINE_RIGHT);
+        filterOK.setOnAction(new FilterEventHandler());
+
         vbox.getChildren().add(filterOK);
 
         filterPane.setText("Filtres");
 
         filterPane.setContent(vbox);
+    }
+
+    private class FilterEventHandler implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            chatPane.setExpanded(true);
+        }
     }
 
     public class AddFilteredWordEventHandler implements EventHandler<ActionEvent> {
@@ -193,7 +208,23 @@ public class MessagerieClient extends Application {
 
     private void initConversationPane() {
         chatPane.setText("Chat");
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(0, 10, 0, 10));
+
+        ListView<String> list = new ListView<String>();
+        items =FXCollections.observableArrayList("Conversation 1", "Conversation 2", "Conversation 3", "Conversation 4");
+        list.setItems(items);
+        list.setPrefHeight(0.7*screenSize.getHeight());
+
+        grid.add(labelConv,1, 1);
+        grid.add(list, 1, 2);
+        chatPane.setContent(grid);
     }
+
+
+
 
     @Override
     public void init() {
