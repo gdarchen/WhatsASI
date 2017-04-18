@@ -209,20 +209,27 @@ public class MessagerieClient extends Application {
     private void initConversationPane() {
         chatPane.setText("Chat");
         GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 10, 0, 10));
+        grid.setHgap(5);
+        grid.setVgap(5);
+        grid.setPadding(new Insets(0, 5, 0, 5));
 
-        ListView<String> list = new ListView<String>();
+        ListView<String> listeConv = new ListView<String>();
         items =FXCollections.observableArrayList("Conversation 1", "Conversation 2", "Conversation 3", "Conversation 4");
-        list.setItems(items);
-        list.setPrefHeight(0.7*screenSize.getHeight());
+        listeConv.setItems(items);
+        listeConv.setPrefHeight(0.7*screenSize.getHeight());
+
+        ListView<String> listeMessages = new ListView<String>();
+        ObservableList<String> messages =FXCollections.observableArrayList (
+            "Single", "Double", "Suite", "Family App");
+        listeMessages.setItems(messages);
+        listeMessages.setPrefHeight(0.7*screenSize.getHeight());
+        listeMessages.setPrefWidth(0.75*screenSize.getWidth());
 
         grid.add(labelConv,1, 1);
-        grid.add(list, 1, 2);
+        grid.add(listeConv, 1, 2);
+        grid.add(listeMessages,3,2);
         chatPane.setContent(grid);
     }
-
 
 
 
