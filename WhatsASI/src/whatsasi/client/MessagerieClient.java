@@ -10,6 +10,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -19,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 
 import java.util.logging.Filter;
 
@@ -287,14 +291,18 @@ public class MessagerieClient extends Application {
     public class MessageCell extends ListCell<String> {
         private Label texte = new Label("Contenu");
         private ImageView avatarMessage = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 45, 45, true, false));
+        private Text expediteur = new Text("Expéditeur");
+        private Label date = new Label("Date");
 
         public MessageCell() {
             setTexte(null);
             initCell();
         }
 
-        public MessageCell(String text) {
+        public MessageCell(String text, String date, String expediteur) {
             setTexte(text);
+            setDate(date);
+            setExpediteur(expediteur);
             initCell();
         }
 
@@ -306,13 +314,24 @@ public class MessagerieClient extends Application {
             texte.setText(text);
         }
 
+        public void setDate(String date) {
+            setText(null);
+            this.date.setText(date);
+        }
+        public void setExpediteur(String exp) {
+            setText(null);
+            expediteur.setText(exp);
+        }
         public void initCell() {
+            expediteur.setFont(Font.font(null, FontWeight.BOLD, 16));
             GridPane gridPane = new GridPane();
             gridPane.setHgap(10);
             gridPane.setVgap(10);
             gridPane.setPadding(new Insets(15, 15, 15, 15));
-            gridPane.add(avatarMessage, 0, 0);
-            gridPane.add(texte, 2, 0);
+            gridPane.add(expediteur, 0, 0);
+            gridPane.add(avatarMessage, 0, 1);
+            gridPane.add(date, 1, 0);
+            gridPane.add(texte, 1, 1);
             setGraphic(gridPane);
         }
 
