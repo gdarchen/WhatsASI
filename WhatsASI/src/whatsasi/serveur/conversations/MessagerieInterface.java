@@ -55,4 +55,6 @@ public interface MessagerieInterface extends Remote {
     public void setConversations(List<Conversation> conversations) throws RemoteException;
 
     public String sayHi() throws RemoteException;
+
+    public String contenuToString(Conversation c) throws RemoteException;
 }

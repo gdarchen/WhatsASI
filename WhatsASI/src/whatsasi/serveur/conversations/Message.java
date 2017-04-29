@@ -23,6 +23,10 @@ public class Message {
     return this.compte;
   }
 
+  public String getPseudo(){
+      return this.compte.getPseudo();
+  }
+
   public void setDate(Date date){
     this.date = date;
   }

@@ -1,9 +1,6 @@
 package whatsasi.serveur.conversations;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import java.io.Serializable;
 import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.utilisateurs.Compte;
@@ -54,6 +51,16 @@ public class Conversation implements Serializable{
 
   public Map<String,Mode> getUtilisateurs(){
     return this.pipelettes;
+  }
+
+  public List<String> getPseudos(){
+      List<String> liste = new ArrayList<String>();
+      Iterator it = this.pipelettes.entrySet().iterator();
+      while (it.hasNext()) {
+          Map.Entry pair = (Map.Entry)it.next();
+          liste.add((String)(pair.getKey()));
+      }
+      return liste;
   }
 
   public void setUtilisateurs(Map<String,Mode> pipelettes){

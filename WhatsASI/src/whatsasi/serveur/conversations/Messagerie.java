@@ -73,9 +73,8 @@ public class Messagerie implements MessagerieInterface{
     }
 
     public void addMessage(String msg, Conversation conv, String pseudo){
-        if (getConversation(conv) != null){
-            getConversation(conv).addMessage(msg, getCompte(pseudo));
-        }
+        if (conv != null)
+            conv.addMessage(msg, getCompte(pseudo));
     }
 
     public void setPseudo(String pseudo, String nouveauPseudo){
@@ -132,6 +131,17 @@ public class Messagerie implements MessagerieInterface{
 
     public String sayHi(){
         return "\n\n******************   Bienvenue sur WhatsASI ! *****************\nVous devez d'abord choisir un pseudo pour rejoindre une conversation.";
+    }
+
+    public String contenuToString(Conversation c){
+        StringBuilder res = new StringBuilder();
+        for (Message m : c.getContenu()){
+            res.append(m.getPseudo());
+            res.append(" : \n");
+            res.append("       "+m.getMessage());
+            res.append("\n\n");
+        }
+        return res.toString();
     }
 
 }
