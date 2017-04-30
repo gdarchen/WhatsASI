@@ -2,8 +2,9 @@ package whatsasi.serveur.filtrage;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Filtre {
+public class Filtre implements Serializable {
 
   List<String> motsInterdits;
 

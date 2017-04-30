@@ -27,6 +27,15 @@ public class Messagerie implements MessagerieInterface{
             return false;
     }
 
+    public boolean modifierPseudo(String old,String newPseudo){
+        if (isPseudoAvailable(newPseudo)){
+            this.getCompte(old).setPseudo(newPseudo);
+            return true;
+        }
+        else
+            return false;
+    }
+
     public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration){
         Conversation c = new Conversation(messages,pseudo,titre,mode,messagesDeModeration);
         this.conversations.add(c);
@@ -72,6 +81,19 @@ public class Messagerie implements MessagerieInterface{
         if (getConversation(refConv) != null)
             return getConversation(refConv).getContenu();
         return null;
+    }
+
+    public List<String> getPseudos(int refConv){
+        return this.getConversation(refConv).getPseudos();
+    }
+
+    public void addUserToConv(String pseudo,int refConv){
+        Compte compte = getCompte(pseudo);
+        this.getConversation(refConv).addUtilisateur(pseudo,compte.getMode());
+    }
+
+    public void removeUserFromConv(String pseudo,int refConv){
+        this.getConversation(refConv).removeUtilisateur(pseudo);
     }
 
     public void addMessage(String msg,int refConv, String pseudo){
@@ -136,7 +158,7 @@ public class Messagerie implements MessagerieInterface{
     }
 
     public String sayHi(){
-        return "\n\n******************   Bienvenue sur WhatsASI ! *****************\nVous devez d'abord choisir un pseudo pour rejoindre une conversation.";
+        return "\n\n**********************      Bienvenue sur WhatsASI !      ***********************\n******************************       V 1.0      ***********************************\n";
     }
 
     public String contenuToString(int refConv){

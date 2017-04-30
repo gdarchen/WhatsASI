@@ -22,6 +22,14 @@ public interface MessagerieInterface extends Remote {
 
     public void removeMotInterdit(String mot,String pseudo) throws RemoteException;
 
+    public void addUserToConv(String pseudo,int refConv) throws RemoteException;
+
+    public void removeUserFromConv(String pseudo,int refConv) throws RemoteException;
+
+    public boolean modifierPseudo(String old,String newPseudo) throws RemoteException;
+
+    public List<String> getPseudos(int refConv) throws RemoteException;
+
     public boolean isPseudoAvailable(String pseudo) throws RemoteException;
 
     public List<Message> getContenu(int refConv) throws RemoteException;

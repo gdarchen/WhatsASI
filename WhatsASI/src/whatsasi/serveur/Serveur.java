@@ -42,9 +42,21 @@ public class Serveur {
                 ServerSocket socketServer = new ServerSocket(portSocket);
                 while (true){
                     Socket socket = socketServer.accept();
-                    System.out.println("A client has arrived on the Server.");
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    String msg = in.readLine();
+                    String answer = "";
+                    switch (msg){
+                        case "login" : System.out.println("A client has arrived on the server.");
+                                       answer = "Vous étes connecté !";
+                                       break;
+                        case "logout" : System.out.println("A client just left the server.");
+                                       answer = "Vous étes déconnecté !";
+                                       break;
+                        default :      answer = "error";
+                                       break;
+                    }
                     PrintWriter out = new PrintWriter(socket.getOutputStream());
-                    out.println("Vous étes connecté !");
+                    out.println(answer);
                     out.flush();
                 }
                 //socket.close();

@@ -42,15 +42,15 @@ public class Conversation implements Serializable{
   }
 
   public void setMessages(List<Message> messages){
-    this.messages = messages;
+      this.messages = messages;
   }
 
   public List<Message> getContenu(){
-    return this.messages;
+      return this.messages;
   }
 
   public Map<String,Mode> getUtilisateurs(){
-    return this.pipelettes;
+      return this.pipelettes;
   }
 
   public List<String> getPseudos(){
@@ -64,15 +64,19 @@ public class Conversation implements Serializable{
   }
 
   public void setUtilisateurs(Map<String,Mode> pipelettes){
-    this.pipelettes = pipelettes;
+      this.pipelettes = pipelettes;
   }
 
   public void addUtilisateur(String pseudo,Mode mode){
-    this.pipelettes.put(pseudo,mode);
+      this.pipelettes.put(pseudo,mode);
+  }
+
+  public void removeUtilisateur(String pseudo){
+      this.pipelettes.remove(pseudo);
   }
 
   public void setMode(String pseudo,Mode mode){
-    this.pipelettes.replace(pseudo,mode);
+      this.pipelettes.replace(pseudo,mode);
   }
 
   public void addMessage(String msg, Compte compte){
@@ -80,11 +84,11 @@ public class Conversation implements Serializable{
   }
 
   public void addMessageDeModeration(String msg,Compte compte){
-    this.messagesDeModeration.add(new MessageDeModeration(compte,msg));
+      this.messagesDeModeration.add(new MessageDeModeration(compte,msg));
   }
 
   public void supprimerMessage(Message message){
-    this.messages.remove(message);
+      this.messages.remove(message);
   }
 
   public void envoyerAudio(){/* A IMPLEMENT PLUS TARD*/}
