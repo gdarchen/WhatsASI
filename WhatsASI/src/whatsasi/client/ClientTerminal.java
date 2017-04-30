@@ -15,7 +15,7 @@ import whatsasi.serveur.conversations.Conversation;
 import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.filtrage.Filtre;
 
-public class ClientTerminal{
+public class ClientTerminal {
 
     private static final int PORTRMI = 1099;
     private static final int PORTSOCKET = 2009;
@@ -24,6 +24,7 @@ public class ClientTerminal{
     private static String pseudo;
     private static int refConv;
     private static int maxKey = 0;
+    private static MessageCallbackInterface callback = null;
 
     public static void main(String[] args) {
         try{
@@ -108,7 +109,8 @@ public class ClientTerminal{
         System.out.println("\n -- Nom de la nouvelle conversation : --\n");
         Scanner s = new Scanner(System.in);
         String titre;
-        refConv = messagerie.creerConversation(null,pseudo,titre = s.nextLine(),null,null);
+        callback = new TerminalMessageCallback(pseudo);
+        refConv = messagerie.creerConversation(null,pseudo,titre = s.nextLine(),null,null, callback);
         System.out.println("*********     "+titre+ "     **********\n");
         chat(messagerie,refConv);
     }
@@ -167,12 +169,12 @@ public class ClientTerminal{
 
     public static void loadMessages(MessagerieInterface messagerie,int refConv) throws RemoteException{
         System.out.println("*********     "+messagerie.getTitreConv(refConv)+ "     **********");
-        System.out.println(messagerie.contenuToString(refConv));
+        System.out.println(messagerie.contenuToString(refConv, pseudo));
     }
 
     public static void chat(MessagerieInterface messagerie,int refConv) throws RemoteException{
-        Timer timer = new Timer();
-        timer.schedule(getTask(messagerie), 2000, 2000);
+        // Timer timer = new Timer();
+        // timer.schedule(getTask(messagerie), 2000, 2000);
         Scanner s = new Scanner(System.in);
         String message = "";
         while (!(message.equals(BACKCHAR))){
@@ -181,10 +183,10 @@ public class ClientTerminal{
             if (!(message.equals(BACKCHAR))) {
                 messagerie.addMessage(message,refConv,pseudo);
                 System.out.println("\n");
-                refresh(messagerie);
+                // refresh(messagerie);
             }
         }
-        stopTimer(timer);
+        // stopTimer(timer);
         deconectionFromConv(messagerie);
         backToMenu(messagerie);
     }
@@ -221,7 +223,8 @@ public class ClientTerminal{
         if (refConv == -666 )
             backToMenu(messagerie);
         else {
-            messagerie.addUserToConv(pseudo,refConv);
+            callback = new TerminalMessageCallback(refConv, pseudo);
+            messagerie.addUserToConv(pseudo,refConv,callback);
             loadMessages(messagerie,refConv);
             chat(messagerie,refConv);
         }

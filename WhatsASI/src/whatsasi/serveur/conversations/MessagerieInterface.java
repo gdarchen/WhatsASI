@@ -9,12 +9,13 @@ import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import whatsasi.client.MessageCallbackInterface;
 
 public interface MessagerieInterface extends Remote {
 
     public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre) throws RemoteException;
 
-    public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration) throws RemoteException;
+    public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 
     public Compte getCompte(String pseudo) throws RemoteException;
 
@@ -22,7 +23,7 @@ public interface MessagerieInterface extends Remote {
 
     public void removeMotInterdit(String mot,String pseudo) throws RemoteException;
 
-    public void addUserToConv(String pseudo,int refConv) throws RemoteException;
+    public void addUserToConv(String pseudo,int refConv, MessageCallbackInterface callback) throws RemoteException;
 
     public void removeUserFromConv(String pseudo,int refConv) throws RemoteException;
 
@@ -68,5 +69,5 @@ public interface MessagerieInterface extends Remote {
 
     public String sayHi() throws RemoteException;
 
-    public String contenuToString(int refConv) throws RemoteException;
+    public String contenuToString(int refConv, String pseudo) throws RemoteException;
 }

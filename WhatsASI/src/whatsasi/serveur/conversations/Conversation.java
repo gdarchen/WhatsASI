@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.Serializable;
 import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.utilisateurs.Compte;
+import whatsasi.serveur.filtrage.Filtre;
 
 public class Conversation implements Serializable{
 
@@ -47,6 +48,10 @@ public class Conversation implements Serializable{
 
   public List<Message> getContenu(){
       return this.messages;
+  }
+
+  public List<Message> getContenu(Filtre filtre){
+    return filtre.filtrerMessages(this.messages);
   }
 
   public Map<String,Mode> getUtilisateurs(){

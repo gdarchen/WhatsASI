@@ -3,6 +3,7 @@ package whatsasi.serveur.filtrage;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.Serializable;
+import whatsasi.serveur.conversations.Message;
 
 public class Filtre implements Serializable {
 
@@ -16,7 +17,7 @@ public class Filtre implements Serializable {
     this.motsInterdits = motsInterdits;
   }
 
-  public List getMotsInterdits(){
+  public List<String> getMotsInterdits(){
     return this.motsInterdits;
   }
 
@@ -26,6 +27,25 @@ public class Filtre implements Serializable {
 
   public void supprimerMotInterdit(String mot){
     this.motsInterdits.remove(mot);
+  }
+
+  public List<Message> filtrerMessages(List<Message> messages) {
+      List<Message> messagesFiltres = new ArrayList<Message>();
+      for (Message message: messages) {
+          messagesFiltres.add(filtrerMessage(message));
+      }
+      return messagesFiltres;
+  }
+
+  public Message filtrerMessage(Message message) {
+      Message messageFiltre = new Message(message.getCompte(), message.getMessage());
+      for (String mot: this.getMotsInterdits()) {
+          if ((message.getMessage()).contains(mot)) {
+              messageFiltre.setMessage("Message filtré automatiquement");
+              return messageFiltre;
+          }
+      }
+      return messageFiltre;
   }
 
 }
