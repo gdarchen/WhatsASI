@@ -14,7 +14,7 @@ public interface MessagerieInterface extends Remote {
 
     public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre) throws RemoteException;
 
-    public void creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration) throws RemoteException;
+    public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration) throws RemoteException;
 
     public Compte getCompte(String pseudo) throws RemoteException;
 
@@ -24,9 +24,9 @@ public interface MessagerieInterface extends Remote {
 
     public boolean isPseudoAvailable(String pseudo) throws RemoteException;
 
-    public List<Message> getContenu(Conversation conv) throws RemoteException;
+    public List<Message> getContenu(int refConv) throws RemoteException;
 
-    public void addMessage(String msg, Conversation conv, String pseudo) throws RemoteException;
+    public void addMessage(String msg, int refConv, String pseudo) throws RemoteException;
 
     public void setPseudo(String pseudo, String nouveauPseudo) throws RemoteException;
 
@@ -52,9 +52,13 @@ public interface MessagerieInterface extends Remote {
 
     public List<Conversation> getConversations() throws RemoteException;
 
+    public Conversation getConversation(int refConv) throws RemoteException;
+
     public void setConversations(List<Conversation> conversations) throws RemoteException;
+
+    public String getTitreConv(int refConv) throws RemoteException;
 
     public String sayHi() throws RemoteException;
 
-    public String contenuToString(Conversation c) throws RemoteException;
+    public String contenuToString(int refConv) throws RemoteException;
 }

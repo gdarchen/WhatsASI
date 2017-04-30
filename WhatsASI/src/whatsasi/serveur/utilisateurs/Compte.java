@@ -1,9 +1,10 @@
 package whatsasi.serveur.utilisateurs;
 
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 import whatsasi.serveur.conversations.Mode;
 
-public abstract class Compte {
+public abstract class Compte implements Serializable {
 
   private String pseudo;
   private ImageIcon avatar;

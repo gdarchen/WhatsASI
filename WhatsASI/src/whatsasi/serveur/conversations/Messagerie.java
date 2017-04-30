@@ -27,8 +27,10 @@ public class Messagerie implements MessagerieInterface{
             return false;
     }
 
-    public void creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration){
-        this.addConversation(new Conversation(messages,pseudo,titre,mode,messagesDeModeration));
+    public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration){
+        Conversation c = new Conversation(messages,pseudo,titre,mode,messagesDeModeration);
+        this.conversations.add(c);
+        return c.getRefConv();
     }
 
     public Compte getCompte(String pseudo){
@@ -58,23 +60,23 @@ public class Messagerie implements MessagerieInterface{
             return false;
     }
 
-    public Conversation getConversation(Conversation conv){
+    public Conversation getConversation(int refConv){
         for (Conversation c : conversations){
-            if (c.getRefConv() == conv.getRefConv())
+            if (c.getRefConv() == refConv)
                 return c ;
         }
         return null;
     }
 
-    public List<Message> getContenu(Conversation conv){
-        if (getConversation(conv) != null)
-            return getConversation(conv).getContenu();
+    public List<Message> getContenu(int refConv){
+        if (getConversation(refConv) != null)
+            return getConversation(refConv).getContenu();
         return null;
     }
 
-    public void addMessage(String msg, Conversation conv, String pseudo){
-        if (conv != null)
-            conv.addMessage(msg, getCompte(pseudo));
+    public void addMessage(String msg,int refConv, String pseudo){
+        this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
+        System.out.println(getCompte(pseudo).getPseudo() + " sent : "+msg);
     }
 
     public void setPseudo(String pseudo, String nouveauPseudo){
@@ -129,12 +131,17 @@ public class Messagerie implements MessagerieInterface{
         this.conversations = conversations;
     }
 
+    public String getTitreConv(int refConv){
+        return this.getConversation(refConv).getTitre();
+    }
+
     public String sayHi(){
         return "\n\n******************   Bienvenue sur WhatsASI ! *****************\nVous devez d'abord choisir un pseudo pour rejoindre une conversation.";
     }
 
-    public String contenuToString(Conversation c){
+    public String contenuToString(int refConv){
         StringBuilder res = new StringBuilder();
+        Conversation c = this.getConversation(refConv);
         for (Message m : c.getContenu()){
             res.append(m.getPseudo());
             res.append(" : \n");

@@ -20,6 +20,7 @@ public class ClientTerminal{
     private static final String endPoint = "localhost";
     private static String pseudo = null;
     private static int maxKey = 0;
+    private static int refConv;
 
     public static void main(String[] args) {
         try{
@@ -29,7 +30,12 @@ public class ClientTerminal{
             System.out.println(messagerie.sayHi());
             enterPseudo(messagerie);
             indexActions(messagerie);
+        }catch(RemoteException e) {
+            e.toString();
+            e.printStackTrace();
         }catch(Exception e) {
+            e.toString();
+            e.printStackTrace();
         }
 
     }
@@ -55,10 +61,10 @@ public class ClientTerminal{
     public static void createNewConv(MessagerieInterface messagerie) throws RemoteException{
         System.out.println("\n -- Nom de la nouvelle conversation : --\n");
         Scanner s = new Scanner(System.in);
-        Conversation conversation = new Conversation(null,pseudo,s.nextLine(),null,null);
-        messagerie.addConversation(conversation);
-        System.out.println("*********     "+conversation.getTitre()+ "     **********\n");
-        chat(messagerie,conversation);
+        String titre;
+        refConv = messagerie.creerConversation(null,pseudo,titre = s.nextLine(),null,null);
+        System.out.println("*********     "+titre+ "     **********\n");
+        chat(messagerie,refConv);
     }
 
     public static void showListConv(MessagerieInterface messagerie) throws RemoteException {
@@ -75,6 +81,17 @@ public class ClientTerminal{
         }
     }
 
+    public static Map getConversationsList(MessagerieInterface messagerie) throws RemoteException{
+        Map<Integer,Conversation> liste = new HashMap<Integer,Conversation>();
+        int i = 0;
+        for (Conversation c : messagerie.getConversations()){
+            i++;
+            liste.put(i,c);
+        }
+        maxKey = i;
+        return liste;
+    }
+
     public static void backToMenu(MessagerieInterface messagerie) throws RemoteException{
         indexActions(messagerie);
     }
@@ -88,40 +105,45 @@ public class ClientTerminal{
         return choix;
     }
 
-    public static Conversation getConvByKey(MessagerieInterface messagerie,int key) throws RemoteException{
-        return (Conversation)getConversationsList(messagerie).get(key);
+    public static void loadMessages(MessagerieInterface messagerie,int refConv) throws RemoteException{
+        System.out.println("*********     "+messagerie.getTitreConv(refConv)+ "     **********");
+        System.out.println(messagerie.contenuToString(refConv));
     }
 
-    public static void loadMessages(MessagerieInterface messagerie,Conversation conversation) throws RemoteException{
-        System.out.println("*********     "+conversation.getTitre()+ "     **********");
-        System.out.println("ATT = "+messagerie.contenuToString(conversation));
-    }
-
-    public static void chat(MessagerieInterface messagerie,Conversation conversation) throws RemoteException{
+    public static void chat(MessagerieInterface messagerie,int refConv) throws RemoteException{
+        Timer timer = new Timer();
+        TimerTask myTask = new TimerTask() {
+            @Override
+            public void run() {
+                try{
+                    refresh(messagerie);
+                }catch(RemoteException e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.schedule(myTask, 2000, 2000);
         Scanner s = new Scanner(System.in);
-        String message;
-        while (!((message = s.nextLine()).equals("exit"))){
-            messagerie.addMessage(message,conversation,pseudo);
-            System.out.println(pseudo + " : \n" + "         " + message);
+        String message = "";
+        while (!(message.equals("exit"))){
+            System.out.println(pseudo + " : \n");
+            message = s.nextLine();
+            messagerie.addMessage(message,refConv,pseudo);
+            System.out.println("\n");
+            refresh(messagerie);
         }
         backToMenu(messagerie);
     }
 
-    public static void openConv(MessagerieInterface messagerie) throws RemoteException{
-        Conversation conversation = getConvByKey(messagerie,chooseConversation(messagerie));
-        loadMessages(messagerie,conversation);
-        chat(messagerie,conversation);
+    public static void refresh(MessagerieInterface messagerie) throws RemoteException{
+        System.out.print("\033[H\033[2J");
+        loadMessages(messagerie,refConv);
     }
 
-    public static Map getConversationsList(MessagerieInterface messagerie) throws RemoteException{
-        Map<Integer,Conversation> liste = new HashMap<Integer,Conversation>();
-        int i = 0;
-        for (Conversation c : messagerie.getConversations()){
-            i++;
-            liste.put(i,c);
-        }
-        maxKey = i;
-        return liste;
+    public static void openConv(MessagerieInterface messagerie) throws RemoteException{
+        refConv = chooseConversation(messagerie);
+        loadMessages(messagerie,refConv);
+        chat(messagerie,refConv);
     }
 
     public static int choixAccueil(){

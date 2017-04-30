@@ -11,7 +11,7 @@ public class Conversation implements Serializable{
   private List<MessageDeModeration> messagesDeModeration;
   private Map<String,Mode> pipelettes; /*Lien entre utilisateur identifié via
                                         pseudo et mode choisi pour sa conversation*/
-  private static int refConv = 0; /*Des que l'on en crée une cela incrémente*/
+  private static int refConv; /*Des que l'on en crée une cela incrémente*/
   private String titre;
 
   public Conversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration){
@@ -76,7 +76,7 @@ public class Conversation implements Serializable{
   }
 
   public void addMessage(String msg, Compte compte){
-    this.messages.add(new Message(compte,msg));
+      this.messages.add(new Message(compte,msg));
   }
 
   public void addMessageDeModeration(String msg,Compte compte){

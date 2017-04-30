@@ -1,9 +1,10 @@
 package whatsasi.serveur.conversations;
 
+import java.io.Serializable;
 import whatsasi.serveur.utilisateurs.Compte;
 import java.util.Date;
 
-public class Message {
+public class Message implements Serializable{
 
   private Compte compte;
   private Date date;
