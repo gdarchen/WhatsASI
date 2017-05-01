@@ -9,12 +9,16 @@ import java.rmi.RemoteException;
 import whatsasi.serveur.InformateurDeClients;
 import whatsasi.serveur.utilisateurs.Compte;
 import whatsasi.serveur.utilisateurs.Utilisateur;
+import whatsasi.serveur.utilisateurs.IA;
 import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
+import whatsasi.serveur.conversations.Message;
 import whatsasi.client.MessageCallbackInterface;
+
 
 public class Messagerie implements MessagerieInterface{
 
+    private IA ia;
     private Map<String, Compte> comptes;
     private Map<Integer, Conversation> conversations;
     private Map<String, MessageCallbackInterface> callbacks;
@@ -23,6 +27,7 @@ public class Messagerie implements MessagerieInterface{
         this.comptes = new HashMap<String, Compte>();
         this.conversations = new HashMap<Integer, Conversation>();
         this.callbacks = new HashMap<String, MessageCallbackInterface>();
+        this.ia= new IA();
     }
 
     public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre){
@@ -100,6 +105,10 @@ public class Messagerie implements MessagerieInterface{
         return null;
     }
 
+    public IA getIA(){
+      return this.ia ;
+    }
+
     public List<String> getPseudos(int refConv){
         return this.getConversation(refConv).getPseudos();
     }
@@ -120,6 +129,19 @@ public class Messagerie implements MessagerieInterface{
         System.out.println(getCompte(pseudo).getPseudo() + " sent : "+msg);
         InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
         thread.start();
+        for (String mot: this.getIA().getMotsInteractionIA()) {
+            if (msg.equals(mot)) {
+                String msgIA = this.getIA().scannerMessagesMessage(msg,pseudo);
+                addMessageInteraction(msgIA,refConv,pseudo);
+            }
+        }
+    }
+
+    public void addMessageInteraction(String msg,int refConv, String pseudo) throws RemoteException {
+      this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
+      System.out.println(getCompte(this.getIA().getPseudo() + " sent : "+msg));
+      InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
+      thread.start();
     }
 
     public void setPseudo(String pseudo, String nouveauPseudo){
