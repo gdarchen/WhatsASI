@@ -19,14 +19,45 @@ import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
+import javafx.beans.value.*;
+
+// import javafx.scene.paint.Color;
+// import javafx.scene.shape.Circle;
+
+import java.util.*;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import whatsasi.serveur.conversations.MessagerieInterface;
+import whatsasi.serveur.conversations.Conversation;
+import whatsasi.serveur.conversations.Mode;
+import whatsasi.serveur.filtrage.Filtre;
 
 
 import java.util.logging.Filter;
 
 public class MessagerieClient extends Application {
+    private static final int PORTRMI = 1099;
+    private static final String ENDPOINT = "localhost";
+    private static Stage primaryStage;
+    private static TerminalMessageCallback callback;
+    private static MessagerieInterface messagerie;
+    private static String pseudo;
+    private static int refConv;
+
     //==== Menu nodes
     TitledPane connexionPane = new TitledPane();
     TitledPane chatPane = new TitledPane();
@@ -37,6 +68,7 @@ public class MessagerieClient extends Application {
     //==== Connexion nodes
     ImageView avatar = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
     TextField pseudoTextField = new TextField();
+    Label pseudoTextFieldAlert = new Label("Ce pseudo est déjà pris !");
     Button connexionOK = new Button("Se connecter");
 
     //==== Filter nodes
@@ -47,11 +79,73 @@ public class MessagerieClient extends Application {
     Button filterOK = new Button("Valider");
 
     //==== Chat nodes
-    ObservableList<String> items;
-    ObservableList<String> convList;
+    private static ObservableList<String> items;
+    ListView<String> listeConv;
+    private static ObservableList<String> convList;
     Button addConvButton;
     TextField nouveauMessage;
     Button sendMessage;
+
+
+    public static void main(String[] args) {
+        try{
+            Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
+            messagerie = (MessagerieInterface) registry.lookup("Messagerie");
+
+            //System.out.println(getConversationsTitre(messagerie));
+            Application.launch(args);
+            //connection();
+            //interceptShutdown();
+            //System.out.println(messagerie.sayHi());
+            //displayBACKCHAR();
+            //createAccount(messagerie);
+            //indexActions(messagerie);
+        }catch(RemoteException e) {
+            e.toString();
+            e.printStackTrace();
+        }catch(Exception e) {
+            e.toString();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void init() {
+        try{
+            initConnexionPane();
+            initFilterPane();
+            initConversationPane();
+        }catch(RemoteException e) {
+            e.toString();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void start(Stage stage) {
+        setPrimaryStage(stage);
+        Scene scene = new Scene(accordion, screenSize.getWidth(), screenSize.getHeight());
+
+        stage.setTitle("WhatsASI : La messagerie révolutionnaire d'hier");
+        stage.setScene(scene);
+        // stage.setFullScreen(true);
+        stage.show();
+
+        connexionPane.setExpanded(true);
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    private void setPrimaryStage(Stage primaryStage) {
+        MessagerieClient.primaryStage = primaryStage;
+    }
+
+
+    /* * * * * * * * * * * * * * * * * * */
+    /* * * * * * * Connection * * * * * * */
+    /* * * * * * * * * * * * * * * * * * */
 
     private void initConnexionPane() {
         VBox vbox = new VBox(12);
@@ -61,12 +155,16 @@ public class MessagerieClient extends Application {
         vbox.getChildren().add(avatar);
         vbox.getChildren().add(new Label("Avatar"));
 
+        pseudoTextFieldAlert.setStyle("-fx-text-fill: red");
+        pseudoTextFieldAlert.setVisible(false);
+
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(6, 6, 6, 6));
         grid.setVgap(6);
         grid.setHgap(6);
         grid.add(new Label("Pseudo :"), 0, 0);
         grid.add(pseudoTextField, 1, 0);
+        grid.add(pseudoTextFieldAlert, 1, 1);
         grid.setAlignment(Pos.CENTER);
         vbox.getChildren().add(grid);
 
@@ -80,9 +178,28 @@ public class MessagerieClient extends Application {
     private class ConnexionEventHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
-            filterPane.setExpanded(true);
+            try{
+                pseudo = pseudoTextField.getText();
+                if (messagerie.isPseudoAvailable(pseudo) && pseudo!=""){
+                    // Ajouter avatar, mode, filtre
+                    messagerie.creerCompte(pseudo, null, Mode.DEFAUT, null);
+                    pseudoTextFieldAlert.setVisible(false);
+                    filterPane.setExpanded(true);
+                }
+                else{
+                    pseudoTextFieldAlert.setVisible(true);
+                }
+            } catch (RemoteException ex){
+                ex.toString();
+                ex.printStackTrace();
+            }
         }
     }
+
+    /* * * * * * * * * * * * * * * * * * */
+    /* * * * * * * Filter * * * * * * * */
+    /* * * * * * * * * * * * * * * * * * */
+
 
     private void initFilterPane() {
         VBox vbox = new VBox(12);
@@ -212,19 +329,67 @@ public class MessagerieClient extends Application {
         }
     }
 
-    private void initConversationPane() {
+
+    /* * * * * * * * * * * * * * * * * * */
+    /* * * * * * * Conversation * * * * * */
+    /* * * * * * * * * * * * * * * * * * */
+    private void initConversationPane() throws RemoteException{
         chatPane.setText("Chat");
         GridPane grid = new GridPane();
         grid.setHgap(5);
         grid.setVgap(5);
         grid.setPadding(new Insets(0, 5, 0, 5));
 
-        ListView<String> listeConv = new ListView<String>();
-        items =FXCollections.observableArrayList("Conversation 1", "Conversation 2", "Conversation 3", "Conversation 4");
+        listeConv = new ListView<String>();
+
+        if (!getConversationsTitre().isEmpty())
+            items = FXCollections.observableArrayList(getConversationsTitre());
+        else
+            items = FXCollections.observableArrayList();
+
         listeConv.setItems(items);
         listeConv.setPrefHeight(0.7*screenSize.getHeight());
 
+        listeConv.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println("ListView selection changed from oldValue = "
+                        + oldValue + " to newValue = " + newValue);
+            }
+        });
+
+
         addConvButton = new Button("+");
+        addConvButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                TextInputDialog dialog = new TextInputDialog("Nouvelle Conversation");
+                dialog.setTitle("Créer une nouvelle conversation");
+                dialog.setHeaderText("Entrez le nom de la nouvelle conversation");
+
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()){
+                    try{
+                        if (!getConversationsTitre().contains((String)result.get())){
+                            createNewConv(result.get());
+                            if (!getConversationsTitre().isEmpty()){
+                                items = FXCollections.observableArrayList(getConversationsTitre());
+                                listeConv.setItems(items);
+                            }
+                        } else {
+                            Alert alert = new Alert(AlertType.ERROR);
+                            alert.setTitle("Conversation déjà existante");
+                            alert.setHeaderText("La conversation de nom \""+result.get()+"\" est déjà existante.");
+                            alert.setContentText("Veuillez créer une autre conversation avec un nom différent.");
+                            alert.showAndWait();
+                        }
+                    }catch(RemoteException e){
+                        e.toString();
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
 
         VBox vboxConv = new VBox();
         vboxConv.setPadding(new Insets(10));
@@ -264,6 +429,7 @@ public class MessagerieClient extends Application {
         grid.add(vbox, 3, 1);
         chatPane.setContent(grid);
     }
+
 
 
 
@@ -354,26 +520,35 @@ public class MessagerieClient extends Application {
     }
 
 
-    @Override
-    public void init() {
-        initConnexionPane();
-        initFilterPane();
-        initConversationPane();
+    /* * * * * * * * * Utils * * * * * * * * * */
+
+    public static Map getConversationsList() throws RemoteException{
+        Map<Integer,Conversation> liste = new HashMap<Integer,Conversation>();
+        int i = 0;
+        for (Conversation c : messagerie.getConversations()){
+            i++;
+            liste.put(i,c);
+        }
+        //maxKey = i;
+        return liste;
     }
 
-    @Override
-    public void start(Stage stage) {
-        Scene scene = new Scene(accordion, screenSize.getWidth(), screenSize.getHeight());
-
-        stage.setTitle("WhatsASI : La messagerie révolutionnaire d'hier");
-        stage.setScene(scene);
-        // stage.setFullScreen(true);
-        stage.show();
-
-        connexionPane.setExpanded(true);
+    public static Collection<String> getConversationsTitre() throws RemoteException {
+        Map mapConv = getConversationsList();
+        List<String> liste = new ArrayList<String>();
+        Iterator it = mapConv.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Conversation c = (Conversation)(pair.getValue());
+            liste.add((String) c.getTitre());
+        }
+        return liste;
     }
 
-    public static void main(String[] args) {
-        Application.launch(args);
+    public static void createNewConv(String titre) throws RemoteException{
+        callback = new TerminalMessageCallback(pseudo);
+        refConv = messagerie.creerConversation(null,pseudo,titre,null,null, callback);
+        //chat(messagerie,refConv);
     }
+
 }
