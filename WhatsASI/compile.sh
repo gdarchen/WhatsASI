@@ -9,7 +9,7 @@ filtrage=$serveurPath/filtrage/*.java
 utilisateurs=$serveurPath/utilisateurs/*.java
 
 echo "Compilation des fichiers sources ..."
-javac -sourcepath src -d classes $serveur $client $conversations $filtrage $utilisateurs
+javac -Xlint:unchecked -sourcepath src -d classes $serveur $client $conversations $filtrage $utilisateurs
 if [ $? -eq 0 ]; then
   echo '...compilation réussie !'
 else

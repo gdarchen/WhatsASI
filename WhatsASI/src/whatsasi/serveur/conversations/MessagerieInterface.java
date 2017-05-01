@@ -70,4 +70,8 @@ public interface MessagerieInterface extends Remote {
     public String sayHi() throws RemoteException;
 
     public String contenuToString(int refConv, String pseudo) throws RemoteException;
+
+    /*public List<Message> getContenu(int refConv, String pseudo) throws RemoteException;
+
+    public void informerClients(int refConv, Message msg) throws RemoteException;*/
 }
