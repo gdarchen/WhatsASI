@@ -45,6 +45,7 @@ import whatsasi.serveur.conversations.MessagerieInterface;
 import whatsasi.serveur.conversations.Conversation;
 import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.filtrage.Filtre;
+import whatsasi.serveur.conversations.Message;
 
 
 import java.util.logging.Filter;
@@ -53,10 +54,10 @@ public class MessagerieClient extends Application {
     private static final int PORTRMI = 1099;
     private static final String ENDPOINT = "localhost";
     private static Stage primaryStage;
-    private static TerminalMessageCallback callback;
     private static MessagerieInterface messagerie;
     private static String pseudo;
     private static int refConv;
+    private static MessageCallbackInterface callback = null;
 
     //==== Menu nodes
     TitledPane connexionPane = new TitledPane();
@@ -81,10 +82,11 @@ public class MessagerieClient extends Application {
     //==== Chat nodes
     private static ObservableList<String> items;
     ListView<String> listeConv;
-    private static ObservableList<String> convList;
+    private static ObservableList<Message> messagesList;
     Button addConvButton;
     TextField nouveauMessage;
     Button sendMessage;
+    private static MessagesListView messagesListView;
 
 
     public static void main(String[] args) {
@@ -353,8 +355,24 @@ public class MessagerieClient extends Application {
         listeConv.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println("ListView selection changed from oldValue = "
-                        + oldValue + " to newValue = " + newValue);
+                try{
+                    if (newValue!=null){
+                        refConv = getRefConv(newValue);
+                        callback = new IHMMessageCallback(refConv,pseudo);
+                        messagerie.addUserToConv(pseudo, refConv, callback);
+                        //System.out.println(refConv);
+                        if (!messagerie.getContenu(refConv).isEmpty()){
+                            messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv));
+                        }
+                        else{
+                            messagesList = FXCollections.observableArrayList();
+                        }
+                        messagesListView.setItems(messagesList);
+                    }
+                }catch(RemoteException e){
+                    e.toString();
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -403,16 +421,37 @@ public class MessagerieClient extends Application {
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
 
-        convList = FXCollections.observableArrayList("C'est qui ?", "C'est Pinpin !");
-        ConvListView convListView = new ConvListView(convList);
+        //messagesList = FXCollections.observableArrayList("C'est qui ?", "C'est Pinpin !");
+        messagesListView = new MessagesListView();
+        messagesListView.setItems(messagesList);
 
-        convListView.setPrefHeight(0.7*screenSize.getHeight());
-        convListView.setPrefWidth(0.75*screenSize.getWidth());
+        messagesListView.setPrefHeight(0.7*screenSize.getHeight());
+        messagesListView.setPrefWidth(0.75*screenSize.getWidth());
 
 
         nouveauMessage = new TextField();
         nouveauMessage.setPromptText("Nouveau message");
         sendMessage = new Button("Envoyer");
+        sendMessage.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                try{
+                    if (pseudo!=""){
+                        messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
+                        if (!messagerie.getContenu(refConv).isEmpty()){
+                            messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv));
+                        }
+                        else{
+                            messagesList = FXCollections.observableArrayList();
+                        }
+                        messagesListView.setItems(messagesList);
+                    }
+                }catch(RemoteException e){
+                    e.toString();
+                    e.printStackTrace();
+                }
+            }
+        });
+
         nouveauMessage.setPrefWidth(0.65*screenSize.getWidth());
         sendMessage.setPrefWidth(0.10*screenSize.getWidth());
         HBox hbox = new HBox();
@@ -422,7 +461,7 @@ public class MessagerieClient extends Application {
         hbox.getChildren().add(sendMessage);
 
 
-        vbox.getChildren().add(convListView);
+        vbox.getChildren().add(messagesListView);
         vbox.getChildren().add(hbox);
 
         grid.add(vboxConv, 1, 1);
@@ -433,48 +472,50 @@ public class MessagerieClient extends Application {
 
 
 
-    public class ConvListView extends ListView<String> {
-        public ConvListView() {
+    public class MessagesListView extends ListView<Message> {
+        public MessagesListView() {
             super();
             initMessageCellFactory();
         }
 
-        public ConvListView(ObservableList<String> items) {
+        public MessagesListView(ObservableList<Message> items) {
             super(items);
             initMessageCellFactory();
         }
 
         public void initMessageCellFactory() {
-            setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            setCellFactory(new Callback<ListView<Message>, ListCell<Message>>() {
                 @Override
-                public ListCell<String> call(ListView<String> param) {
+                public ListCell<Message> call(ListView<Message> param) {
                     return new MessageCell();
                 }
             });
         }
     }
 
-    public class MessageCell extends ListCell<String> {
-        private Label texte = new Label("Contenu");
+    public class MessageCell extends ListCell<Message> {
+        private Label texte = new Label("gg");
         private ImageView avatarMessage = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 45, 45, true, false));
-        private Text expediteur = new Text("Expéditeur");
-        private Label date = new Label("Date");
+        private Text expediteur = new Text("gg");
+        private Label date = new Label("gg");
 
         public MessageCell() {
             setTexte(null);
+            setDate(null);
+            setExpediteur(null);
             initCell();
         }
 
-        public MessageCell(String text, String date, String expediteur) {
-            setTexte(text);
-            setDate(date);
-            setExpediteur(expediteur);
+        public MessageCell(Message msg) {
+            setTexte(msg.getMessage());
+            setDate(msg.getDate().toString());
+            setExpediteur(msg.getPseudo());
             initCell();
         }
 
         public void setTexte(String text) {
             if (text != null) {
-                text = text.trim().toLowerCase();
+                text = text.trim();
             }
             setText(null);
             texte.setText(text);
@@ -486,11 +527,12 @@ public class MessagerieClient extends Application {
         }
         public void setExpediteur(String exp) {
             setText(null);
-            expediteur.setText(exp);
+            this.expediteur.setText(exp);
         }
         public void initCell() {
             expediteur.setFont(Font.font(null, FontWeight.BOLD, 16));
             GridPane gridPane = new GridPane();
+            System.out.println("Pseudo : "+ expediteur.getText()+" date : "+date.getText());
             gridPane.setHgap(10);
             gridPane.setVgap(10);
             gridPane.setPadding(new Insets(15, 15, 15, 15));
@@ -502,13 +544,13 @@ public class MessagerieClient extends Application {
         }
 
         @Override
-        public void updateItem(String text, boolean empty) {
-            super.updateItem(text, empty);
+        public void updateItem(Message msg, boolean empty) {
+            super.updateItem(msg, empty);
             if (empty) {
                 // setTextField(null);
                 setGraphic(null);
             } else {
-                setTexte(text);
+                setTexte(msg.getMessage());
                 initCell();
             }
         }
@@ -546,9 +588,31 @@ public class MessagerieClient extends Application {
     }
 
     public static void createNewConv(String titre) throws RemoteException{
-        callback = new TerminalMessageCallback(pseudo);
+        callback = new IHMMessageCallback(pseudo);
         refConv = messagerie.creerConversation(null,pseudo,titre,null,null, callback);
         //chat(messagerie,refConv);
     }
+
+    public static int getRefConv(String convName) throws RemoteException {
+        int res = -1;
+        Map mapConv = getConversationsList();
+        Iterator it = mapConv.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Conversation c = (Conversation)(pair.getValue());
+            if (c.getTitre().equals(convName)){
+                res = (int) pair.getKey();
+            }
+        }
+        return res;
+    }
+
+    /*public static Collection<Message> getConversationContenu(int refConv){
+        List<Message> liste = messagerie.getContenu(refConv);
+        List<String> listeString = new ArrayList<String>();
+        for (Message msg : liste){
+            listeString.add((String));
+        }
+    }*/
 
 }
