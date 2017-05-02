@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class IA extends Compte {
 
-	List<String> motsInteractionIA = new ArrayList();
+	List<String> motsInteractionIA = new ArrayList<String>();
 
 	public IA(ImageIcon avatar) {
-		super("sophisme",avatar,Mode.valueOf("DEFAULT"));
+		super("sophisme",avatar,Mode.valueOf("DEFAUT"));
 		this.motsInteractionIA.add("BonjourSophisme");
 		this.motsInteractionIA.add("help_profil");
 		this.motsInteractionIA.add("help_filtre");

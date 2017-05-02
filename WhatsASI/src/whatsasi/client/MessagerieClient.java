@@ -358,7 +358,7 @@ public class MessagerieClient extends Application {
                 try{
                     if (newValue!=null){
                         refConv = getRefConv(newValue);
-                        callback = new IHMMessageCallback(refConv,pseudo);
+                        //callback = new IHMMessageCallback(refConv,pseudo);
                         messagerie.addUserToConv(pseudo, refConv, callback);
                         //System.out.println(refConv);
                         if (!messagerie.getContenu(refConv).isEmpty()){
@@ -588,7 +588,7 @@ public class MessagerieClient extends Application {
     }
 
     public static void createNewConv(String titre) throws RemoteException{
-        callback = new IHMMessageCallback(pseudo);
+        //callback = new IHMMessageCallback(pseudo);
         refConv = messagerie.creerConversation(null,pseudo,titre,null,null, callback);
         //chat(messagerie,refConv);
     }
