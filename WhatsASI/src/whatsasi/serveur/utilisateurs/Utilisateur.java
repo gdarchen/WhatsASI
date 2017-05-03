@@ -8,11 +8,17 @@ import java.util.ArrayList;
 public class Utilisateur extends Compte {
 
     private Filtre filtre;
+    private boolean estModerateur;
 
   	public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre) {
       super(pseudo,avatar,mode);
 
       this.filtre = (filtre!=null)?filtre:(new Filtre(new ArrayList<String>()));
+  	}
+
+    public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre,boolean tmp) {
+      this(pseudo,avatar,mode,filtre);
+      this.estModerateur = tmp;
   	}
 
     public Filtre getFiltre(){
@@ -31,5 +37,12 @@ public class Utilisateur extends Compte {
         this.filtre.supprimerMotInterdit(mot);
     }
 
+    public boolean getEstModerateur(){
+      return this.estModerateur;
+    }
+
+    public void setEstModerateur(boolean statut){
+      this.estModerateur = statut;
+    }
 
 }
