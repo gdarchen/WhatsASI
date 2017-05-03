@@ -27,7 +27,8 @@ public class Messagerie implements MessagerieInterface{
         this.comptes = new HashMap<String, Compte>();
         this.conversations = new HashMap<Integer, Conversation>();
         this.callbacks = new HashMap<String, MessageCallbackInterface>();
-        this.ia= new IA();
+        this.ia = new IA(null);
+        this.comptes.put(ia.getPseudo(),ia);
     }
 
     public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre){
@@ -51,6 +52,7 @@ public class Messagerie implements MessagerieInterface{
     public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException {
         Conversation c = new Conversation(messages,pseudo,titre,mode,messagesDeModeration);
         this.addConversation(c);
+        this.getConversation(c.getRefConv()).addUtilisateur(this.ia.getPseudo(),Mode.DEFAUT);
         callback.setRefConv(c.getRefConv());
         this.callbacks.put(pseudo, callback);
         return c.getRefConv();
@@ -132,14 +134,13 @@ public class Messagerie implements MessagerieInterface{
         for (String mot: this.getIA().getMotsInteractionIA()) {
             if (msg.equals(mot)) {
                 String msgIA = this.getIA().scannerMessagesMessage(msg,pseudo);
-                addMessageInteraction(msgIA,refConv,pseudo);
+                addMessageInteraction(msgIA,refConv,this.ia.getPseudo());
             }
         }
     }
 
     public void addMessageInteraction(String msg,int refConv, String pseudo) throws RemoteException {
       this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
-      System.out.println(getCompte(this.getIA().getPseudo() + " sent : "+msg));
       InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
       thread.start();
     }
