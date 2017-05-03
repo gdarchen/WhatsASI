@@ -32,7 +32,7 @@ import javafx.beans.value.*;
 
 // import javafx.scene.paint.Color;
 // import javafx.scene.shape.Circle;
-
+import java.text.DateFormat;
 import java.util.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -58,7 +58,7 @@ public class MessagerieClient extends Application {
     private static Stage primaryStage;
     private static MessagerieInterface messagerie;
     private static String pseudo;
-    private static int refConv;
+    private static int refConv = -1 ;
     private static MessageCallbackInterface callback = null;
 
     //==== Menu nodes
@@ -174,6 +174,7 @@ public class MessagerieClient extends Application {
 
         vbox.getChildren().add(connexionOK);
         connexionOK.setOnAction(new ConnexionEventHandler());
+        connexionOK.setDefaultButton(true);
 
         connexionPane.setText("Connexion");
         connexionPane.setContent(vbox);
@@ -184,17 +185,24 @@ public class MessagerieClient extends Application {
         public void handle(ActionEvent e) {
             try{
                 pseudo = pseudoTextField.getText();
-                if (messagerie.isPseudoAvailable(pseudo) && !pseudo.isEmpty()){
-                    // Ajouter avatar, mode, filtre
-                    messagerie.creerCompte(pseudo, null, Mode.DEFAUT, null);
-                    pseudoTextFieldAlert.setVisible(false);
-                    filterPane.setCollapsible(true);
-                    filterPane.setExpanded(true);
-                }
-                else{
-                    pseudoTextFieldAlert.setVisible(true);
-                    filterPane.setCollapsible(false);
-                    chatPane.setCollapsible(false);
+                if (pseudo.isEmpty()){
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Aucun pseudo entré");
+                    alert.setHeaderText("Vous devez entrer un pseudo.");
+                    alert.setContentText("Le pseudo permettra aux autres utilisateurs de savoir qui leur parle.");
+                    alert.showAndWait();
+                }else{
+                    if (messagerie.isPseudoAvailable(pseudo)){
+                        // Ajouter avatar, mode, filtre
+                        messagerie.creerCompte(pseudo, null, Mode.DEFAUT, null);
+                        pseudoTextFieldAlert.setVisible(false);
+                        filterPane.setCollapsible(true);
+                        filterPane.setExpanded(true);
+                    }else{
+                        pseudoTextFieldAlert.setVisible(true);
+                        filterPane.setCollapsible(false);
+                        chatPane.setCollapsible(false);
+                    }
                 }
             } catch (RemoteException ex){
                 ex.toString();
@@ -237,6 +245,7 @@ public class MessagerieClient extends Application {
 
         filterOK.setAlignment(Pos.BASELINE_RIGHT);
         filterOK.setOnAction(new FilterEventHandler());
+        filterOK.setDefaultButton(true);
 
         vbox.getChildren().add(filterOK);
 
@@ -447,10 +456,11 @@ public class MessagerieClient extends Application {
         nouveauMessage = new TextField();
         nouveauMessage.setPromptText("Nouveau message");
         sendMessage = new Button("Envoyer");
+        sendMessage.setDefaultButton(true);
         sendMessage.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent event) {
                 try{
-                    if (pseudo!=""){
+                    if (pseudo!="" && refConv != -1){
                         messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
                         if (!messagerie.getContenu(refConv,pseudo).isEmpty()){
                             messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv,pseudo));
@@ -458,7 +468,14 @@ public class MessagerieClient extends Application {
                         else{
                             messagesList = FXCollections.observableArrayList();
                         }
+                        nouveauMessage.setText("");
                         messagesListView.setItems(messagesList);
+                    }else{
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Pas de conversation sélectionnée");
+                        alert.setHeaderText("Veuillez sélectionner une conversation avant d'envoyer un message.");
+                        alert.setContentText("Vous ne pouvez envoyer un message à personne...");
+                        alert.showAndWait();
                     }
                 }catch(RemoteException e){
                     e.toString();
@@ -522,8 +539,9 @@ public class MessagerieClient extends Application {
 
         public MessageCell(Message msg) {
             setTexte(msg.getMessage());
-            //setDate(msg.getDate().toString());
-            //setExpediteur(msg.getPseudo());
+            setDate(DateFormat.getDateTimeInstance(
+            DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
+            setExpediteur(msg.getPseudo());
             initCell();
         }
 
@@ -546,7 +564,6 @@ public class MessagerieClient extends Application {
         public void initCell() {
             expediteur.setFont(Font.font(null, FontWeight.BOLD, 16));
             GridPane gridPane = new GridPane();
-            System.out.println("Pseudo : "+ expediteur.getText()+" date : "+date.getText());
             gridPane.setHgap(10);
             gridPane.setVgap(10);
             gridPane.setPadding(new Insets(15, 15, 15, 15));
@@ -565,7 +582,8 @@ public class MessagerieClient extends Application {
                 setGraphic(null);
             } else {
                 setTexte(msg.getMessage());
-                setDate(msg.getDate().toString());
+                setDate(DateFormat.getDateTimeInstance(
+                DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
                 setExpediteur(msg.getPseudo());
                 initCell();
             }
