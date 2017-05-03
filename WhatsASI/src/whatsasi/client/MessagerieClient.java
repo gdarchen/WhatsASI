@@ -29,6 +29,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.beans.value.*;
+import java.io.File;
+import javafx.stage.FileChooser;
+import java.awt.Desktop;
+
 
 // import javafx.scene.paint.Color;
 // import javafx.scene.shape.Circle;
@@ -67,11 +71,14 @@ public class MessagerieClient extends Application {
     TitledPane filterPane = new TitledPane();
     Accordion accordion = new Accordion(connexionPane, filterPane, chatPane);
     Rectangle2D screenSize = Screen.getPrimary().getBounds();
+    private Desktop desktop = Desktop.getDesktop();
 
     //==== Connexion nodes
     ImageView avatar = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
     TextField pseudoTextField = new TextField();
     Label pseudoTextFieldAlert = new Label("Ce pseudo est déjà pris !");
+    Button photoButton = new Button("Changer d'avatar");
+    final FileChooser fileChooser = new FileChooser();
     Button connexionOK = new Button("Se connecter");
 
     //==== Filter nodes
@@ -157,7 +164,27 @@ public class MessagerieClient extends Application {
         vbox.getChildren().add(new Label("Bienvenue sur WhatsASI !"));
 
         vbox.getChildren().add(avatar);
-        vbox.getChildren().add(new Label("Avatar"));
+        vbox.getChildren().add(photoButton);
+
+        photoButton.setOnAction(
+            new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(final ActionEvent e) {
+                    fileChooser.setTitle("View Pictures");
+                    fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("All Images", "*.*"),
+                        new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                        new FileChooser.ExtensionFilter("PNG", "*.png")
+                    );
+                    fileChooser.setInitialDirectory(new File("./res"));
+                    File file = fileChooser.showOpenDialog(getPrimaryStage());
+
+                    if (file != null) {
+                        Image im = new Image(file.toURI().toString());
+                        avatar.setImage(im);
+                    }
+                }
+        });
 
         pseudoTextFieldAlert.setStyle("-fx-text-fill: red");
         pseudoTextFieldAlert.setVisible(false);
@@ -651,6 +678,14 @@ public class MessagerieClient extends Application {
 
         messagerie.removeCompte(pseudo);
         System.exit(0);
+    }
+
+    private void openFile(File file) {
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /*public static Collection<Message> getConversationContenu(int refConv){
