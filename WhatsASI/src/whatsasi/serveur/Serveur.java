@@ -18,13 +18,11 @@ public class Serveur {
     private static final int portRMI = 1099;
     private static final int portSocket = 2009;
 
-    // args = {default = JavaFX , terminal}
     public static void main(String[] args) {
 
-        // 1 - On distribue le service Messagerie via RMI
         try {
             MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie(),0);
-            System.out.println("Server is ready.");
+            System.out.println("Server is now online.");
             Registry registry = LocateRegistry.getRegistry(portRMI);
             System.out.println("Service Messagerie registered.");
             if (!Arrays.asList(registry.list()).contains("Messagerie"))
@@ -34,40 +32,32 @@ public class Serveur {
         } catch (Exception ex) {
             System.out.println("[Exception Serveur] : "+ex);
         }
-
-        // 2 - On choisit le mode de fonctionnement (terminal - graphique)
-        if (args.length > 0 && args[0].equals("terminal")){
-            try{
-                System.out.println("Server is now running in terminal mode.");
-                ServerSocket socketServer = new ServerSocket(portSocket);
-                while (true){
-                    Socket socket = socketServer.accept();
-                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    String msg = in.readLine();
-                    String answer = "";
-                    switch (msg){
-                        case "login" : System.out.println("A client has arrived on the server.");
-                                       answer = "Vous étes connecté !";
-                                       break;
-                        case "logout" : System.out.println("A client just left the server.");
-                                       answer = "Vous étes déconnecté !";
-                                       break;
-                        default :      answer = "error";
-                                       break;
-                    }
-                    PrintWriter out = new PrintWriter(socket.getOutputStream());
-                    out.println(answer);
-                    out.flush();
+        try{
+            ServerSocket socketServer = new ServerSocket(portSocket);
+            while (true){
+                Socket socket = socketServer.accept();
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String msg = in.readLine();
+                String answer = "";
+                switch (msg){
+                    case "login" : System.out.println("A client has arrived on the server.");
+                                   answer = "Vous étes connecté !";
+                                   break;
+                    case "logout" : System.out.println("A client just left the server.");
+                                   answer = "Vous étes déconnecté !";
+                                   break;
+                    default :      answer = "error";
+                                   break;
                 }
-                //socket.close();
-                //socketServer.close();
+                PrintWriter out = new PrintWriter(socket.getOutputStream());
+                out.println(answer);
+                out.flush();
             }
-            catch(IOException e){
-                e.printStackTrace();
-            }
+            //socket.close();
+            //socketServer.close();
         }
-        else {
-            System.out.println("Server is now running in JavaFX mode");
+        catch(IOException e){
+            e.printStackTrace();
         }
     }
 }

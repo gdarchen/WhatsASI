@@ -1,6 +1,6 @@
 export CLASSPATH=classes
 export CLASSPATH=$CLASSPATH:lib/jfxrt.jar
-if [ $1 == "terminal" ]
+if [ $# -eq 1 ] && [ $1 == "terminal" ]
 then
     java -cp $CLASSPATH whatsasi.client.ClientTerminal
 else

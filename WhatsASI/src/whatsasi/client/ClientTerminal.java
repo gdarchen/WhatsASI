@@ -59,8 +59,40 @@ public class ClientTerminal {
 
     public static void manageAccount(MessagerieInterface messagerie) throws RemoteException{
         System.out.println("****************       Mon Compte       *********************");
+        switch(selectChoicAccount()){
+            case 1: updatePseudo(messagerie);break;
+            case 2: updateFilters(messagerie);break;
+            case 3: backToMenu(messagerie);break;
+        }
+    }
+
+    public static void updatePseudo(MessagerieInterface messagerie) throws RemoteException{
         String tmp = pseudo;
         messagerie.modifierPseudo(tmp,pseudo = enterPseudo(messagerie));
+        System.out.println("\n");
+    }
+
+    public static int selectChoicAccount(){
+        System.out.println("*** Que voulez-vous modifier ? ***");
+        System.out.println("1 - Pseudo");
+        System.out.println("2 - Filtres");
+        System.out.println("3 - Retour au menu");
+        Scanner s = new Scanner(System.in);
+        int choix;
+        while ((choix = s.nextInt()) <= 0 && choix > 2)
+            System.out.println("Choix non valide");
+        return choix;
+    }
+
+    public static void updateFilters(MessagerieInterface messagerie) throws RemoteException {
+        System.out.println("*******    Mes filtres    *********\n");
+        System.out.println("Filtres actuels : \n");
+        displayFilters(messagerie);
+    }
+
+    public static void displayFilters(MessagerieInterface messagerie) throws RemoteException{
+        for (String filtre : messagerie.getFiltres(pseudo))
+            System.out.print(filtre + " - ");
     }
 
     public static String enterPseudo(MessagerieInterface messagerie) throws RemoteException {
@@ -173,8 +205,6 @@ public class ClientTerminal {
     }
 
     public static void chat(MessagerieInterface messagerie,int refConv) throws RemoteException{
-        // Timer timer = new Timer();
-        // timer.schedule(getTask(messagerie), 2000, 2000);
         Scanner s = new Scanner(System.in);
         String message = "";
         while (!(message.equals(BACKCHAR))){
@@ -183,34 +213,14 @@ public class ClientTerminal {
             if (!(message.equals(BACKCHAR))) {
                 messagerie.addMessage(message,refConv,pseudo);
                 System.out.println("\n");
-                // refresh(messagerie);
             }
         }
-        // stopTimer(timer);
         deconectionFromConv(messagerie);
         backToMenu(messagerie);
     }
 
     public static void deconectionFromConv(MessagerieInterface messagerie) throws RemoteException{
         messagerie.removeUserFromConv(pseudo,refConv);
-    }
-
-    public static void stopTimer(Timer t){
-        t.cancel();
-        t.purge();
-    }
-
-    public static TimerTask getTask(MessagerieInterface messagerie){
-        return new TimerTask() {
-                @Override
-                public void run() {
-                    try{
-                        refresh(messagerie);
-                    }catch(RemoteException e){
-                        e.printStackTrace();
-                    }
-                }
-            };
     }
 
     public static void refresh(MessagerieInterface messagerie) throws RemoteException{

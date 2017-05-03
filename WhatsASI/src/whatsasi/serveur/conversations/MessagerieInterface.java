@@ -23,6 +23,8 @@ public interface MessagerieInterface extends Remote {
 
     public void removeMotInterdit(String mot,String pseudo) throws RemoteException;
 
+    public List<String> getFiltres(String pseudo) throws RemoteException;
+
     public void addUserToConv(String pseudo,int refConv, MessageCallbackInterface callback) throws RemoteException;
 
     public void removeUserFromConv(String pseudo,int refConv) throws RemoteException;

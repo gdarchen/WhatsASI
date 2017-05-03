@@ -42,7 +42,7 @@ public class Messagerie implements MessagerieInterface{
 
     public boolean modifierPseudo(String old,String newPseudo){
         if (isPseudoAvailable(newPseudo)){
-            this.getCompte(old).setPseudo(newPseudo);
+            this.setPseudo(old,newPseudo);
             return true;
         }
         else
@@ -59,11 +59,6 @@ public class Messagerie implements MessagerieInterface{
     }
 
     public Compte getCompte(String pseudo){
-        // for (Compte c : comptes){
-        //     if (c.getPseudo().equals(pseudo))
-        //         return c;
-        // }
-        // return null;
         if (this.comptes.containsKey(pseudo)) {
             return this.comptes.get(pseudo);
         }
@@ -90,11 +85,6 @@ public class Messagerie implements MessagerieInterface{
     }
 
     public Conversation getConversation(int refConv){
-        // for (Conversation c : conversations){
-        //     if (c.getRefConv() == refConv)
-        //         return c ;
-        // }
-        // return null;
         if (this.conversations.containsKey(refConv)) {
             return this.conversations.get(refConv);
         }
@@ -109,6 +99,10 @@ public class Messagerie implements MessagerieInterface{
 
     public IA getIA(){
       return this.ia ;
+    }
+
+    public List<String> getFiltres(String pseudo){
+        return ((Utilisateur)(this.getCompte(pseudo))).getFiltre().getMotsInterdits();
     }
 
     public List<String> getPseudos(int refConv){
@@ -146,7 +140,10 @@ public class Messagerie implements MessagerieInterface{
     }
 
     public void setPseudo(String pseudo, String nouveauPseudo){
-        getCompte(pseudo).setPseudo(nouveauPseudo);
+        Compte c = getCompte(pseudo);
+        c.setPseudo(nouveauPseudo);
+        this.comptes.remove(pseudo);
+        addCompte(c);
     }
 
     public void setAvatar(String pseudo, ImageIcon avatar){
