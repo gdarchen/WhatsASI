@@ -227,9 +227,10 @@ public class Messagerie implements MessagerieInterface{
         Compte compte = this.getCompte(pseudo);
         if (compte instanceof Utilisateur) {
             Filtre filtre = ((Utilisateur)compte).getFiltre();
+
             return conv.getContenu(filtre);
         }
-        else
+        // else
             return conv.getContenu();
     }
 

@@ -1,3 +1,5 @@
+// si on veut faire visio : GStreamer
+
 package whatsasi.client;
 
 import javafx.application.Application;
@@ -182,14 +184,17 @@ public class MessagerieClient extends Application {
         public void handle(ActionEvent e) {
             try{
                 pseudo = pseudoTextField.getText();
-                if (messagerie.isPseudoAvailable(pseudo) && pseudo!=""){
+                if (messagerie.isPseudoAvailable(pseudo) && !pseudo.isEmpty()){
                     // Ajouter avatar, mode, filtre
                     messagerie.creerCompte(pseudo, null, Mode.DEFAUT, null);
                     pseudoTextFieldAlert.setVisible(false);
+                    filterPane.setCollapsible(true);
                     filterPane.setExpanded(true);
                 }
                 else{
                     pseudoTextFieldAlert.setVisible(true);
+                    filterPane.setCollapsible(false);
+                    chatPane.setCollapsible(false);
                 }
             } catch (RemoteException ex){
                 ex.toString();
@@ -238,11 +243,14 @@ public class MessagerieClient extends Application {
         filterPane.setText("Filtres");
 
         filterPane.setContent(vbox);
+
+        filterPane.setCollapsible(false);
     }
 
     private class FilterEventHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
+            chatPane.setCollapsible(true);
             chatPane.setExpanded(true);
         }
     }
@@ -342,6 +350,8 @@ public class MessagerieClient extends Application {
         grid.setVgap(5);
         grid.setPadding(new Insets(0, 5, 0, 5));
 
+        chatPane.setCollapsible(false);
+
         listeConv = new ListView<String>();
 
         if (!getConversationsTitre().isEmpty())
@@ -358,11 +368,17 @@ public class MessagerieClient extends Application {
                 try{
                     if (newValue!=null){
                         refConv = getRefConv(newValue);
-                        //callback = new IHMMessageCallback(refConv,pseudo);
-                        messagerie.addUserToConv(pseudo, refConv, callback);
-                        //System.out.println(refConv);
-                        if (!messagerie.getContenu(refConv).isEmpty()){
-                            messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv));
+                        // La conversation n'existe pas
+                        if (refConv == -1){
+                            refConv = createNewConv(newValue);
+                        }
+                        else{
+                            callback = new IHMMessageCallback(refConv,pseudo);
+                            messagerie.addUserToConv(pseudo, refConv, callback);
+                        }
+                        List<Message> contenu = messagerie.getContenu(refConv,pseudo);
+                        if (!contenu.isEmpty()){
+                            messagesList = FXCollections.observableArrayList(contenu);
                         }
                         else{
                             messagesList = FXCollections.observableArrayList();
@@ -388,11 +404,10 @@ public class MessagerieClient extends Application {
                 if (result.isPresent()){
                     try{
                         if (!getConversationsTitre().contains((String)result.get())){
-                            createNewConv(result.get());
-                            if (!getConversationsTitre().isEmpty()){
-                                items = FXCollections.observableArrayList(getConversationsTitre());
-                                listeConv.setItems(items);
-                            }
+                            //createNewConv(result.get());
+                            items =  FXCollections.observableArrayList(getConversationsTitre());
+                            items.add((String) result.get());
+                            listeConv.setItems(items);
                         } else {
                             Alert alert = new Alert(AlertType.ERROR);
                             alert.setTitle("Conversation déjà existante");
@@ -437,8 +452,8 @@ public class MessagerieClient extends Application {
                 try{
                     if (pseudo!=""){
                         messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
-                        if (!messagerie.getContenu(refConv).isEmpty()){
-                            messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv));
+                        if (!messagerie.getContenu(refConv,pseudo).isEmpty()){
+                            messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv,pseudo));
                         }
                         else{
                             messagesList = FXCollections.observableArrayList();
@@ -459,7 +474,6 @@ public class MessagerieClient extends Application {
         hbox.setSpacing(10);
         hbox.getChildren().add(nouveauMessage);
         hbox.getChildren().add(sendMessage);
-
 
         vbox.getChildren().add(messagesListView);
         vbox.getChildren().add(hbox);
@@ -508,8 +522,8 @@ public class MessagerieClient extends Application {
 
         public MessageCell(Message msg) {
             setTexte(msg.getMessage());
-            setDate(msg.getDate().toString());
-            setExpediteur(msg.getPseudo());
+            //setDate(msg.getDate().toString());
+            //setExpediteur(msg.getPseudo());
             initCell();
         }
 
@@ -551,6 +565,8 @@ public class MessagerieClient extends Application {
                 setGraphic(null);
             } else {
                 setTexte(msg.getMessage());
+                setDate(msg.getDate().toString());
+                setExpediteur(msg.getPseudo());
                 initCell();
             }
         }
@@ -587,9 +603,11 @@ public class MessagerieClient extends Application {
         return liste;
     }
 
-    public static void createNewConv(String titre) throws RemoteException{
-        //callback = new IHMMessageCallback(pseudo);
+    public static int createNewConv(String titre) throws RemoteException{
+        callback = new IHMMessageCallback(pseudo);
         refConv = messagerie.creerConversation(null,pseudo,titre,null,null, callback);
+        callback.setRefConv(refConv);
+        return refConv;
         //chat(messagerie,refConv);
     }
 
@@ -605,6 +623,16 @@ public class MessagerieClient extends Application {
             }
         }
         return res;
+    }
+
+    @Override
+    public void stop() throws Exception{
+        try{
+            messagerie.removeUserFromConv(pseudo, refConv);
+        }catch(NullPointerException e){}
+
+        messagerie.removeCompte(pseudo);
+        System.exit(0);
     }
 
     /*public static Collection<Message> getConversationContenu(int refConv){

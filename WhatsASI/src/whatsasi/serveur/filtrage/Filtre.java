@@ -10,7 +10,12 @@ public class Filtre implements Serializable {
   List<String> motsInterdits;
 
   public Filtre(List<String> motsInterdits){
-    this.motsInterdits = new ArrayList<String>(motsInterdits);
+      if (motsInterdits != null) {
+          this.motsInterdits = new ArrayList<String>(motsInterdits);
+      }
+      else {
+          this.motsInterdits = new ArrayList<String>();
+      }
   }
 
   public void setMotsInterdits(List<String> motsInterdits){
