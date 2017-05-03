@@ -74,6 +74,7 @@ public class MessagerieClient extends Application {
     private Desktop desktop = Desktop.getDesktop();
 
     //==== Connexion nodes
+    private static Image image = new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false);
     ImageView avatar = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
     TextField pseudoTextField = new TextField();
     Label pseudoTextFieldAlert = new Label("Ce pseudo est déjà pris !");
@@ -180,8 +181,8 @@ public class MessagerieClient extends Application {
                     File file = fileChooser.showOpenDialog(getPrimaryStage());
 
                     if (file != null) {
-                        Image im = new Image(file.toURI().toString());
-                        avatar.setImage(im);
+                        image = new Image(file.toURI().toString());
+                        avatar.setImage(image);
                     }
                 }
         });
