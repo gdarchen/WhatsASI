@@ -74,8 +74,7 @@ public class MessagerieClient extends Application {
     private Desktop desktop = Desktop.getDesktop();
 
     //==== Connexion nodes
-    private static Image image = new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false);
-    ImageView avatar = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
+    private ImageView avatarView = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
     TextField pseudoTextField = new TextField();
     Label pseudoTextFieldAlert = new Label("Ce pseudo est déjà pris !");
     Button photoButton = new Button("Changer d'avatar");
@@ -100,7 +99,7 @@ public class MessagerieClient extends Application {
 
 
     public static void main(String[] args) {
-        try{
+        try {
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             messagerie = (MessagerieInterface) registry.lookup("Messagerie");
 
@@ -112,10 +111,10 @@ public class MessagerieClient extends Application {
             //displayBACKCHAR();
             //createAccount(messagerie);
             //indexActions(messagerie);
-        }catch(RemoteException e) {
+        } catch (RemoteException e) {
             e.toString();
             e.printStackTrace();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.toString();
             e.printStackTrace();
         }
@@ -123,11 +122,11 @@ public class MessagerieClient extends Application {
 
     @Override
     public void init() {
-        try{
+        try {
             initConnexionPane();
             initFilterPane();
             initConversationPane();
-        }catch(RemoteException e) {
+        } catch (RemoteException e) {
             e.toString();
             e.printStackTrace();
         }
@@ -164,27 +163,22 @@ public class MessagerieClient extends Application {
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().add(new Label("Bienvenue sur WhatsASI !"));
 
-        vbox.getChildren().add(avatar);
+        vbox.getChildren().add(avatarView);
         vbox.getChildren().add(photoButton);
 
-        photoButton.setOnAction(
-            new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(final ActionEvent e) {
-                    fileChooser.setTitle("View Pictures");
-                    fileChooser.getExtensionFilters().addAll(
-                        new FileChooser.ExtensionFilter("All Images", "*.*"),
-                        new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                        new FileChooser.ExtensionFilter("PNG", "*.png")
-                    );
-                    fileChooser.setInitialDirectory(new File("./res"));
-                    File file = fileChooser.showOpenDialog(getPrimaryStage());
+        photoButton.setOnAction(e -> {
+            fileChooser.setTitle("View Pictures");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Images", "*.*"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png")
+            );
+            fileChooser.setInitialDirectory(new File("./res"));
+            File file = fileChooser.showOpenDialog(getPrimaryStage());
 
-                    if (file != null) {
-                        image = new Image(file.toURI().toString());
-                        avatar.setImage(image);
-                    }
-                }
+            if (file != null) {
+                avatarView.setImage(new Image(file.toURI().toString()));
+            }
         });
 
         pseudoTextFieldAlert.setStyle("-fx-text-fill: red");
@@ -211,28 +205,29 @@ public class MessagerieClient extends Application {
     private class ConnexionEventHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
-            try{
+            try {
                 pseudo = pseudoTextField.getText();
-                if (pseudo.isEmpty()){
+                if (pseudo.isEmpty()) {
                     Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Aucun pseudo entré");
-                    alert.setHeaderText("Vous devez entrer un pseudo.");
-                    alert.setContentText("Le pseudo permettra aux autres utilisateurs de savoir qui leur parle.");
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Vous n'avez pas de pseudo");
+                    alert.setContentText("Saisissez un pseudo, les autres utilisateurs aiment savoir avec qui ils " +
+                                         "parlent.");
                     alert.showAndWait();
-                }else{
-                    if (messagerie.isPseudoAvailable(pseudo)){
-                        // Ajouter avatar, mode, filtre
-                        messagerie.creerCompte(pseudo, null, Mode.DEFAUT, null);
+                } else {
+                    if (messagerie.isPseudoAvailable(pseudo)) {
+                        // Ajouter avatarView, mode, filtre
+                        messagerie.creerCompte(pseudo, avatarView.getImage(), Mode.DEFAUT, null);
                         pseudoTextFieldAlert.setVisible(false);
                         filterPane.setCollapsible(true);
                         filterPane.setExpanded(true);
-                    }else{
+                    } else {
                         pseudoTextFieldAlert.setVisible(true);
                         filterPane.setCollapsible(false);
                         chatPane.setCollapsible(false);
                     }
                 }
-            } catch (RemoteException ex){
+            } catch (RemoteException ex) {
                 ex.toString();
                 ex.printStackTrace();
             }
@@ -247,8 +242,8 @@ public class MessagerieClient extends Application {
     private void initFilterPane() {
         VBox vbox = new VBox(12);
 
-        filterList = FXCollections.observableArrayList("putain");/*new FilterCell("putain"),
-                new FilterCell("Voldemort"),
+        filterList = FXCollections.observableArrayList("putain");/*new FilterCell("putain"), 
+                new FilterCell("Voldemort"), 
                 new FilterCell("Donald Trump"));*/
         FilterListView filterListView = new FilterListView(filterList);
 
@@ -403,18 +398,18 @@ public class MessagerieClient extends Application {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try{
-                    if (newValue!=null){
+                    if (newValue!=null) {
                         refConv = getRefConv(newValue);
                         // La conversation n'existe pas
-                        if (refConv == -1){
+                        if (refConv == -1) {
                             refConv = createNewConv(newValue);
                         }
                         else{
-                            callback = new IHMMessageCallback(refConv,pseudo);
+                            callback = new IHMMessageCallback(refConv, pseudo);
                             messagerie.addUserToConv(pseudo, refConv, callback);
                         }
-                        List<Message> contenu = messagerie.getContenu(refConv,pseudo);
-                        if (!contenu.isEmpty()){
+                        List<Message> contenu = messagerie.getContenu(refConv, pseudo);
+                        if (!contenu.isEmpty()) {
                             messagesList = FXCollections.observableArrayList(contenu);
                         }
                         else{
@@ -422,7 +417,7 @@ public class MessagerieClient extends Application {
                         }
                         messagesListView.setItems(messagesList);
                     }
-                }catch(RemoteException e){
+                } catch (RemoteException e) {
                     e.toString();
                     e.printStackTrace();
                 }
@@ -438,9 +433,9 @@ public class MessagerieClient extends Application {
                 dialog.setHeaderText("Entrez le nom de la nouvelle conversation");
 
                 Optional<String> result = dialog.showAndWait();
-                if (result.isPresent()){
+                if (result.isPresent()) {
                     try{
-                        if (!getConversationsTitre().contains((String)result.get())){
+                        if (!getConversationsTitre().contains((String)result.get())) {
                             //createNewConv(result.get());
                             items =  FXCollections.observableArrayList(getConversationsTitre());
                             items.add((String) result.get());
@@ -452,7 +447,7 @@ public class MessagerieClient extends Application {
                             alert.setContentText("Veuillez créer une autre conversation avec un nom différent.");
                             alert.showAndWait();
                         }
-                    }catch(RemoteException e){
+                    } catch (RemoteException e) {
                         e.toString();
                         e.printStackTrace();
                     }
@@ -485,30 +480,29 @@ public class MessagerieClient extends Application {
         nouveauMessage.setPromptText("Nouveau message");
         sendMessage = new Button("Envoyer");
         sendMessage.setDefaultButton(true);
-        sendMessage.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
-                try{
-                    if (pseudo!="" && refConv != -1){
-                        messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
-                        if (!messagerie.getContenu(refConv,pseudo).isEmpty()){
-                            messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv,pseudo));
-                        }
-                        else{
-                            messagesList = FXCollections.observableArrayList();
-                        }
-                        nouveauMessage.setText("");
-                        messagesListView.setItems(messagesList);
-                    }else{
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Pas de conversation sélectionnée");
-                        alert.setHeaderText("Veuillez sélectionner une conversation avant d'envoyer un message.");
-                        alert.setContentText("Vous ne pouvez envoyer un message à personne...");
-                        alert.showAndWait();
+        sendMessage.setOnAction(event -> {
+            try{
+                if (!pseudo.isEmpty() && refConv != -1) {
+                    messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
+                    if (!messagerie.getContenu(refConv, pseudo).isEmpty()) {
+                        messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv, pseudo));
                     }
-                }catch(RemoteException e){
-                    e.toString();
-                    e.printStackTrace();
+                    else {
+                        messagesList = FXCollections.observableArrayList();
+                    }
+                    nouveauMessage.setText("");
+                    messagesListView.setItems(messagesList);
+                }else{
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Aucune conversation sélectionnée");
+                    alert.setContentText("Sélectionnez une conversation dans la barre latérale gauche avant " +
+                                         "d'envoyer des messages.");
+                    alert.showAndWait();
                 }
+            } catch (RemoteException e) {
+                e.toString();
+                e.printStackTrace();
             }
         });
 
@@ -554,7 +548,10 @@ public class MessagerieClient extends Application {
 
     public class MessageCell extends ListCell<Message> {
         private Label texte = new Label("gg");
+
+        // TODO : charger l'image à partir du compte
         private ImageView avatarMessage = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 45, 45, true, false));
+
         private Text expediteur = new Text("gg");
         private Label date = new Label("gg");
 
@@ -568,7 +565,7 @@ public class MessagerieClient extends Application {
         public MessageCell(Message msg) {
             setTexte(msg.getMessage());
             setDate(DateFormat.getDateTimeInstance(
-            DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
+                    DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
             setExpediteur(msg.getPseudo());
             initCell();
         }
@@ -611,7 +608,7 @@ public class MessagerieClient extends Application {
             } else {
                 setTexte(msg.getMessage());
                 setDate(DateFormat.getDateTimeInstance(
-                DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
+                        DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
                 setExpediteur(msg.getPseudo());
                 initCell();
             }
@@ -627,11 +624,11 @@ public class MessagerieClient extends Application {
     /* * * * * * * * * Utils * * * * * * * * * */
 
     public static Map getConversationsList() throws RemoteException{
-        Map<Integer,Conversation> liste = new HashMap<Integer,Conversation>();
+        Map<Integer, Conversation> liste = new HashMap<>();
         int i = 0;
-        for (Conversation c : messagerie.getConversations()){
+        for (Conversation c : messagerie.getConversations()) {
             i++;
-            liste.put(i,c);
+            liste.put(i, c);
         }
         //maxKey = i;
         return liste;
@@ -639,22 +636,22 @@ public class MessagerieClient extends Application {
 
     public static Collection<String> getConversationsTitre() throws RemoteException {
         Map mapConv = getConversationsList();
-        List<String> liste = new ArrayList<String>();
+        List<String> liste = new ArrayList<>();
         Iterator it = mapConv.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Conversation c = (Conversation)(pair.getValue());
-            liste.add((String) c.getTitre());
+            liste.add(c.getTitre());
         }
         return liste;
     }
 
     public static int createNewConv(String titre) throws RemoteException{
         callback = new IHMMessageCallback(pseudo);
-        refConv = messagerie.creerConversation(null,pseudo,titre,null,null, callback);
+        refConv = messagerie.creerConversation(null, pseudo, titre, null, null, callback);
         callback.setRefConv(refConv);
         return refConv;
-        //chat(messagerie,refConv);
+        //chat(messagerie, refConv);
     }
 
     public static int getRefConv(String convName) throws RemoteException {
@@ -664,7 +661,7 @@ public class MessagerieClient extends Application {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Conversation c = (Conversation)(pair.getValue());
-            if (c.getTitre().equals(convName)){
+            if (c.getTitre().equals(convName)) {
                 res = (int) pair.getKey();
             }
         }
@@ -673,9 +670,9 @@ public class MessagerieClient extends Application {
 
     @Override
     public void stop() throws Exception{
-        try{
+        try {
             messagerie.removeUserFromConv(pseudo, refConv);
-        }catch(NullPointerException e){}
+        } catch (NullPointerException e) {}
 
         messagerie.removeCompte(pseudo);
         System.exit(0);
@@ -689,10 +686,10 @@ public class MessagerieClient extends Application {
         }
     }
 
-    /*public static Collection<Message> getConversationContenu(int refConv){
+    /*public static Collection<Message> getConversationContenu(int refConv) {
         List<Message> liste = messagerie.getContenu(refConv);
         List<String> listeString = new ArrayList<String>();
-        for (Message msg : liste){
+        for (Message msg : liste) {
             listeString.add((String));
         }
     }*/

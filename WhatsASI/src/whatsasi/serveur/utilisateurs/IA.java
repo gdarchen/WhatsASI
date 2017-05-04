@@ -1,20 +1,20 @@
 package whatsasi.serveur.utilisateurs;
 
-import whatsasi.serveur.filtrage.Filtre;
-import javax.swing.ImageIcon;
-import whatsasi.serveur.conversations.Mode;
-import whatsasi.serveur.conversations.Message;
+import javafx.scene.image.Image;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.lang.StringBuilder;
-import java.lang.Object;
+
+import whatsasi.serveur.filtrage.Filtre;
+import whatsasi.serveur.conversations.Mode;
+import whatsasi.serveur.conversations.Message;
 
 public class IA extends Compte implements Serializable {
 
 	List<String> motsInteractionIA = new ArrayList<String>();
 
-	public IA(ImageIcon avatar) {
+	public IA(Image avatar) {
 		super("sophisme",avatar,Mode.valueOf("DEFAUT"));
 		this.motsInteractionIA.add("\\BonjourSophisme");
 		this.motsInteractionIA.add("\\help_profil");

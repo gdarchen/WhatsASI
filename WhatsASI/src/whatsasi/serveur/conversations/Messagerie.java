@@ -4,8 +4,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
 import java.rmi.RemoteException;
+import javafx.scene.image.Image;
+
 import whatsasi.serveur.InformateurDeClients;
 import whatsasi.serveur.utilisateurs.Compte;
 import whatsasi.serveur.utilisateurs.Utilisateur;
@@ -28,112 +29,112 @@ public class Messagerie implements MessagerieInterface{
         this.conversations = new HashMap<Integer, Conversation>();
         this.callbacks = new HashMap<String, MessageCallbackInterface>();
         this.ia = new IA(null);
-        this.comptes.put(ia.getPseudo(),ia);
+        this.comptes.put(ia.getPseudo(), ia);
     }
 
-    public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre){
-        if (isPseudoAvailable(pseudo)){
-            this.addCompte(new Utilisateur(pseudo,avatar,mode,filtre));
+    public boolean creerCompte(String pseudo, Image avatar, Mode mode, Filtre filtre) {
+        if (isPseudoAvailable(pseudo)) {
+            this.addCompte(new Utilisateur(pseudo, avatar, mode, filtre));
             return true;
         }
         else
             return false;
     }
 
-    public boolean modifierPseudo(String old,String newPseudo){
-        if (isPseudoAvailable(newPseudo)){
-            this.setPseudo(old,newPseudo);
+    public boolean modifierPseudo(String old, String newPseudo) {
+        if (isPseudoAvailable(newPseudo)) {
+            this.setPseudo(old, newPseudo);
             return true;
         }
         else
             return false;
     }
 
-    public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException {
-        Conversation c = new Conversation(messages,pseudo,titre,mode,messagesDeModeration);
+    public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException {
+        Conversation c = new Conversation(messages, pseudo, titre, mode, messagesDeModeration);
         this.addConversation(c);
-        this.getConversation(c.getRefConv()).addUtilisateur(this.ia.getPseudo(),Mode.DEFAUT);
+        this.getConversation(c.getRefConv()).addUtilisateur(this.ia.getPseudo(), Mode.DEFAUT);
         callback.setRefConv(c.getRefConv());
         this.callbacks.put(pseudo, callback);
         return c.getRefConv();
     }
 
-    public Compte getCompte(String pseudo){
+    public Compte getCompte(String pseudo) {
         if (this.comptes.containsKey(pseudo)) {
             return this.comptes.get(pseudo);
         }
         return null;
     }
 
-    public void addMotInterdit(String mot,String pseudo){
+    public void addMotInterdit(String mot, String pseudo) {
         Compte c = getCompte(pseudo);
         if (c instanceof Utilisateur)
             ((Utilisateur)c).addMotInterdit(mot);
     }
 
-    public void removeMotInterdit(String mot,String pseudo){
+    public void removeMotInterdit(String mot, String pseudo) {
         Compte c = getCompte(pseudo);
         if (c instanceof Utilisateur)
             ((Utilisateur)c).removeMotInterdit(mot);
     }
 
-    public boolean isPseudoAvailable(String pseudo){
+    public boolean isPseudoAvailable(String pseudo) {
         if (getCompte(pseudo) == null)
             return true;
         else
             return false;
     }
 
-    public Conversation getConversation(int refConv){
+    public Conversation getConversation(int refConv) {
         if (this.conversations.containsKey(refConv)) {
             return this.conversations.get(refConv);
         }
         return null;
     }
 
-    public List<Message> getContenu(int refConv){
+    public List<Message> getContenu(int refConv) {
         if (getConversation(refConv) != null)
             return getConversation(refConv).getContenu();
         return null;
     }
 
-    public IA getIA(){
+    public IA getIA() {
       return this.ia ;
     }
 
-    public List<String> getFiltres(String pseudo){
+    public List<String> getFiltres(String pseudo) {
         return ((Utilisateur)(this.getCompte(pseudo))).getFiltre().getMotsInterdits();
     }
 
-    public List<String> getPseudos(int refConv){
+    public List<String> getPseudos(int refConv) {
         return this.getConversation(refConv).getPseudos();
     }
 
-    public void addUserToConv(String pseudo,int refConv, MessageCallbackInterface callback){
+    public void addUserToConv(String pseudo, int refConv, MessageCallbackInterface callback) {
         Compte compte = getCompte(pseudo);
-        this.getConversation(refConv).addUtilisateur(pseudo,compte.getMode());
+        this.getConversation(refConv).addUtilisateur(pseudo, compte.getMode());
         this.callbacks.put(pseudo, callback);
     }
 
-    public void removeUserFromConv(String pseudo,int refConv){
+    public void removeUserFromConv(String pseudo, int refConv) {
         this.getConversation(refConv).removeUtilisateur(pseudo);
         this.callbacks.remove(pseudo);
     }
 
-    public void addMessage(String msg,int refConv, String pseudo) throws RemoteException {
+    public void addMessage(String msg, int refConv, String pseudo) throws RemoteException {
         this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
         System.out.println(getCompte(pseudo).getPseudo() + " sent : "+msg);
         InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
         thread.start();
         for (String mot: this.getIA().getMotsInteractionIA()) {
             if (msg.equals(mot)) {
-                String msgIA = this.getIA().scannerMessagesMessage(msg,pseudo);
-                addMessageInteraction(msgIA,refConv,this.ia.getPseudo());
+                String msgIA = this.getIA().scannerMessagesMessage(msg, pseudo);
+                addMessageInteraction(msgIA, refConv, this.ia.getPseudo());
             }
         }
     }
 
-    public void addMessageInteraction(String msg,int refConv, String pseudo) throws RemoteException {
+    public void addMessageInteraction(String msg, int refConv, String pseudo) throws RemoteException {
     /*  Utilisateur compte = (Utilisateur)this.comptes.get(pseudo);*/
       this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
       InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
@@ -145,45 +146,45 @@ public class Messagerie implements MessagerieInterface{
 
     }
 
-    public String ajouterMessageModeration(){
+    public String ajouterMessageModeration() {
           return ("Contenu modéré");
     }
-    public void setPseudo(String pseudo, String nouveauPseudo){
+    public void setPseudo(String pseudo, String nouveauPseudo) {
         Compte c = getCompte(pseudo);
         c.setPseudo(nouveauPseudo);
         this.comptes.remove(pseudo);
         addCompte(c);
     }
 
-    public void setAvatar(String pseudo, ImageIcon avatar){
+    public void setAvatar(String pseudo, Image avatar) {
         getCompte(pseudo).setAvatar(avatar);
     }
 
-    public ImageIcon getAvatar(String pseudo){
+    public Image getAvatar(String pseudo) {
         return getCompte(pseudo).getAvatar();
     }
 
-    public void setMode(String pseudo, Mode mode){
+    public void setMode(String pseudo, Mode mode) {
         getCompte(pseudo).setMode(mode);
     }
 
-    public Mode getMode(String pseudo){
+    public Mode getMode(String pseudo) {
         return getCompte(pseudo).getMode();
     }
 
-    public void addCompte(Compte compte){
+    public void addCompte(Compte compte) {
         this.comptes.put(compte.getPseudo(), compte);
     }
 
-    public void removeCompte(String pseudo){
+    public void removeCompte(String pseudo) {
         this.comptes.remove(pseudo);
     }
 
-    public void addConversation(Conversation conv){
+    public void addConversation(Conversation conv) {
         this.conversations.put(conv.getRefConv(), conv);
     }
 
-    public void removeConversation(Conversation conv){
+    public void removeConversation(Conversation conv) {
         this.conversations.remove(conv.getRefConv());
     }
 
@@ -209,18 +210,18 @@ public class Messagerie implements MessagerieInterface{
         }
     }
 
-    public String getTitreConv(int refConv){
+    public String getTitreConv(int refConv) {
         return this.getConversation(refConv).getTitre();
     }
 
-    public String sayHi(){
+    public String sayHi() {
         return "\n\n**********************      Bienvenue sur WhatsASI !      ***********************\n******************************       V 1.0      ***********************************\n";
     }
 
-    public String contenuToString(int refConv, String pseudo){
+    public String contenuToString(int refConv, String pseudo) {
         StringBuilder res = new StringBuilder();
         Conversation c = this.getConversation(refConv);
-        for (Message m : this.getContenu(refConv, pseudo)){
+        for (Message m : this.getContenu(refConv, pseudo)) {
             res.append(m.getPseudo());
             res.append(" : \n");
             res.append("       "+m.getMessage());

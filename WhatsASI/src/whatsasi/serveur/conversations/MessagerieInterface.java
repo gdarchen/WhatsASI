@@ -1,35 +1,35 @@
 package whatsasi.serveur.conversations;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import whatsasi.serveur.utilisateurs.Compte;
-import whatsasi.serveur.utilisateurs.Utilisateur;
-import whatsasi.serveur.filtrage.Filtre;
-import whatsasi.serveur.conversations.Mode;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+import javafx.scene.image.Image;
+
+import whatsasi.serveur.utilisateurs.Compte;
+import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.client.MessageCallbackInterface;
+
 
 public interface MessagerieInterface extends Remote {
 
-    public boolean creerCompte(String pseudo,ImageIcon avatar,Mode mode,Filtre filtre) throws RemoteException;
+    public boolean creerCompte(String pseudo, Image avatar, Mode mode, Filtre filtre) throws RemoteException;
 
-    public int creerConversation(List<Message> messages,String pseudo,String titre,Mode mode,List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
+    public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 
     public Compte getCompte(String pseudo) throws RemoteException;
 
-    public void addMotInterdit(String mot,String pseudo) throws RemoteException;
+    public void addMotInterdit(String mot, String pseudo) throws RemoteException;
 
-    public void removeMotInterdit(String mot,String pseudo) throws RemoteException;
+    public void removeMotInterdit(String mot, String pseudo) throws RemoteException;
 
     public List<String> getFiltres(String pseudo) throws RemoteException;
 
-    public void addUserToConv(String pseudo,int refConv, MessageCallbackInterface callback) throws RemoteException;
+    public void addUserToConv(String pseudo, int refConv, MessageCallbackInterface callback) throws RemoteException;
 
-    public void removeUserFromConv(String pseudo,int refConv) throws RemoteException;
+    public void removeUserFromConv(String pseudo, int refConv) throws RemoteException;
 
-    public boolean modifierPseudo(String old,String newPseudo) throws RemoteException;
+    public boolean modifierPseudo(String old, String newPseudo) throws RemoteException;
 
     public List<String> getPseudos(int refConv) throws RemoteException;
 
@@ -41,9 +41,9 @@ public interface MessagerieInterface extends Remote {
 
     public void setPseudo(String pseudo, String nouveauPseudo) throws RemoteException;
 
-    public void setAvatar(String pseudo, ImageIcon avatar) throws RemoteException;
+    public void setAvatar(String pseudo, Image avatar) throws RemoteException;
 
-    public ImageIcon getAvatar(String pseudo) throws RemoteException;
+    public Image getAvatar(String pseudo) throws RemoteException;
 
     public void setMode(String pseudo, Mode mode) throws RemoteException;
 
