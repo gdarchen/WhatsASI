@@ -1,0 +1,37 @@
+
+CONCERNANT LE CODE
+FONCTIONS PRINCIPALES
+
+Audio et video On le fait pas
+Filtrage : possibilité d'activer ? 
+Personalisation du filtrage OK
+Utilisation d'un avatar
+
+UTILISATEURS
+
+Lambda : créer ok
+         participer à une nouvelle ok
+         choix d'un login ok
+         choix d'un avatar ?
+
+Modérateur : émettre des messages de modération   |
+             supprimer des messages d'utilisateurs| TROUVER MOYEN TERMINAL
+
+FONCTIONNELLES
+
+IA : sur chaque conversation OK
+     mots-clefs et affichage OK
+     
+COMPTE : Avatar Pseudonyme mots filtres
+METTRE LES CAS D UTILISATION
+
+OPERATIONNELES
+
+Sauvegarde tant que connecté ok
+Sécurité ( réfléchir à comment on aurait pu faire)
+
+CONCERNANT LE RAPPORT
+Mettre à jour les diagrammes en autogénération (quand on aura fini le dev)
+Compléter librairie pour la partie graphique en partie choix techniques 
+Tests de validation : une fois que fini (j'ai mis ok en haut sur chaque fonctionnalités quand on sait que ok)
+Ajout du guide d'utilisation une fois que interface ok
