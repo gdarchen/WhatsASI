@@ -1,0 +1,18 @@
+@startuml
+title Diagramme de l'activité Communiquer via chat V0.00
+
+|Client|
+start
+:Envoi d'un message par l'utilisateur;
+|#AntiqueWhite|Serveur|
+:Ajouter le message dans la conversation;
+:Envoyer le message à tous les participants;
+:Notifier le client;
+|Client|
+if (message bien transmis ?) then (yes)
+:Afficher le message;
+else(no)
+:Afficher une erreur;
+endif
+stop
+@enduml

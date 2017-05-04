@@ -1,0 +1,80 @@
+@startuml
+title Diagramme de séquence d'analyse de Se Connecter v0.00
+actor UtilisateurHumain as H
+boundary "mc:MessagerieClient" as A
+control "m:Messagerie" as M
+entity "compteUtilisateur:Utilisateur" as C
+entity "f:Filtre" as F
+
+H -> A : lancer()
+activate A
+    A -> M : creerCompte()
+    activate M
+        create C
+        M -> C : <<create>>
+            create F
+            C -> F : <<create>>
+            C <-- F : refFiltre
+        M <-- C : refCompte
+    A <-- M : refCompte
+    deactivate M
+H <-- A : écran de paramètres
+
+H -> A : taperPseudo()
+    A -> M : setPseudo(pseudo, refCompte)
+    activate M
+        M -> C : setPseudo(pseudo)
+        activate C
+        M <-- C
+        deactivate C
+    A <-- M
+    deactivate M
+H <-- A
+H -> A : choisirAvatar()
+H <-- A : fenêtre de recherche
+H -> A : validerAvatar()
+    A -> M : setAvatar(avatar, refCompte)
+    activate M
+        M -> C : setAvatar(avatar)
+        activate C
+        M <-- C
+        deactivate C
+    A <-- M
+    deactivate M
+H <-- A : affichage avatar
+
+H -> A : taperMotInterdit()
+    A -> M : ajouterMotInterdit(mot, refCompte)
+    activate M
+        M -> C : getFiltre()
+        activate C
+        M <-- C : refFiltre
+        deactivate C
+        M -> F : ajouterMotInterdit(mot)
+        activate F
+        M <-- F
+        deactivate F
+    A <-- M
+    deactivate M
+H <-- A : liste mise à jour
+
+H -> A : supprimerMotInterdit()
+    A -> M : supprimerMotInterdit(mot, refCompte)
+    activate M
+        M -> C : getFiltre()
+        activate C
+        M <-- C : refFiltre
+        deactivate C
+        M -> F : supprimerMotInterdit(mot)
+        activate F
+        M <-- F
+        deactivate F
+    A <-- M
+    deactivate M
+H <-- A : liste mise à jour
+
+H -> A : valider()
+H <-- A : confirmation
+deactivate A
+deactivate A
+@enduml

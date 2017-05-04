@@ -1,0 +1,19 @@
+@startuml
+title Diagramme de séquence système de Se connecter v0.00
+actor "Utilisateur Humain" as H
+boundary "Système (Client)" as S
+
+H -> S : lancer()
+S --> H : écran de paramètres
+H -> S : taperPseudo()
+H -> S : choisirAvatar()
+S --> H : fenêtre de recherche
+H -> S : sélectionnerAvatar()
+S --> H : affichage avatar
+H -> S : ajouterMotInterdit()
+S --> H : liste mise à jour
+H -> S : enleverMotInterdit()
+S --> H : liste mise à jour
+H -> S : valider()
+S --> H : confirmation
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+title Diagramme de l'activité Se connecter v0.00
+
+start
+:Ouvrir l'application;
+:Affichage des paramètres;
+fork
+    :Choisir avatar;
+    :Afficher fenêtre de recherche;
+    :Mettre à jour l'avatar;
+fork again
+  :Taper pseudo;
+endfork
+if (Activer filtrage ?) then (yes)
+  while (Nouveau mot à filtrer ?) is (yes)
+    :Ajouter un\nmot interdit;
+  endwhile(no)
+else (no)
+endif
+:Valider;
+stop
+@enduml

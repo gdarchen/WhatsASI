@@ -1,0 +1,27 @@
+@startuml
+title Diagramme de l'activité Ouvrir conversation V0.00
+
+|Client|
+start
+:Arrivée de l'utilisateur sur la conversation;
+|#AntiqueWhite|Serveur|
+:Appliquer les filtres;
+:Enoyer les messages de la conversation;
+|Client|
+:Afficher les messages;
+if (afficher vidéo ?) then (no)
+  :Désactiver la vidéo;
+else (yes)
+  :Obtenir les flux vidéos;
+  |Serveur|
+  :Envoyer les flux vidéos;
+  |Client|
+  :Afficher les vidéos des participants;
+endif
+if (activer audio ?) then (yes)
+  :Activer l'audio;
+else (no)
+  :Désactiver l'audio;
+endif
+stop
+@enduml

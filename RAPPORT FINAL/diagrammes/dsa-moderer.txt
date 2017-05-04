@@ -1,0 +1,46 @@
+@startuml
+title Diagramme de séquence d'analyse de Modérer Message v0.00
+actor UtilisateurModérateur as H
+boundary "mc:MessagerieClient" as A
+control "m:Messagerie" as M
+entity "c:Conversation" as C
+entity "m:MessageDeModeration" as MsgMd
+
+H -> A : ouvrirConversation()
+activate A
+    A -> M : getContenu(refConv)
+    activate M
+    M -> C : getContenu()
+    activate C
+    M <-- C : liste<Message>
+    A <-- M : liste<Message>
+    deactivate M
+H <-- A : fenêtre de la conversation,\n liste des messages
+H -> A : supprimerMessage()
+    A -> M : supprimerMessage(refMsg, refConv)
+    activate M
+        M -> C : supprimerMessage(refMsg)
+        activate C
+        M <-- C
+
+        deactivate C
+    A <-- M
+    deactivate M
+H <-- A : liste des messages\nmise à jour
+deactivate A
+H -> A : écrireMessageDeModération()
+    A -> M : addMessageDeModération(msg, refCompte, refConv)
+    activate M
+        activate C
+        M -> C : addMessageDeModération(msg, refCompte)
+        create MsgMd
+
+        C -> MsgMd : <<create>>
+        C <-- MsgMd : refMsg
+        M <-- C : confirmation, erreur
+        deactivate C
+        M -> M : notifierAutresMembres()
+    A <-- M : confirmation, erreur
+    deactivate M
+H <-- A : confirmation, erreur
+@enduml

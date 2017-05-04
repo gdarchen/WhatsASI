@@ -1,0 +1,61 @@
+@startuml
+title Modèle du domaine v0.00
+
+class Messagerie {
+        +List<Conversation> conversations
+}
+
+abstract class Compte {
+	+String pseudo
+	+ImageIcon avatar
+	+boolean video
+	+boolean audio
+}
+class Utilisateur
+class Moderateur
+class IA {
+	{static} +String pseudo = "Sophisme"
+}
+
+class Conversation {
+	+List<Message> messages
+}
+class Filtre {
+	+Collection<String> motsInterdits
+}
+class Message {
+	+Compte auteur
+	+Date date
+	+String message
+}
+
+class MessageDeModeration
+class Conversation
+class Video
+class Audio
+interface Flux
+
+Messagerie "1" *-down- "*" Conversation
+
+Compte "*" -- "*" Conversation
+
+Messagerie "1" *-down- "*" Compte
+
+Compte <|-- Moderateur
+Compte <|-- Utilisateur
+Compte <|-- IA
+
+Conversation "1" *- "1" Flux
+Flux <|.. Video
+Flux <|.. Audio
+
+Utilisateur "*" -- "*" Filtre : choisit >
+
+Conversation "*" -- "*" Filtre : < filtre
+
+Message <|-- MessageDeModeration
+Message "*" -down-* "1" Conversation
+
+Compte "1" -right- "*" Message : écrit >
+MessageDeModeration "*" -- "1" Moderateur : < écrit
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+rectangle "Application client" as R1 {
+    (Activer/désactiver\nfiltrage) as (UC1)
+    (Choisir paramètres\nde filtrage) as (UC2)
+    (Choisir des\nmots interdits) as (UC3)
+}
+
+note top of R1
+    L'utilisateur peut choisir ses propres paramètres
+    de filtrage tout au long de son utilisation.
+end note
+
+:Utilisateur\nhumain: as U1
+
+U1 -- (UC1)
+U1 -- (UC2)
+(UC2) .right.> (UC3) : <<include>>
+@enduml
