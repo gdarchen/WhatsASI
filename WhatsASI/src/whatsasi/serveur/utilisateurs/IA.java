@@ -1,6 +1,5 @@
 package whatsasi.serveur.utilisateurs;
 
-import javafx.scene.image.Image;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,19 +9,21 @@ import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.conversations.Message;
 
+import javax.swing.*;
+
 public class IA extends Compte implements Serializable {
 
 	List<String> motsInteractionIA = new ArrayList<String>();
 
-	public IA(Image avatar) {
-		super("sophisme",avatar,Mode.valueOf("DEFAUT"));
-		this.motsInteractionIA.add("\\BonjourSophisme");
-		this.motsInteractionIA.add("\\help_profil");
-		this.motsInteractionIA.add("\\help_filtre");
-		this.motsInteractionIA.add("\\help_chat1");
-		this.motsInteractionIA.add("\\help_chat2");
-		this.motsInteractionIA.add("\\help_audio");
-		this.motsInteractionIA.add("\\help_video");
+	public IA(ImageIcon avatar) {
+        super("Sophisme", avatar, Mode.valueOf("DEFAUT"));
+		this.motsInteractionIA.add("\\bonjour");
+		this.motsInteractionIA.add("\\profil");
+		this.motsInteractionIA.add("\\filtre");
+		this.motsInteractionIA.add("\\chat1");
+		this.motsInteractionIA.add("\\chat2");
+		this.motsInteractionIA.add("\\audio");
+		this.motsInteractionIA.add("\\video");
 	}
 
 
@@ -35,19 +36,19 @@ public class IA extends Compte implements Serializable {
          String messageIA="";
 				switch(message){
 
-				 case "\\BonjourSophisme" : messageIA = messageBonjourSophisme(pseudo);
+				 case "\\bonjour" : messageIA = messagebonjour(pseudo);
 									 								break;
-				 case "\\help_profil" : messageIA = messageHelpProfil();
+				 case "\\profil" : messageIA = messageHelpProfil();
 									 						break;
-				 case "\\help_chat1" : messageIA = messageHelpChatUn();
+				 case "\\chat1" : messageIA = messageHelpChatUn();
 						 										  break;
-				 case "\\help_chat2" : messageIA = messageHelpChatDeux();
+				 case "\\chat2" : messageIA = messageHelpChatDeux();
 						 									break;
-				 case "\\help_audio" : messageIA = messageHelpAudio();
+				 case "\\audio" : messageIA = messageHelpAudio();
 													     break;
-				 case "\\help_filtre" : messageIA = messageHelpFiltre();
+				 case "\\filtre" : messageIA = messageHelpFiltre();
 															break;
-				 case "\\help_video" : messageIA = messageHelpVideo();
+				 case "\\video" : messageIA = messageHelpVideo();
 															 break;
 				 default : System.out.println("Problème");
        }
@@ -56,16 +57,16 @@ public class IA extends Compte implements Serializable {
 	}
 
 	/*Cette classe affiche le bon message en fonction*/
-	public String messageBonjourSophisme(String pseudo){
+	public String messagebonjour(String pseudo){
 		StringBuilder msgIA = new StringBuilder();
 		msgIA.append("Bonjour "+pseudo +"\n");
-		msgIA.append("Affichage du menu : \\BonjourSophisme" +"\n" );
-		msgIA.append("Aide Profil : \\help_profil" +"\n");
-		msgIA.append("Aide Video : \\help_video" +"\n");
-		msgIA.append("Aide Audio : \\help_audio" +"\n");
-		msgIA.append("Aide Salon de Chat : \\help_chat1" +"\n");
-		msgIA.append("Aide Conversation : \\help_chat2" +"\n");
-		msgIA.append("Aide Filtrel : \\help_filtre" +"\n");
+		msgIA.append("Affichage du menu : \\bonjour" +"\n" );
+		msgIA.append("Aide Profil : \\profil" +"\n");
+		msgIA.append("Aide Video : \\video" +"\n");
+		msgIA.append("Aide Audio : \\audio" +"\n");
+		msgIA.append("Aide Salon de Chat : \\chat1" +"\n");
+		msgIA.append("Aide Conversation : \\chat2" +"\n");
+		msgIA.append("Aide Filtrel : \\filtre" +"\n");
 		return msgIA.toString();
 	}
 

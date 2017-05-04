@@ -5,6 +5,7 @@ package whatsasi.client;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -12,6 +13,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -21,7 +25,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.TextInputDialog;
@@ -29,9 +32,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.beans.value.*;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import javafx.stage.FileChooser;
-import java.awt.Desktop;
 
 
 // import javafx.scene.paint.Color;
@@ -47,13 +52,15 @@ import java.rmi.registry.Registry;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import whatsasi.serveur.conversations.MessagerieInterface;
-import whatsasi.serveur.conversations.Conversation;
-import whatsasi.serveur.conversations.Mode;
+
+import whatsasi.serveur.conversations.*;
 import whatsasi.serveur.filtrage.Filtre;
-import whatsasi.serveur.conversations.Message;
 
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import javax.swing.*;
+import java.util.List;
 import java.util.logging.Filter;
 
 public class MessagerieClient extends Application {
@@ -217,7 +224,7 @@ public class MessagerieClient extends Application {
                 } else {
                     if (messagerie.isPseudoAvailable(pseudo)) {
                         // Ajouter avatarView, mode, filtre
-                        messagerie.creerCompte(pseudo, avatarView.getImage(), Mode.DEFAUT, null);
+                        messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null);
                         pseudoTextFieldAlert.setVisible(false);
                         filterPane.setCollapsible(true);
                         filterPane.setExpanded(true);
@@ -384,7 +391,7 @@ public class MessagerieClient extends Application {
 
         chatPane.setCollapsible(false);
 
-        listeConv = new ListView<String>();
+        listeConv = new ListView<>();
 
         if (!getConversationsTitre().isEmpty())
             items = FXCollections.observableArrayList(getConversationsTitre());
@@ -438,7 +445,7 @@ public class MessagerieClient extends Application {
                         if (!getConversationsTitre().contains((String)result.get())) {
                             //createNewConv(result.get());
                             items =  FXCollections.observableArrayList(getConversationsTitre());
-                            items.add((String) result.get());
+                            items.add(result.get());
                             listeConv.setItems(items);
                         } else {
                             Alert alert = new Alert(AlertType.ERROR);
@@ -547,23 +554,24 @@ public class MessagerieClient extends Application {
     }
 
     public class MessageCell extends ListCell<Message> {
-        private Label texte = new Label("gg");
-
-        // TODO : charger l'image à partir du compte
-        private ImageView avatarMessage = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 45, 45, true, false));
-
-        private Text expediteur = new Text("gg");
-        private Label date = new Label("gg");
+        private Label texte = new Label();
+        private static final int avatarMaxDim = 50;
+        private ImageView avatarMessage;
+        private Text expediteur = new Text();
+        private Label date = new Label();
 
         public MessageCell() {
             setTexte(null);
             setDate(null);
+            avatarMessage = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000",
+                    avatarMaxDim, avatarMaxDim, true, false));
             setExpediteur(null);
             initCell();
         }
 
         public MessageCell(Message msg) {
             setTexte(msg.getMessage());
+            setAvatar(msg.getAvatar(), msg.getAvatarWidth(), msg.getAvatarHeight());
             setDate(DateFormat.getDateTimeInstance(
                     DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
             setExpediteur(msg.getPseudo());
@@ -576,6 +584,15 @@ public class MessagerieClient extends Application {
             }
             setText(null);
             texte.setText(text);
+        }
+
+        public void setAvatar(java.awt.Image img, int width, int height) {
+            int w = (int) avatarView.getImage().getWidth();
+            int h = (int) avatarView.getImage().getHeight();
+            Image fximg = toFXImage(img, w, h);
+            avatarMessage.setPreserveRatio(true);
+            avatarMessage.setImage(fximg);
+            avatarMessage.setFitWidth(avatarMaxDim);
         }
 
         public void setDate(String date) {
@@ -610,6 +627,7 @@ public class MessagerieClient extends Application {
                 setDate(DateFormat.getDateTimeInstance(
                         DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
                 setExpediteur(msg.getPseudo());
+                setAvatar(msg.getAvatar(), msg.getAvatarWidth(), msg.getAvatarHeight());
                 initCell();
             }
         }
@@ -694,4 +712,16 @@ public class MessagerieClient extends Application {
         }
     }*/
 
+    public static ImageIcon fromFXImage(Image img) {
+        java.awt.Image awtimg = SwingFXUtils.fromFXImage(img, null);
+        return new ImageIcon(awtimg);
+    }
+
+    public static Image toFXImage(java.awt.Image img, int width, int height) {
+        BufferedImage bimg = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g2d = bimg.createGraphics();
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+        return SwingFXUtils.toFXImage(bimg, null);
+    }
 }

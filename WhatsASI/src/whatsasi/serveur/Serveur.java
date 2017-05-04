@@ -14,7 +14,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Serveur {
-
     private static final int portRMI = 1099;
     private static final int portSocket = 2009;
 
@@ -30,7 +29,8 @@ public class Serveur {
             else
                 registry.rebind("Messagerie", skeleton);
         } catch (Exception ex) {
-            System.out.println("[Exception Serveur] : "+ex);
+            System.out.println("\nException Serveur\n-----------------");
+            ex.printStackTrace();
         }
         try{
             ServerSocket socketServer = new ServerSocket(portSocket);

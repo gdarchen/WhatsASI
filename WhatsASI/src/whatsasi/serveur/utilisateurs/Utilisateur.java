@@ -2,7 +2,8 @@ package whatsasi.serveur.utilisateurs;
 
 import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
-import javafx.scene.image.Image;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Utilisateur extends Compte {
@@ -10,12 +11,13 @@ public class Utilisateur extends Compte {
     private Filtre filtre;
     private boolean estModerateur;
 
-  	public Utilisateur(String pseudo, Image avatar, Mode mode, Filtre filtre) {
+  	public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre) {
       super(pseudo, avatar, mode);
-      this.filtre = (filtre!=null) ? filtre : (new Filtre(new ArrayList<String>()));
+      this.filtre = (filtre!=null) ? filtre : new Filtre(new ArrayList<>());
   	}
 
-    public Utilisateur(String pseudo, Image avatar, Mode mode, Filtre filtre, boolean tmp) {
+    public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre,
+                       boolean tmp) {
       this(pseudo, avatar, mode, filtre);
       this.estModerateur = tmp;
   	}

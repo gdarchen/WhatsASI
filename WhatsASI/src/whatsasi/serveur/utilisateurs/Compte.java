@@ -1,21 +1,21 @@
 package whatsasi.serveur.utilisateurs;
 
-import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.io.Serializable;
-import javafx.scene.image.Image;
-import javafx.embed.swing.SwingFXUtils;
-import javax.swing.ImageIcon;
 
 import whatsasi.serveur.conversations.Mode;
+
+import javax.swing.*;
 
 public abstract class Compte implements Serializable {
     private String pseudo;
     private ImageIcon avatar;
+    private int avw, avh;
     private Mode mode;
 
-    public Compte(String pseudo, Image avatar, Mode mode){
+    public Compte(String pseudo, ImageIcon avatar, Mode mode){
         this.pseudo = pseudo;
-        this.avatar = new ImageIcon(SwingFXUtils.fromFXImage(avatar, null));
+        setAvatar(avatar);
         this.mode = mode;
     }
 
@@ -28,11 +28,29 @@ public abstract class Compte implements Serializable {
     }
 
     public Image getAvatar() {
-        return SwingFXUtils.toFXImage((BufferedImage) avatar.getImage(), null);
+        return avatar.getImage();
     }
 
-    public void setAvatar(Image avatar) {
-        this.avatar = new ImageIcon(SwingFXUtils.fromFXImage(avatar, null));
+    public void setAvatar(ImageIcon avatar) {
+        this.avatar = avatar;
+        setAvatarWidth(avatar.getIconWidth());
+        setAvatarWidth(avatar.getIconHeight());
+    }
+
+    public void setAvatarWidth(int w) {
+        avw = w;
+    }
+
+    public void setAvatarHeight(int h) {
+        avh = h;
+    }
+
+    public int getAvatarHeight() {
+        return avw;
+    }
+
+    public int getAvatarWidth() {
+        return avw;
     }
 
     public void setMode(Mode mode){

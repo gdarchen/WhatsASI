@@ -1,11 +1,11 @@
 package whatsasi.serveur.conversations;
 
+import java.awt.*;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.rmi.RemoteException;
-import javafx.scene.image.Image;
 
 import whatsasi.serveur.InformateurDeClients;
 import whatsasi.serveur.utilisateurs.Compte;
@@ -16,8 +16,10 @@ import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.conversations.Message;
 import whatsasi.client.MessageCallbackInterface;
 
+import javax.swing.*;
 
-public class Messagerie implements MessagerieInterface{
+
+public class Messagerie implements MessagerieInterface {
 
     private IA ia;
     private Map<String, Compte> comptes;
@@ -25,16 +27,19 @@ public class Messagerie implements MessagerieInterface{
     private Map<String, MessageCallbackInterface> callbacks;
 
     public Messagerie() {
-        this.comptes = new HashMap<String, Compte>();
-        this.conversations = new HashMap<Integer, Conversation>();
-        this.callbacks = new HashMap<String, MessageCallbackInterface>();
-        this.ia = new IA(null);
+        this.comptes = new HashMap<>();
+        this.conversations = new HashMap<>();
+        this.callbacks = new HashMap<>();
+        ImageIcon img = new ImageIcon("res/sophisme.png");
+        this.ia = new IA(img);
         this.comptes.put(ia.getPseudo(), ia);
     }
 
-    public boolean creerCompte(String pseudo, Image avatar, Mode mode, Filtre filtre) {
+    @Override
+    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre
+            filtre) {
         if (isPseudoAvailable(pseudo)) {
-            this.addCompte(new Utilisateur(pseudo, avatar, mode, filtre));
+            addCompte(new Utilisateur(pseudo, avatar, mode, filtre));
             return true;
         }
         else
@@ -156,7 +161,7 @@ public class Messagerie implements MessagerieInterface{
         addCompte(c);
     }
 
-    public void setAvatar(String pseudo, Image avatar) {
+    public void setAvatar(String pseudo, ImageIcon avatar) {
         getCompte(pseudo).setAvatar(avatar);
     }
 

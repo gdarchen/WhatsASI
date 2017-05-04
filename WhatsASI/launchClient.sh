@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export CLASSPATH=classes
 export CLASSPATH=$CLASSPATH:lib/jfxrt.jar
 if [ $# -eq 1 ] && [ $1 == "terminal" ]

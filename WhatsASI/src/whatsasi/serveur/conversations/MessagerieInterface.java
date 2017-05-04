@@ -4,16 +4,19 @@ import java.util.List;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import javafx.scene.image.Image;
+import java.awt.Image;
 
 import whatsasi.serveur.utilisateurs.Compte;
 import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.client.MessageCallbackInterface;
 
+import javax.swing.*;
+
 
 public interface MessagerieInterface extends Remote {
 
-    public boolean creerCompte(String pseudo, Image avatar, Mode mode, Filtre filtre) throws RemoteException;
+    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre
+            filtre) throws RemoteException;
 
     public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 
@@ -41,7 +44,7 @@ public interface MessagerieInterface extends Remote {
 
     public void setPseudo(String pseudo, String nouveauPseudo) throws RemoteException;
 
-    public void setAvatar(String pseudo, Image avatar) throws RemoteException;
+    public void setAvatar(String pseudo, ImageIcon avatar) throws RemoteException;
 
     public Image getAvatar(String pseudo) throws RemoteException;
 
