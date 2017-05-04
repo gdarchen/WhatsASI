@@ -134,7 +134,7 @@ public class Messagerie implements MessagerieInterface{
     }
 
     public void addMessageInteraction(String msg,int refConv, String pseudo) throws RemoteException {
-      Utilisateur compte = (Utilisateur)this.comptes.get(pseudo);
+    /*  Utilisateur compte = (Utilisateur)this.comptes.get(pseudo);*/
       this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
       InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
       thread.start();
