@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.beans.value.*;
+import javafx.beans.binding.Bindings;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -39,7 +40,7 @@ import java.io.File;
 import javafx.stage.FileChooser;
 
 
-// import javafx.scene.paint.Color;
+import javafx.scene.paint.Color;
 // import javafx.scene.shape.Circle;
 import java.text.DateFormat;
 import java.util.*;
@@ -144,6 +145,7 @@ public class MessagerieClient extends Application {
         setPrimaryStage(stage);
         Scene scene = new Scene(accordion, screenSize.getWidth(), screenSize.getHeight());
 
+        stage.getIcons().add(new Image("file:icon.png"));
         stage.setTitle("WhatsASI : La messagerie révolutionnaire d'hier");
         stage.setScene(scene);
         // stage.setFullScreen(true);
@@ -248,9 +250,8 @@ public class MessagerieClient extends Application {
 
     private void initFilterPane() {
         VBox vbox = new VBox(12);
-
-        filterList = FXCollections.observableArrayList("putain");/*new FilterCell("putain"), 
-                new FilterCell("Voldemort"), 
+        filterList = FXCollections.observableArrayList("putain");/*new FilterCell("putain"),
+                new FilterCell("Voldemort"),
                 new FilterCell("Donald Trump"));*/
         FilterListView filterListView = new FilterListView(filterList);
 
@@ -258,6 +259,7 @@ public class MessagerieClient extends Application {
                                          "par des étoiles dans les conversations. Par exemple, \"gros mot\" sera " +
                                          "remplacé par \"**** ***\". Le filtrage est indépendant de la casse"));
         GridPane grid = new GridPane();
+
         grid.setPadding(new Insets(6, 6, 6, 6));
         grid.setVgap(6);
         grid.setHgap(6);
@@ -724,4 +726,6 @@ public class MessagerieClient extends Application {
         g2d.dispose();
         return SwingFXUtils.toFXImage(bimg, null);
     }
+
+
 }
