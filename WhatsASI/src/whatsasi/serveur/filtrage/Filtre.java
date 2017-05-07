@@ -7,7 +7,8 @@ import whatsasi.serveur.conversations.Message;
 
 public class Filtre implements Serializable {
 
-  List<String> motsInterdits;
+  private List<String> motsInterdits;
+  private boolean actif = true;
 
   public Filtre(List<String> motsInterdits){
       if (motsInterdits != null) {
@@ -16,6 +17,22 @@ public class Filtre implements Serializable {
       else {
           this.motsInterdits = new ArrayList<String>();
       }
+  }
+
+  public void activerFiltre(){
+      this.actif = true;
+  }
+
+  public void desactiverFiltre(){
+      this.actif = false;
+  }
+
+  public boolean estActif(){
+      return this.actif;
+  }
+
+  public void updateMot(String ancien,String nouveau){
+      this.motsInterdits.set(this.motsInterdits.indexOf(ancien),nouveau);
   }
 
   public void setMotsInterdits(List<String> motsInterdits){

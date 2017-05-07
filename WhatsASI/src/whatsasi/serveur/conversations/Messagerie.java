@@ -1,6 +1,7 @@
 package whatsasi.serveur.conversations;
 
 import java.awt.*;
+import java.text.*;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class Messagerie implements MessagerieInterface {
     private Map<String, Compte> comptes;
     private Map<Integer, Conversation> conversations;
     private Map<String, MessageCallbackInterface> callbacks;
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     public Messagerie() {
         this.comptes = new HashMap<>();
@@ -189,6 +192,31 @@ public class Messagerie implements MessagerieInterface {
         this.conversations.put(conv.getRefConv(), conv);
     }
 
+    public void activerFiltre(String pseudo){
+        Utilisateur u = (Utilisateur)this.getCompte(pseudo);
+        u.getFiltre().activerFiltre();
+    }
+
+    public void supprimerMotInterdit(String pseudo,String mot){
+        Utilisateur u = (Utilisateur)this.getCompte(pseudo);
+        u.getFiltre().supprimerMotInterdit(mot);
+    }
+
+    public void updateFilter(String pseudo,String ancienMot,String mot){
+        Utilisateur u = (Utilisateur)this.getCompte(pseudo);
+        u.getFiltre().updateMot(ancienMot,mot);
+    }
+
+    public void desactiverFiltre(String pseudo){
+        Utilisateur u = (Utilisateur)this.getCompte(pseudo);
+        u.getFiltre().desactiverFiltre();
+    }
+
+    public boolean estActifFiltre(String pseudo){
+        Utilisateur u = (Utilisateur)this.getCompte(pseudo);
+        return u.getFiltre().estActif();
+    }
+
     public void removeConversation(Conversation conv) {
         this.conversations.remove(conv.getRefConv());
     }
@@ -220,16 +248,17 @@ public class Messagerie implements MessagerieInterface {
     }
 
     public String sayHi() {
-        return "\n\n**********************      Bienvenue sur WhatsASI !      ***********************\n******************************       V 1.0      ***********************************\n";
+        return "\n\n**********************       Bienvenue sur WhatsASI !       ***********************\n******************************       V 1.0      ***********************************\n";
     }
 
     public String contenuToString(int refConv, String pseudo) {
         StringBuilder res = new StringBuilder();
         Conversation c = this.getConversation(refConv);
         for (Message m : this.getContenu(refConv, pseudo)) {
-            res.append(m.getPseudo());
-            res.append(" : \n");
-            res.append("       "+m.getMessage());
+            res.append(ANSI_CYAN+m.getPseudo()+ANSI_RESET);
+            res.append(" : \n\n");
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            res.append(dateFormat.format(m.getDate())+"   "+m.getMessage());
             res.append("\n\n");
         }
         return res.toString();
@@ -240,11 +269,9 @@ public class Messagerie implements MessagerieInterface {
         Compte compte = this.getCompte(pseudo);
         if (compte instanceof Utilisateur) {
             Filtre filtre = ((Utilisateur)compte).getFiltre();
-
             return conv.getContenu(filtre);
         }
-        // else
-            return conv.getContenu();
+        return conv.getContenu();
     }
 
     public void informerClients(int refConv, Message msg) throws RemoteException {
@@ -252,7 +279,10 @@ public class Messagerie implements MessagerieInterface {
             Utilisateur u = (Utilisateur)this.getCompte(cbPseudo);
             Filtre filtre = u.getFiltre();
             MessageCallbackInterface callback = this.callbacks.get(cbPseudo);
-            callback.nouveauMessage(refConv, filtre.filtrerMessage(msg));
+            if (filtre.estActif())
+                callback.nouveauMessage(refConv,filtre.filtrerMessage(msg));
+            else
+                callback.nouveauMessage(refConv,msg);
         }
     }
 

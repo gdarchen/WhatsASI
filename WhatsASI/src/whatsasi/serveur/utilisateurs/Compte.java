@@ -33,8 +33,10 @@ public abstract class Compte implements Serializable {
 
     public void setAvatar(ImageIcon avatar) {
         this.avatar = avatar;
-        setAvatarWidth(avatar.getIconWidth());
-        setAvatarWidth(avatar.getIconHeight());
+        if (avatar != null){
+            setAvatarWidth(avatar.getIconWidth());
+            setAvatarWidth(avatar.getIconHeight());
+        }
     }
 
     public void setAvatarWidth(int w) {

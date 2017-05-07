@@ -15,8 +15,7 @@ import javax.swing.*;
 
 public interface MessagerieInterface extends Remote {
 
-    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre
-            filtre) throws RemoteException;
+    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre) throws RemoteException;
 
     public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 
@@ -33,6 +32,16 @@ public interface MessagerieInterface extends Remote {
     public void removeUserFromConv(String pseudo, int refConv) throws RemoteException;
 
     public boolean modifierPseudo(String old, String newPseudo) throws RemoteException;
+
+    public void activerFiltre(String pseudo) throws RemoteException;
+
+    public void supprimerMotInterdit(String pseudo,String mot) throws RemoteException;
+
+    public void updateFilter(String pseudo,String ancienMot,String mot) throws RemoteException;
+
+    public void desactiverFiltre(String pseudo) throws RemoteException;
+
+    public boolean estActifFiltre(String pseudo) throws RemoteException;
 
     public List<String> getPseudos(int refConv) throws RemoteException;
 

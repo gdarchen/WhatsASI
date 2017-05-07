@@ -1,0 +1,18 @@
+***** Wecome to WhatsASI !!! ****
+
+*** Compilation instructions ***
+
+    1 - ./compile.sh
+        compile client et server
+
+*** Execution instructions ***
+
+    --- Server side ---
+
+        1 - ./launchRmiregistry.sh
+        2 - ./launchServer.sh
+
+    --- Client side ---
+
+        1 - ./launchClient [terminal]
+            set argument to terminal if you want to use the terminal mode, leave it empty else.

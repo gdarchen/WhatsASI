@@ -16,8 +16,7 @@ public class Utilisateur extends Compte {
       this.filtre = (filtre!=null) ? filtre : new Filtre(new ArrayList<>());
   	}
 
-    public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre,
-                       boolean tmp) {
+    public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre,boolean tmp) {
       this(pseudo, avatar, mode, filtre);
       this.estModerateur = tmp;
   	}
