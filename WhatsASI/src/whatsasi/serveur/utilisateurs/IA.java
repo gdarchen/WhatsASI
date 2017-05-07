@@ -91,11 +91,11 @@ public class IA extends Compte implements Serializable {
 		return msgIA.toString();
 	}
 	public String messageHelpAudio(){
-		return "Pas implémenter";
+		return "Pas implémenté";
 	}
 
 	public String messageHelpVideo(){
-		return "Pas implémenter";
+		return "Pas implémenté";
 	}
 
 	public String messageHelpFiltre(){

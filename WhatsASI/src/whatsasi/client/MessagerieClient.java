@@ -110,7 +110,7 @@ public class MessagerieClient extends Application {
         try {
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             messagerie = (MessagerieInterface) registry.lookup("Messagerie");
-
+            messagerie.setIAIcon();
             //System.out.println(getConversationsTitre(messagerie));
             Application.launch(args);
             //connection();

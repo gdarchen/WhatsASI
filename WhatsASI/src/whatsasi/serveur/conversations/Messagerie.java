@@ -33,9 +33,12 @@ public class Messagerie implements MessagerieInterface {
         this.comptes = new HashMap<>();
         this.conversations = new HashMap<>();
         this.callbacks = new HashMap<>();
-        ImageIcon img = new ImageIcon("res/sophisme.png");
-        this.ia = new IA(img);
+        this.ia = new IA(null);
         this.comptes.put(ia.getPseudo(), ia);
+    }
+
+    public void setIAIcon(){
+        this.ia.setAvatar(new ImageIcon("res/sophisme.png"));
     }
 
     @Override

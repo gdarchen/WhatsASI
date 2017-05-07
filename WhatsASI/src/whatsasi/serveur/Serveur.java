@@ -18,7 +18,6 @@ public class Serveur {
     private static final int portSocket = 2009;
 
     public static void main(String[] args) {
-
         try {
             MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie(),0);
             System.out.println("Server is now online.");
