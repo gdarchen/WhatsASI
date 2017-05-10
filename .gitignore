@@ -7,7 +7,6 @@
 *.out
 *.synctex.gz
 *.toc
-*.png
 *.DS_Store
 *.idea
 *.class
