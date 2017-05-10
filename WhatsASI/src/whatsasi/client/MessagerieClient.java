@@ -340,7 +340,6 @@ public class MessagerieClient extends Application {
 
     public class FilterCell extends ListCell<String> {
         private TextField textField = new TextField("");
-        private Button plus = new Button("+");
         private Button minus = new Button("-");
 
         public FilterCell() {
@@ -362,10 +361,14 @@ public class MessagerieClient extends Application {
         }
 
         public void initCell() {
+            minus.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent event) {
+                    filterList.remove(textField.getText().trim().toLowerCase());
+                }
+            });
             GridPane gridPane = new GridPane();
             gridPane.add(textField, 0, 0);
-            gridPane.add(plus, 1, 0);
-            gridPane.add(minus, 2, 0);
+            gridPane.add(minus, 1, 0);
             setGraphic(gridPane);
         }
 
