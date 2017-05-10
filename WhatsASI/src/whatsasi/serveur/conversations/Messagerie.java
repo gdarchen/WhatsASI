@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.rmi.RemoteException;
 
-import whatsasi.serveur.InformateurDeClients;
+import whatsasi.serveur.InformateurMessages;
+import whatsasi.serveur.InformateurConversations;
 import whatsasi.serveur.utilisateurs.Compte;
 import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.utilisateurs.IA;
@@ -16,6 +17,7 @@ import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.conversations.Message;
 import whatsasi.client.MessageCallbackInterface;
+import whatsasi.client.ConversationCallbackInterface;
 
 import javax.swing.*;
 
@@ -26,6 +28,7 @@ public class Messagerie implements MessagerieInterface {
     private Map<String, Compte> comptes;
     private Map<Integer, Conversation> conversations;
     private Map<String, MessageCallbackInterface> callbacks;
+    private Map<String, ConversationCallbackInterface> convCallbacks;
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
 
@@ -33,6 +36,7 @@ public class Messagerie implements MessagerieInterface {
         this.comptes = new HashMap<>();
         this.conversations = new HashMap<>();
         this.callbacks = new HashMap<>();
+        this.convCallbacks = new HashMap<String, ConversationCallbackInterface>();
         this.ia = new IA(null);
         this.comptes.put(ia.getPseudo(), ia);
     }
@@ -52,6 +56,11 @@ public class Messagerie implements MessagerieInterface {
             return false;
     }
 
+    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre, ConversationCallbackInterface convCallback) {
+        this.convCallbacks.put(pseudo, convCallback);
+        return this.creerCompte(pseudo,avatar, mode, filtre);
+    }
+
     public boolean modifierPseudo(String old, String newPseudo) {
         if (isPseudoAvailable(newPseudo)) {
             this.setPseudo(old, newPseudo);
@@ -67,7 +76,10 @@ public class Messagerie implements MessagerieInterface {
         this.getConversation(c.getRefConv()).addUtilisateur(this.ia.getPseudo(), Mode.DEFAUT);
         callback.setRefConv(c.getRefConv());
         this.callbacks.put(pseudo, callback);
-        return c.getRefConv();
+        int refConv = c.getRefConv();
+        InformateurConversations thread = new InformateurConversations(this, refConv);
+        thread.start();
+        return refConv;
     }
 
     public Compte getCompte(String pseudo) {
@@ -135,7 +147,7 @@ public class Messagerie implements MessagerieInterface {
     public void addMessage(String msg, int refConv, String pseudo) throws RemoteException {
         this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
         System.out.println(getCompte(pseudo).getPseudo() + " sent : "+msg);
-        InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
+        InformateurMessages thread = new InformateurMessages(this, refConv, new Message(this.getCompte(pseudo), msg));
         thread.start();
         for (String mot: this.getIA().getMotsInteractionIA()) {
             if (msg.equals(mot)) {
@@ -148,7 +160,7 @@ public class Messagerie implements MessagerieInterface {
     public void addMessageInteraction(String msg, int refConv, String pseudo) throws RemoteException {
     /*  Utilisateur compte = (Utilisateur)this.comptes.get(pseudo);*/
       this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
-      InformateurDeClients thread = new InformateurDeClients(this, refConv, new Message(this.getCompte(pseudo), msg));
+      InformateurMessages thread = new InformateurMessages(this, refConv, new Message(this.getCompte(pseudo), msg));
       thread.start();
     }
 
@@ -189,6 +201,7 @@ public class Messagerie implements MessagerieInterface {
 
     public void removeCompte(String pseudo) {
         this.comptes.remove(pseudo);
+        this.convCallbacks.remove(pseudo);
     }
 
     public void addConversation(Conversation conv) {
@@ -286,6 +299,13 @@ public class Messagerie implements MessagerieInterface {
                 callback.nouveauMessage(refConv,filtre.filtrerMessage(msg));
             else
                 callback.nouveauMessage(refConv,msg);
+        }
+    }
+
+    public void informerClientsNouvelleConv(int refConv) throws RemoteException {
+        for (String cbPseudo: this.convCallbacks.keySet()) {
+            ConversationCallbackInterface convCallback = this.convCallbacks.get(cbPseudo);
+            convCallback.nouvelleConversation(refConv);
         }
     }
 

@@ -9,6 +9,8 @@ import java.awt.Image;
 import whatsasi.serveur.utilisateurs.Compte;
 import whatsasi.serveur.filtrage.Filtre;
 import whatsasi.client.MessageCallbackInterface;
+import whatsasi.client.ConversationCallbackInterface;
+
 
 import javax.swing.*;
 
@@ -16,6 +18,8 @@ import javax.swing.*;
 public interface MessagerieInterface extends Remote {
 
     public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre) throws RemoteException;
+
+    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre, ConversationCallbackInterface convCallback) throws RemoteException;
 
     public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 

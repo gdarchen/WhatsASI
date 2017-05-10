@@ -3,6 +3,7 @@
 package whatsasi.client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -45,6 +46,7 @@ import javafx.scene.paint.Color;
 import java.text.DateFormat;
 import java.util.*;
 import java.io.*;
+import java.lang.IllegalStateException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -72,6 +74,7 @@ public class MessagerieClient extends Application {
     private static String pseudo;
     private static int refConv = -1 ;
     private static MessageCallbackInterface callback = null;
+    private static MessagerieClient me = null;
 
     //==== Menu nodes
     TitledPane connexionPane = new TitledPane();
@@ -122,6 +125,8 @@ public class MessagerieClient extends Application {
         } catch (RemoteException e) {
             e.toString();
             e.printStackTrace();
+        } catch (IllegalStateException e) {
+            // On ne fait rien
         } catch (Exception e) {
             e.toString();
             e.printStackTrace();
@@ -142,6 +147,7 @@ public class MessagerieClient extends Application {
 
     @Override
     public void start(Stage stage) {
+        this.me = this;
         setPrimaryStage(stage);
         Scene scene = new Scene(accordion, screenSize.getWidth(), screenSize.getHeight());
 
@@ -226,10 +232,11 @@ public class MessagerieClient extends Application {
                 } else {
                     if (messagerie.isPseudoAvailable(pseudo)) {
                         // Ajouter avatarView, mode, filtre
-                        messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null);
+                        messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
                         pseudoTextFieldAlert.setVisible(false);
                         filterPane.setCollapsible(true);
                         filterPane.setExpanded(true);
+
                     } else {
                         pseudoTextFieldAlert.setVisible(true);
                         filterPane.setCollapsible(false);
@@ -412,19 +419,22 @@ public class MessagerieClient extends Application {
                         // La conversation n'existe pas
                         if (refConv == -1) {
                             refConv = createNewConv(newValue);
-                        }
-                        else{
-                            callback = new IHMMessageCallback(refConv, pseudo);
-                            messagerie.addUserToConv(pseudo, refConv, callback);
-                        }
-                        List<Message> contenu = messagerie.getContenu(refConv, pseudo);
-                        if (!contenu.isEmpty()) {
-                            messagesList = FXCollections.observableArrayList(contenu);
-                        }
-                        else{
                             messagesList = FXCollections.observableArrayList();
+                            messagesListView.setItems(messagesList);
                         }
-                        messagesListView.setItems(messagesList);
+                        else{
+                            callback = new IHMMessageCallback(refConv, pseudo, me);
+                            messagerie.addUserToConv(pseudo, refConv, callback);
+                            loadConvMessages();
+                        }
+                        // List<Message> contenu = messagerie.getContenu(refConv, pseudo);
+                        // if (!contenu.isEmpty()) {
+                        //     messagesList = FXCollections.observableArrayList(contenu);
+                        // }
+                        // else{
+                        //     messagesList = FXCollections.observableArrayList();
+                        // }
+                        // messagesListView.setItems(messagesList);
                     }
                 } catch (RemoteException e) {
                     e.toString();
@@ -493,14 +503,16 @@ public class MessagerieClient extends Application {
             try{
                 if (!pseudo.isEmpty() && refConv != -1) {
                     messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
-                    if (!messagerie.getContenu(refConv, pseudo).isEmpty()) {
-                        messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv, pseudo));
-                    }
-                    else {
-                        messagesList = FXCollections.observableArrayList();
-                    }
+                    // if (!messagerie.getContenu(refConv, pseudo).isEmpty()) {
+                    //     messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv, pseudo));
+                    // }
+                    // else {
+                    //     messagesList = FXCollections.observableArrayList();
+                    // }
+                    // messagesListView.setItems(messagesList);
+                    // loadConvMessages();
+                    messagesList.add(new Message(messagerie.getCompte(pseudo), nouveauMessage.getText()));
                     nouveauMessage.setText("");
-                    messagesListView.setItems(messagesList);
                 }else{
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Erreur");
@@ -667,7 +679,7 @@ public class MessagerieClient extends Application {
     }
 
     public static int createNewConv(String titre) throws RemoteException{
-        callback = new IHMMessageCallback(pseudo);
+        callback = new IHMMessageCallback(pseudo, me);
         refConv = messagerie.creerConversation(null, pseudo, titre, null, null, callback);
         callback.setRefConv(refConv);
         return refConv;
@@ -703,6 +715,44 @@ public class MessagerieClient extends Application {
             desktop.open(file);
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public void loadConvMessages() throws RemoteException {
+        List<Message> contenu = messagerie.getContenu(refConv, pseudo);
+        if (!contenu.isEmpty()) {
+            messagesList = FXCollections.observableArrayList(contenu);
+        }
+        else{
+            messagesList = FXCollections.observableArrayList();
+        }
+        messagesListView.setItems(messagesList);
+    }
+
+    public void receiveMessage(Message msg) throws RemoteException {
+        // Support pour le multithread avec JavaFX : il ajoute un Runnable sur la pile de évènements
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                messagesList.add(msg);
+                Toolkit.getDefaultToolkit().beep();
+            }
+        });
+    }
+
+    public void receiveConversation(int refConv) throws RemoteException {
+        // Support pour le multithread avec JavaFX : il ajoute un Runnable sur la pile de évènements
+        if (this.refConv != refConv) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        items.add(messagerie.getTitreConv(refConv));
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 
