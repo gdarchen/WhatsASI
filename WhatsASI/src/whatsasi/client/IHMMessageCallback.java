@@ -9,26 +9,22 @@ public class IHMMessageCallback extends UnicastRemoteObject implements MessageCa
 
     private int refConv = -1;
     private String pseudo;
+    private MessagerieClient client;
 
-    public IHMMessageCallback(String pseudo) throws RemoteException {
+    public IHMMessageCallback(String pseudo, MessagerieClient client) throws RemoteException {
         this.pseudo = pseudo;
+        this.client = client;
     }
 
-    public IHMMessageCallback(int refConv, String pseudo) throws RemoteException {
+    public IHMMessageCallback(int refConv, String pseudo, MessagerieClient client) throws RemoteException {
+        this(pseudo,client);
         this.refConv = refConv;
-        this.pseudo = pseudo;
     }
 
     public void nouveauMessage(int refConv, Message message) throws RemoteException {
-        if (this.refConv == refConv) {
-            if (!(message.getPseudo()).equals(this.pseudo)) {
-                StringBuilder res = new StringBuilder();
-                res.append(message.getPseudo());
-                res.append(" : \n");
-                res.append("       "+message.getMessage());
-                res.append("\n\n");
-                System.out.println(res.toString());
-            }
+        if (this.refConv == refConv && !(message.getPseudo()).equals(this.pseudo)) {
+            // client.loadConvMessages();
+            client.receiveMessage(message);
         }
     }
 
