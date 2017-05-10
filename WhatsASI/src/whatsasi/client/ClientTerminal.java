@@ -115,7 +115,7 @@ public class ClientTerminal {
     public static void manageFilters(MessagerieInterface messagerie) throws RemoteException{
         System.out.println(ANSI_BLUE+"Filtres actuels : \n"+ANSI_RESET);
         if (messagerie.getFiltres(pseudo).size() < 1 ){
-            System.out.println("Vous n'avez aucun filtre. Appuez sur n'import quelle touche pour revenir en arriere.");
+            System.out.println("Vous n'avez aucun filtre. Appuyez sur n'import quelle touche pour revenir en arriere.");
             Scanner s = new Scanner(System.in);
             s.nextLine();
             manageAccount(messagerie);
@@ -174,7 +174,7 @@ public class ClientTerminal {
         Scanner s = new Scanner(System.in);
         int choix;
         while((choix = s.nextInt()) <= 0 || choix > 3)
-            System.out.println(ANSI_RED+"Choxi non valide"+ANSI_RESET);
+            System.out.println(ANSI_RED+"Choix non valide"+ANSI_RESET);
         return choix;
     }
 

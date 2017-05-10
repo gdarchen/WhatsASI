@@ -310,6 +310,11 @@ public class MessagerieClient extends Application {
             if (!filterList.contains(text)) {
                 System.out.println("Mot-filtre ajouté : " + text);
                 filterList.add(text);
+                try{
+                    messagerie.addMotInterdit(text,pseudo);
+                }catch(RemoteException ex){
+                    ex.printStackTrace();
+                }
                 filterTextFieldAlert.setVisible(false);
             } else {
                 filterTextFieldAlert.setVisible(true);
@@ -364,6 +369,11 @@ public class MessagerieClient extends Application {
             minus.setOnAction(new EventHandler<ActionEvent>() {
                 @Override public void handle(ActionEvent event) {
                     filterList.remove(textField.getText().trim().toLowerCase());
+                    try{
+                        messagerie.removeMotInterdit(textField.getText().trim().toLowerCase(),pseudo);
+                    }catch(RemoteException ex){
+                        ex.printStackTrace();
+                    }
                 }
             });
             GridPane gridPane = new GridPane();
@@ -505,7 +515,7 @@ public class MessagerieClient extends Application {
         sendMessage.setDefaultButton(true);
         sendMessage.setOnAction(event -> {
             try{
-                if (!pseudo.isEmpty() && refConv != -1) {
+                if (!pseudo.isEmpty() && refConv != -1 && !nouveauMessage.getText().isEmpty()) {
                     messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
                     // if (!messagerie.getContenu(refConv, pseudo).isEmpty()) {
                     //     messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv, pseudo));
