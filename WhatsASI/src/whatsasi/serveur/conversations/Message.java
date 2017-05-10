@@ -19,6 +19,12 @@ public class Message implements Serializable{
         this.message = message;
     }
 
+    public Message(Message msg) {
+        this.compte = msg.getCompte();
+        this.date = msg.getDate();
+        this.message = msg.getMessage();
+    }
+
     public void setCompte(Compte compte){
         this.compte = compte;
     }

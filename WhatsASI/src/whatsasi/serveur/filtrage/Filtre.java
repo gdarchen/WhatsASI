@@ -60,7 +60,7 @@ public class Filtre implements Serializable {
   }
 
   public Message filtrerMessage(Message message) {
-      Message messageFiltre = new Message(message.getCompte(), message.getMessage());
+      Message messageFiltre = new Message(message);
       for (String mot: this.getMotsInterdits()) {
           if ((message.getMessage()).contains(mot)) {
               messageFiltre.setMessage("Message filtré automatiquement");
