@@ -1,5 +1,5 @@
 @startuml
-title Diagramme de packages v1.00
+title Diagramme de packages v2.00
 
 package WhatsASI{
 
@@ -7,7 +7,7 @@ package WhatsASI{
 
     class Messagerie
 
-    package "Gestion des conversations"{
+    package "Conversations"{
       class Conversation
       class Video
       class Audio
@@ -16,14 +16,13 @@ package WhatsASI{
       interface Flux
     }
 
-    package "Gestion des utilisateurs" {
+    package "Utilisateurs" {
       abstract class Compte
       class Utilisateur
-      class Moderateur
       class IA
     }
 
-    package "Gestion du filtrage" {
+    package "Filtrage" {
       class Filtre
     }
 
@@ -31,8 +30,9 @@ package WhatsASI{
 
   package "Client" {
     class MessagerieClient
-    class Client
+    class ClientTerminal
   }
+  
 
 }
 
@@ -45,7 +45,7 @@ MessagerieClient "*" -- "1" Messagerie
 
 Messagerie "1" *-down- "*" Compte
 
-Compte <|-- Moderateur
+
 Compte <|-- Utilisateur
 Compte <|-- IA
 
