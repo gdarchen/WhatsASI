@@ -189,7 +189,7 @@ Mots-clefs:
 
 ~\\\\
 
-Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page \og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).
+Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page %\og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).
 
 ~\\\\
 Par défaut, lorsqu'un utilisateur démarre une conversation, il est seul avec l'IA jusqu'à l'arrivée d'autres utilisateurs.
@@ -204,56 +204,56 @@ Cette section présente les cas d'utilisation suivants :
 \item se connecter.
 \end{itemize}
 
-\begin{figure}[H]
-\includegraphics[scale=0.55]{images/uc-discuter.png}
-\caption{Cas d'utilisation \textbf{discuter}}
-\label{cas1}
-\end{figure}
-Le cas d'utilisation (figure \ref{cas1}) représente les interactions entre les différents interlocuteurs et les différents moyens mis à leur disposition pour communiquer.
+%\begin{figure}[H]
+%\includegraphics[scale=0.55]{images/uc-discuter.png}
+%\caption{Cas d'utilisation \textbf{discuter}}
+%\label{cas1}
+%\end{figure}
+%Le cas d'utilisation (figure \ref{cas1}) représente les interactions entre les différents interlocuteurs et les différents moyens mis à leur disposition pour communiquer.
 
-\begin{center}
-\begin{figure}[H]
-\includegraphics[scale=0.7]{images/uc-filtrerMessages.png}
-\vspace{5\baselineskip}
-\caption{Cas d'utilisation \textbf{filtrer les messages}}
-\end{figure}
+%\begin{center}
+%\begin{figure}[H]
+%\includegraphics[scale=0.7]{images/uc-filtrerMessages.png}
+%\vspace{5\baselineskip}
+%\caption{Cas d'utilisation \textbf{filtrer les messages}}
+%\end{figure}
 
-\begin{figure}
-\includegraphics[scale=0.6]{images/uc-parametrerFiltrage.png}
-\caption{Cas d'utilisation \textbf{paramétrer le filtrage}}
-\end{figure}
-
-\begin{figure}
-\includegraphics[scale=0.7]{images/uc-seConnecter.png}
-\caption{Cas d'utilisation \textbf{se connecter}}
-\end{figure}
-
-\end{center}
+%\begin{figure}
+%\includegraphics[scale=0.6]{images/uc-parametrerFiltrage.png}
+%\caption{Cas d'utilisation \textbf{paramétrer le filtrage}}
+%\end{figure}
+%
+%\begin{figure}
+%\includegraphics[scale=0.7]{images/uc-seConnecter.png}
+%\caption{Cas d'utilisation \textbf{se connecter}}
+%\end{figure}
+%
+%\end{center}
 
 \section{Spécifications d'interfaces}
 \subsection*{Maquettes}
 
 Cette section présente les maquettes de l'application.
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.95\textwidth]{maquette/maquette1.png}}
-\caption{Un exemple de conversation texte}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette4.png}}
-\caption{Conversation vidéo}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette2.png}}
-\caption{Liste des conversations}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette3.png}}
-\caption{Interface des paramètres}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.95\textwidth]{maquette/maquette1.png}}
+%\caption{Un exemple de conversation texte}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette4.png}}
+%\caption{Conversation vidéo}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette2.png}}
+%\caption{Liste des conversations}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette3.png}}
+%\caption{Interface des paramètres}
+%\end{figure}
 
 
 \section{Spécifications opérationnelles}
@@ -264,86 +264,84 @@ De plus, les messages sont sauvegardés tant qu'il subsiste un utilisateur conne
 
 Le serveur qui héberge l'application est disponible à chaque instant $t$ pour permettre aux utilisateurs d'utiliser le service à n'importe quel moment.
 
-Lors de l'utilisation de l'application, la reférence du compte est utilisée pour savoir qui participe à la conversation. Cett référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.
+Lors de l'utilisation de l'application, la reférence du compte est utilisée pour savoir qui participe à la conversation. Cette référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.
 
 \chapter{Conception préliminaire}
 
 \section{Modèle du domaine}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.95\textwidth]{diagrammes/class-diag.png}}
-\caption{Modèle du domaine}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.95\textwidth]{diagrammes/class-diag.png}}
+%\caption{Modèle du domaine}
+%\end{figure}
 
 \section{Diagrammes de séquence système}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-communiquer.png}}
-\caption{Le diagramme de séquence système de \og communiquer \fg}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-communiquer.png}}
+%\caption{Le diagramme de séquence système de \og communiquer \fg}
+%\end{figure}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-connexion.png}}
-\caption{Le diagramme de séquence système de \og se connecter \fg}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-connexion.png}}
+%\caption{Le diagramme de séquence système de \og se connecter \fg}
+%\end{figure}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-moderer.png}}
-\caption{Le diagramme de séquence système de \og modérer \fg}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-moderer.png}}
+%\caption{Le diagramme de séquence système de \og modérer \fg}
+%\end{figure}
 
-
-
-
-
-
+\subsection{Modification du modèle du domaine}
+La logique utilisée lors de la conception est restée la même. Nous avons cependant effectuée 2 changements principaux. Nous avons inclus beaucoup plus de champs dans la classe Messagerie. En effet nous avons tous centraliser via cette classe pour structurer les encapsulations. Par exemple, cette classe contient l'IA. \\
+De plus, nous avions initialement une classe modérateur que nous avons supprimé et transformé en un booléen dans la classe utilisateur. Choix qui nous paraissait beaucoup plus pertinent.
 
 \section{Diagrammes d'activités}
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-settings-diag.png}}
-\caption{Le diagramme de l'activité \og se connecter \fg}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.95\textwidth]{diagrammes/activity-convList-diag.png}}
-\caption{Le diagramme de l'activité \og choisir une conversation \fg}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-openConv-diag.png}}
-\caption{Le diagramme de l'activité \og ouvrir une conversation \fg}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.8\textwidth]{diagrammes/activity-sendMsg-diag.png}}
-\caption{Le diagramme de l'activité \og communiquer \fg}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-settings-diag.png}}
+%\caption{Le diagramme de l'activité \og se connecter \fg}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.95\textwidth]{diagrammes/activity-convList-diag.png}}
+%\caption{Le diagramme de l'activité \og choisir une conversation \fg}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-openConv-diag.png}}
+%\caption{Le diagramme de l'activité \og ouvrir une conversation \fg}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.8\textwidth]{diagrammes/activity-sendMsg-diag.png}}
+%\caption{Le diagramme de l'activité \og communiquer \fg}
+%\end{figure}
 
 
 \section{Diagrammes d’interaction}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-connexion.png}}
-\caption{Le diagramme de séquence d'analyse \og se connecter \fg}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-communiquer.png}}
-\caption{Le diagramme de séquence d'analyse \og Communiquer \fg}
-\end{figure}
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/dsa-moderer.png}}
-\caption{Le diagramme de séquence d'analyse \og Modérer Message \fg}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-connexion.png}}
+%\caption{Le diagramme de séquence d'analyse \og se connecter \fg}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-communiquer.png}}
+%\caption{Le diagramme de séquence d'analyse \og Communiquer \fg}
+%\end{figure}
+%
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/dsa-moderer.png}}
+%\caption{Le diagramme de séquence d'analyse \og Modérer Message \fg}
+%\end{figure}
 
 \section{Diagramme de communication client serveur}
 
 \section{Découpage de l'application en \emph{packages}}
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.8\textwidth]{diagrammes/package-diag.png}}
-\caption{Le diagramme de packages}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.8\textwidth]{diagrammes/package-diag.png}}
+%\caption{Le diagramme de packages}
+%\end{figure}
 
 
 %\paragraph*{Classe Messagerie}
@@ -434,31 +432,47 @@ Lors de l'utilisation de l'application, la reférence du compte est utilisée po
 %\end{itemize}
 %
 
-
+Nous avons choisi de travailler avec des threads et callback. Comme indiqué sur la figure ci dessous. Nous sommes en multiclient: il y a donc un callback par client.
 
 
 
 \chapter{Conception détaillée}
-\begin{figure}[H]
-\centerline{\includegraphics[width=0.7\textwidth]{diagrammes/detailedConception.png}}
-\caption{Le diagramme de classes de conception détaillée}
-\end{figure}
+%\begin{figure}[H]
+%\centerline{\includegraphics[width=0.7\textwidth]{diagrammes/detailedConception.png}}
+%\caption{Le diagramme de classes de conception détaillée}
+%\end{figure}
 \chapter{Implémentations et tests}
 L'objectif de cette partie est de préciser nos différents choix techniques. De même que de justifier le bon fonctionnement de nos fonctionnalités.
 \section{Choix techniques}
 \subsection{Langage de programmation, librairie, technologie pour la notion d'informatique répartie}
 \subsubsection{Langage de programmation}
-Nous avons choisi d'utiliser un langage orienté objet : JAVA. L'utilisation d'un tel langage nous paraissait pertinente et adaptée à notre projet.\\
-Premièrement, il était assez simple de passer d'une conception UML à une programmation JAVA.\\
+Nous avons choisi d'utiliser un langage orienté objet : JAVA. L'utilisation d'un tel langage nous paraissait pertinente et adaptée à notre projet que nous voulions orienté logiciel.\\
+Premièrement, il était assez simple de passer d'une conception UML à une programmation JAVA. \\
+Deuxièmement JAVA permettait la gestion des exceptions.\\
 De plus ce langage est celui le plus maîtrisé par l'ensemble du groupe.
-Enfin il s'adaptait parfaitement à l'utilisation de RMI.
+Enfin il s'adaptait parfaitement à l'utilisation de RMI.\\
 \subsubsection{Librairie}
-A COMPLETER
+Nous avons choisi d'utiliser java-fx, qui offre un certain nombre de fonctionnalités graphiques. Cela nous permettait de découvrir une nouvelle librairie sachant que nous connaissions déjà swing.
 \subsubsection{Technologie pour la notion d'informatique répartie}
-Nous avons fait le choix d'utiliser un système de communication RMI avec de l'appel de méthode sur des objets distants. Nous avons choisi cette technologie car elle n'est pas orientée WEB de façon pure (moins que REST) et nous souhaitions réaliser un travail basé sur une application et non un site WEB.\\
+Nous avons fait le choix d'utiliser un système de communication RMI avec de l'appel de méthode sur des objets distants. Nous avons choisi cette technologie car elle n'est pas orientée WEB de façon pure (moins que REST) et nous souhaitions réaliser un travail basé sur un logiciel et non un site WEB.\\
 De plus il était nécessaire d'utiliser des threads pour avoir plusieurs clients. 
 \subsection{Guide d'utilisation}
-A COMPLETER
+Voici les différentes étapes à suivre pour utiliser notre application:
+\subsubsection{Concernant l'installation}
+\begin{itemize}
+\item Compiler le projet via le fichier compile.shs
+\item Lancer le RmiRegistry ./launchRmiregistry.sh
+\item Lancer le serveur ./launchServer.sh (terminal si version terminale)
+\item Lancer le client dans un autre terminal ./launchClient.sh (terminal si version terminale)
+\end{itemize}
+
+\subsubsection{Concernant l'utilisation}
+\begin{itemize}
+\item Suivre les instructions présentes sur l'IHM
+\item Pour lancer l'IA mettre \textbackslash bonjour, toutes les instructions apparaîtront.
+\item compléter certains trucs
+\end{itemize}
+
 \section{Tests de validation}
 A COMPLETER
 \subsection{Tests des spécifications fonctionnelles}
