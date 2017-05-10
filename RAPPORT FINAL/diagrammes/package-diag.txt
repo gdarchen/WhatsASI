@@ -61,5 +61,5 @@ Message <|-- MessageDeModeration
 Message "*" -down-* "1" Conversation
 
 Compte "1" -right- "*" Message : écrit >
-MessageDeModeration "*" -- "1" Moderateur : < écrit
+MessageDeModeration "*" -- "1" Utilisateur : < écrit
 @enduml
