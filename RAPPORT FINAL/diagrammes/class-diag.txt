@@ -1,28 +1,36 @@
 @startuml
-title Modèle du domaine v0.00
+title Modèle du domaine v1.00
 
 class Messagerie {
         +List<Conversation> conversations
+        + IA ia;
+        + Map<String, Compte> comptes;
+        + Map<Integer, Conversation> conversations;
+        + Map<String, MessageCallbackInterface> callbacks
 }
 
 abstract class Compte {
 	+String pseudo
 	+ImageIcon avatar
-	+boolean video
-	+boolean audio
+	+Mode mode;
 }
-class Utilisateur
-class Moderateur
+class Utilisateur{
+        +Filtre filtre;
+        +boolean estModerateur;
 class IA {
-	{static} +String pseudo = "Sophisme"
+	List<String> motsInteractionIA
 }
 
 class Conversation {
-	+List<Message> messages
+	+ List<Message> messages
+	+ List<MessageDeModeration> messagesDeModeration;
+        + Map<String,Mode> pipelettes;
+	+ private static int refConv; 
+        + private String titre;
 }
 class Filtre {
 	+Collection<String> motsInterdits
-}
+        +Boolean actif
 class Message {
 	+Compte auteur
 	+Date date
@@ -30,7 +38,6 @@ class Message {
 }
 
 class MessageDeModeration
-class Conversation
 class Video
 class Audio
 interface Flux
@@ -41,7 +48,7 @@ Compte "*" -- "*" Conversation
 
 Messagerie "1" *-down- "*" Compte
 
-Compte <|-- Moderateur
+
 Compte <|-- Utilisateur
 Compte <|-- IA
 
@@ -57,5 +64,8 @@ Message <|-- MessageDeModeration
 Message "*" -down-* "1" Conversation
 
 Compte "1" -right- "*" Message : écrit >
-MessageDeModeration "*" -- "1" Moderateur : < écrit
+MessageDeModeration "*" -- "1" Utilisateur : < écrit
+note right of MessageDeModeration
+    Dans le cas où modérateur à vrai
+endnote
 @enduml
