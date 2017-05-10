@@ -459,6 +459,7 @@ public class MessagerieClient extends Application {
                             items =  FXCollections.observableArrayList(getConversationsTitre());
                             items.add(result.get());
                             listeConv.setItems(items);
+                            listeConv.getSelectionModel().select(result.get());
                         } else {
                             Alert alert = new Alert(AlertType.ERROR);
                             alert.setTitle("Conversation déjà existante");
