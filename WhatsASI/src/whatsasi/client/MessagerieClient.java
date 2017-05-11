@@ -97,6 +97,7 @@ public class MessagerieClient extends Application {
     Button photoButton = new Button("Changer d'avatar");
     final FileChooser fileChooser = new FileChooser();
     Button connexionOK = new Button("Se connecter");
+    private CheckBox checkBoxModerateur = new CheckBox("Modérateur");
 
     //==== Filter nodes
     TextField filterTextField = new TextField();
@@ -198,6 +199,13 @@ public class MessagerieClient extends Application {
 
         pseudoTextFieldAlert.setStyle("-fx-text-fill: red");
         pseudoTextFieldAlert.setVisible(false);
+        checkBoxModerateur.setStyle(
+            "-fx-border-color: lightblue; "
+            + "-fx-border-insets: -5; "
+            + "-fx-border-radius: 5;"
+            + "-fx-border-style: dotted;"
+            + "-fx-border-width: 2;"
+        );
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(6, 6, 6, 6));
@@ -206,6 +214,7 @@ public class MessagerieClient extends Application {
         grid.add(new Label("Pseudo :"), 0, 0);
         grid.add(pseudoTextField, 1, 0);
         grid.add(pseudoTextFieldAlert, 1, 1);
+        grid.add(checkBoxModerateur, 1, 2);
         grid.setAlignment(Pos.CENTER);
         vbox.getChildren().add(grid);
 
@@ -238,6 +247,7 @@ public class MessagerieClient extends Application {
                 } else {
                     if (messagerie.isPseudoAvailable(pseudo)) {
                         // Ajouter avatarView, mode, filtre
+                        checkBoxModerateur.setDisable(true);
                         if (premiereFois) {
                             messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
                         }
