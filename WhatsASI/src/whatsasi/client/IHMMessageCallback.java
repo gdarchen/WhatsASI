@@ -31,4 +31,8 @@ public class IHMMessageCallback extends UnicastRemoteObject implements MessageCa
     public void setRefConv(int refConv) throws RemoteException {
         this.refConv = refConv;
     }
+
+    public void setPseudo(String pseudo) throws RemoteException {
+        this.pseudo = pseudo;
+    }
 }

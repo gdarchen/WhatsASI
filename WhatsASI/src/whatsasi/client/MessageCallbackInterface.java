@@ -7,4 +7,5 @@ import java.rmi.RemoteException;
 public interface MessageCallbackInterface extends Remote {
     public void nouveauMessage(int refConv, Message message) throws RemoteException;
     public void setRefConv(int refConv) throws RemoteException;
+    public void setPseudo(String pseudo) throws RemoteException;
 }

@@ -61,9 +61,15 @@ public class Messagerie implements MessagerieInterface {
         return this.creerCompte(pseudo,avatar, mode, filtre);
     }
 
-    public boolean modifierPseudo(String old, String newPseudo) {
+    public boolean modifierPseudo(String old, String newPseudo) throws RemoteException {
         if (isPseudoAvailable(newPseudo)) {
             this.setPseudo(old, newPseudo);
+            MessageCallbackInterface callback;
+            if ((callback = this.callbacks.remove(old)) != null) {
+                this.callbacks.put(newPseudo, callback);
+                callback.setPseudo(newPseudo);
+            }
+            this.convCallbacks.put(newPseudo, this.convCallbacks.remove(old));
             return true;
         }
         else
@@ -308,5 +314,4 @@ public class Messagerie implements MessagerieInterface {
             convCallback.nouvelleConversation(refConv);
         }
     }
-
 }

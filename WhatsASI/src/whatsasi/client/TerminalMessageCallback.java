@@ -39,4 +39,8 @@ public class TerminalMessageCallback extends UnicastRemoteObject implements Mess
     public void setRefConv(int refConv) throws RemoteException {
         this.refConv = refConv;
     }
+
+    public void setPseudo(String pseudo) throws RemoteException {
+        this.pseudo = pseudo;
+    }
 }

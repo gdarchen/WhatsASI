@@ -221,6 +221,12 @@ public class MessagerieClient extends Application {
         @Override
         public void handle(ActionEvent e) {
             try {
+                // Indique si premiere connexion
+                boolean premiereFois = (pseudo == null);
+                String oldPseudo = null;
+                if (!premiereFois) {
+                    oldPseudo = pseudo;
+                }
                 pseudo = pseudoTextField.getText();
                 if (pseudo.isEmpty()) {
                     Alert alert = new Alert(AlertType.ERROR);
@@ -232,7 +238,12 @@ public class MessagerieClient extends Application {
                 } else {
                     if (messagerie.isPseudoAvailable(pseudo)) {
                         // Ajouter avatarView, mode, filtre
-                        messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                        if (premiereFois) {
+                            messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                        }
+                        else {
+                            messagerie.modifierPseudo(oldPseudo, pseudo);
+                        }
                         pseudoTextFieldAlert.setVisible(false);
                         filterPane.setCollapsible(true);
                         filterPane.setExpanded(true);
