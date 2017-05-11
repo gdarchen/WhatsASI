@@ -85,7 +85,8 @@ public class MessagerieClient extends Application {
     private Desktop desktop = Desktop.getDesktop();
 
     //==== Connexion nodes
-    private ImageView avatarView = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
+    //private ImageView avatarView = new ImageView(new Image("https://i1.social.s-msft.com/profile/u/avatar.jpg?displayname=kabir+shenvi&size=extralarge&version=00000000-0000-0000-0000-000000000000", 120, 120, true, false));
+    private ImageView avatarView = new ImageView(new Image("file:res/im8.png"));
     TextField pseudoTextField = new TextField();
     Label pseudoTextFieldAlert = new Label("Ce pseudo est déjà pris !");
     Button photoButton = new Button("Changer d'avatar");
@@ -114,14 +115,7 @@ public class MessagerieClient extends Application {
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             messagerie = (MessagerieInterface) registry.lookup("Messagerie");
             messagerie.setIAIcon();
-            //System.out.println(getConversationsTitre(messagerie));
             Application.launch(args);
-            //connection();
-            //interceptShutdown();
-            //System.out.println(messagerie.sayHi());
-            //displayBACKCHAR();
-            //createAccount(messagerie);
-            //indexActions(messagerie);
         } catch (RemoteException e) {
             e.toString();
             e.printStackTrace();
@@ -192,6 +186,7 @@ public class MessagerieClient extends Application {
             File file = fileChooser.showOpenDialog(getPrimaryStage());
 
             if (file != null) {
+                //System.out.println(file.toURI().toString());
                 avatarView.setImage(new Image(file.toURI().toString()));
             }
         });
@@ -268,9 +263,7 @@ public class MessagerieClient extends Application {
 
     private void initFilterPane() {
         VBox vbox = new VBox(12);
-        filterList = FXCollections.observableArrayList("putain");/*new FilterCell("putain"),
-                new FilterCell("Voldemort"),
-                new FilterCell("Donald Trump"));*/
+        filterList = FXCollections.observableArrayList();
         FilterListView filterListView = new FilterListView(filterList);
 
         vbox.getChildren().add(new Label("Saisissez les mots à filtrer. Les mots filtrés seront remplacés " +
@@ -318,17 +311,26 @@ public class MessagerieClient extends Application {
         @Override
         public void handle(ActionEvent e) {
             String text = filterTextField.getText().trim().toLowerCase();
-            if (!filterList.contains(text)) {
-                System.out.println("Mot-filtre ajouté : " + text);
-                filterList.add(text);
-                try{
-                    messagerie.addMotInterdit(text,pseudo);
-                }catch(RemoteException ex){
-                    ex.printStackTrace();
+
+            if (filterTextField.getText().isEmpty()){
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Mot à filtrer vide");
+                alert.setHeaderText("Veuillez entrer un mot à filtrer différent d'une chaine de caractère vide.");
+                alert.setContentText("Le mot filtré apparaitra avec des \"***\" dans les messages reçus.");
+                alert.showAndWait();
+            }else{
+                if (!filterList.contains(text)) {
+                    System.out.println("Mot-filtre ajouté : " + text);
+                    filterList.add(text);
+                    try{
+                        messagerie.addMotInterdit(text,pseudo);
+                    }catch(RemoteException ex){
+                        ex.printStackTrace();
+                    }
+                    filterTextFieldAlert.setVisible(false);
+                } else {
+                    filterTextFieldAlert.setVisible(true);
                 }
-                filterTextFieldAlert.setVisible(false);
-            } else {
-                filterTextFieldAlert.setVisible(true);
             }
         }
     }
@@ -397,7 +399,6 @@ public class MessagerieClient extends Application {
         public void updateItem(String text, boolean empty) {
             super.updateItem(text, empty);
             if (empty) {
-                // setTextField(null);
                 setGraphic(null);
             } else {
                 setTextField(text);
@@ -451,14 +452,6 @@ public class MessagerieClient extends Application {
                             messagerie.addUserToConv(pseudo, refConv, callback);
                             loadConvMessages();
                         }
-                        // List<Message> contenu = messagerie.getContenu(refConv, pseudo);
-                        // if (!contenu.isEmpty()) {
-                        //     messagesList = FXCollections.observableArrayList(contenu);
-                        // }
-                        // else{
-                        //     messagesList = FXCollections.observableArrayList();
-                        // }
-                        // messagesListView.setItems(messagesList);
                     }
                 } catch (RemoteException e) {
                     e.toString();
@@ -477,23 +470,31 @@ public class MessagerieClient extends Application {
 
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
-                    try{
-                        if (!getConversationsTitre().contains((String)result.get())) {
-                            //createNewConv(result.get());
-                            items =  FXCollections.observableArrayList(getConversationsTitre());
-                            items.add(result.get());
-                            listeConv.setItems(items);
-                            listeConv.getSelectionModel().select(result.get());
-                        } else {
-                            Alert alert = new Alert(AlertType.ERROR);
-                            alert.setTitle("Conversation déjà existante");
-                            alert.setHeaderText("La conversation de nom \""+result.get()+"\" est déjà existante.");
-                            alert.setContentText("Veuillez créer une autre conversation avec un nom différent.");
-                            alert.showAndWait();
+                    String res = result.get();
+                    if (res.isEmpty()){
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Une conversation doit avoir un nom");
+                        alert.setHeaderText("Veuillez entrer un nom de conversation.");
+                        alert.setContentText("Le nom de conversation permet aux autres utilisateurs de pouvoir vous rejoindre et discuter avec vous.");
+                        alert.showAndWait();
+                    }else{
+                        try{
+                            if (!getConversationsTitre().contains((String)result.get())) {
+                                items =  FXCollections.observableArrayList(getConversationsTitre());
+                                items.add(result.get());
+                                listeConv.setItems(items);
+                                listeConv.getSelectionModel().select(result.get());
+                            } else {
+                                Alert alert = new Alert(AlertType.ERROR);
+                                alert.setTitle("Conversation déjà existante");
+                                alert.setHeaderText("La conversation de nom \""+result.get()+"\" est déjà existante.");
+                                alert.setContentText("Veuillez créer une autre conversation avec un nom différent.");
+                                alert.showAndWait();
+                            }
+                        } catch (RemoteException e) {
+                            e.toString();
+                            e.printStackTrace();
                         }
-                    } catch (RemoteException e) {
-                        e.toString();
-                        e.printStackTrace();
                     }
                 }
             }
@@ -512,7 +513,6 @@ public class MessagerieClient extends Application {
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
 
-        //messagesList = FXCollections.observableArrayList("C'est qui ?", "C'est Pinpin !");
         messagesListView = new MessagesListView();
         messagesListView.setItems(messagesList);
 
@@ -528,14 +528,6 @@ public class MessagerieClient extends Application {
             try{
                 if (!pseudo.isEmpty() && refConv != -1 && !nouveauMessage.getText().isEmpty()) {
                     messagerie.addMessage(nouveauMessage.getText(), refConv, pseudo);
-                    // if (!messagerie.getContenu(refConv, pseudo).isEmpty()) {
-                    //     messagesList = FXCollections.observableArrayList(messagerie.getContenu(refConv, pseudo));
-                    // }
-                    // else {
-                    //     messagesList = FXCollections.observableArrayList();
-                    // }
-                    // messagesListView.setItems(messagesList);
-                    // loadConvMessages();
                     messagesList.add(new Message(messagerie.getCompte(pseudo), nouveauMessage.getText()));
                     nouveauMessage.setText("");
                 }else{
@@ -801,6 +793,7 @@ public class MessagerieClient extends Application {
         g2d.dispose();
         return SwingFXUtils.toFXImage(bimg, null);
     }
+
 
 
 }
