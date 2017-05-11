@@ -21,6 +21,8 @@ public interface MessagerieInterface extends Remote {
 
     public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre, ConversationCallbackInterface convCallback) throws RemoteException;
 
+    public boolean creerModerateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre, ConversationCallbackInterface convCallback) throws RemoteException;
+
     public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 
     public void setIAIcon() throws RemoteException;

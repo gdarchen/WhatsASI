@@ -61,6 +61,13 @@ public class Messagerie implements MessagerieInterface {
         return this.creerCompte(pseudo,avatar, mode, filtre);
     }
 
+    public boolean creerModerateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre, ConversationCallbackInterface convCallback) {
+        this.convCallbacks.put(pseudo, convCallback);
+        boolean res = this.creerCompte(pseudo,avatar, mode, filtre);
+        ((Utilisateur)this.comptes.get(pseudo)).setEstModerateur(true);
+        return res;
+    }
+
     public boolean modifierPseudo(String old, String newPseudo) throws RemoteException {
         if (isPseudoAvailable(newPseudo)) {
             this.setPseudo(old, newPseudo);

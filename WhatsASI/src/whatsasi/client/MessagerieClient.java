@@ -62,6 +62,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 import whatsasi.serveur.conversations.*;
+import whatsasi.serveur.utilisateurs.Utilisateur;
 import whatsasi.serveur.filtrage.Filtre;
 
 
@@ -249,11 +250,17 @@ public class MessagerieClient extends Application {
                         // Ajouter avatarView, mode, filtre
                         checkBoxModerateur.setDisable(true);
                         if (premiereFois) {
-                            messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                            if (checkBoxModerateur.isSelected()) {
+                                messagerie.creerModerateur(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                            }
+                            else {
+                                messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                            }
                         }
                         else {
                             messagerie.modifierPseudo(oldPseudo, pseudo);
                         }
+
                         pseudoTextFieldAlert.setVisible(false);
                         filterPane.setCollapsible(true);
                         filterPane.setExpanded(true);
@@ -552,7 +559,14 @@ public class MessagerieClient extends Application {
         messagesListView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
             @Override
             public void handle(ContextMenuEvent event) {
-                menu.show(messagesListView, event.getScreenX(), event.getScreenY());
+                try {
+                    if (((Utilisateur)messagerie.getCompte(pseudo)).getEstModerateur()) {
+                        System.out.println("L'utilisateur courant est un modérateur");
+                        menu.show(messagesListView, event.getScreenX(), event.getScreenY());
+                    }
+                } catch (RemoteException e) {
+                        e.printStackTrace();
+                }
             }
         });
 

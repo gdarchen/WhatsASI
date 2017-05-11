@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Utilisateur extends Compte {
 
     private Filtre filtre;
-    private boolean estModerateur;
+    private boolean estModerateur = false;
 
   	public Utilisateur(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre) {
       super(pseudo, avatar, mode);
