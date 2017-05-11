@@ -59,15 +59,24 @@ public class Filtre implements Serializable {
       return messagesFiltres;
   }
 
-  public Message filtrerMessage(Message message) {
-      Message messageFiltre = new Message(message);
-      for (String mot: this.getMotsInterdits()) {
-          if ((message.getMessage()).contains(mot)) {
-              messageFiltre.setMessage("Message filtré automatiquement");
-              return messageFiltre;
-          }
-      }
-      return messageFiltre;
-  }
+public Message filtrerMessage(Message message) {
+    Message messageFiltre = new Message(message);
+    String msg, msglow, stars;
+    int begin, end, l;
+    msg = message.getMessage();
+    for (String mot: this.getMotsInterdits()) {
+        l = mot.length();
+        stars = new String(new char[l]).replace("\0", "*");
+        msglow = msg.toLowerCase();
+        while (msglow.contains(mot)) {
+            begin = msglow.indexOf(mot);
+            end = begin + l;
+            msg = msg.substring(0, begin) + stars + msg.substring(end);
+            msglow = msg.toLowerCase();
+        }
+    }
+    messageFiltre.setMessage(msg);
+    return messageFiltre;
+}
 
 }
