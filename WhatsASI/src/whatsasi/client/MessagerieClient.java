@@ -34,12 +34,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.beans.value.*;
 import javafx.beans.binding.Bindings;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
+
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javafx.stage.FileChooser;
-
+import javafx.scene.input.MouseEvent;
 
 import javafx.scene.paint.Color;
 // import javafx.scene.shape.Circle;
@@ -55,6 +59,7 @@ import java.rmi.registry.Registry;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
 
 import whatsasi.serveur.conversations.*;
 import whatsasi.serveur.filtrage.Filtre;
@@ -519,6 +524,23 @@ public class MessagerieClient extends Application {
         messagesListView.setPrefHeight(0.7*screenSize.getHeight());
         messagesListView.setPrefWidth(0.75*screenSize.getWidth());
 
+        ContextMenu menu = new ContextMenu();
+        MenuItem deleteItem = new MenuItem("Supprimer le message");
+        deleteItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Message msg = messagesListView.getSelectionModel().getSelectedItem();
+                System.out.println("delete pressed for Message (objet de type message à supprimer de la conv) : " + messagesListView.getSelectionModel().getSelectedItem());
+            }
+        });
+        menu.getItems().addAll(deleteItem);
+
+        messagesListView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent event) {
+                menu.show(messagesListView, event.getScreenX(), event.getScreenY());
+            }
+        });
 
         nouveauMessage = new TextField();
         nouveauMessage.setPromptText("Nouveau message");
@@ -607,6 +629,10 @@ public class MessagerieClient extends Application {
                     DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
             setExpediteur(msg.getPseudo());
             initCell();
+        }
+
+        public String getTexte(){
+            return this.texte.getText();
         }
 
         public void setTexte(String text) {

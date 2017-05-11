@@ -42,7 +42,7 @@ public class Messagerie implements MessagerieInterface {
     }
 
     public void setIAIcon(){
-        this.ia.setAvatar(new ImageIcon("res/sophisme.png"));
+        this.ia.setAvatar(new ImageIcon("file:res/sophisme.png"));
     }
 
     @Override
