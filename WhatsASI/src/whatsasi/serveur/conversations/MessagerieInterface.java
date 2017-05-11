@@ -93,5 +93,5 @@ public interface MessagerieInterface extends Remote {
 
     public List<Message> getContenu(int refConv, String pseudo) throws RemoteException;
 
-    // public void supprimerCallbacks(String pseudo, boolean messages, boolean conversations) throws RemoteException;
+    public void supprimerMessage(int refConv, int index) throws RemoteException;
 }

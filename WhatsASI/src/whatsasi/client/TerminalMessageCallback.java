@@ -36,6 +36,9 @@ public class TerminalMessageCallback extends UnicastRemoteObject implements Mess
         }
     }
 
+    public void supprimerMessage(int refConv, int index) throws RemoteException {}
+
+
     public void setRefConv(int refConv) throws RemoteException {
         this.refConv = refConv;
     }

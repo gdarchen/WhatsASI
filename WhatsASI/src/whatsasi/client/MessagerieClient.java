@@ -530,7 +530,11 @@ public class MessagerieClient extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Message msg = messagesListView.getSelectionModel().getSelectedItem();
-                System.out.println("delete pressed for Message (objet de type message à supprimer de la conv) : " + messagesListView.getSelectionModel().getSelectedItem());
+                try{
+                    messagerie.supprimerMessage(refConv, messagesList.indexOf(msg));
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         });
         menu.getItems().addAll(deleteItem);
@@ -779,6 +783,15 @@ public class MessagerieClient extends Application {
             public void run() {
                 messagesList.add(msg);
                 Toolkit.getDefaultToolkit().beep();
+            }
+        });
+    }
+
+    public void removeMessage(int index) throws RemoteException {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                messagesList.remove(index);
             }
         });
     }

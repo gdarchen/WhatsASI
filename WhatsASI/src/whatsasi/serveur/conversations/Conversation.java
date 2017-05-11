@@ -96,6 +96,10 @@ public class Conversation implements Serializable{
       this.messages.remove(message);
   }
 
+  public void supprimerMessage(int index) {
+    this.messages.remove(index);
+  }
+
   public void envoyerAudio(){/* A IMPLEMENT PLUS TARD*/}
 
   public void envoyerVideo(){/* A IMPLEMENT PLUS TARD*/}

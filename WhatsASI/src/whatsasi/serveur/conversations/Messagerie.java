@@ -121,6 +121,10 @@ public class Messagerie implements MessagerieInterface {
         return null;
     }
 
+    public List<Conversation> getConversations() {
+        return new ArrayList<Conversation>(this.conversations.values());
+    }
+
     public List<Message> getContenu(int refConv) {
         if (getConversation(refConv) != null)
             return getConversation(refConv).getContenu();
@@ -170,9 +174,10 @@ public class Messagerie implements MessagerieInterface {
       thread.start();
     }
 
-    public String supprimerMessage(String msg) throws RemoteException {
-      return ajouterMessageModeration();
-
+    public void supprimerMessage(int refConv, int index) throws RemoteException {
+        this.getConversation(refConv).supprimerMessage(index);
+        InformateurMessages thread = new InformateurMessages(this, refConv, null, true, index);
+        thread.start();
     }
 
     public String ajouterMessageModeration() {
@@ -254,7 +259,7 @@ public class Messagerie implements MessagerieInterface {
         }
 	}
 
-    public List<Conversation> getConversations() {
+    public List<Conversation> versations() {
         return new ArrayList<Conversation>(conversations.values());
     }
 
@@ -312,6 +317,13 @@ public class Messagerie implements MessagerieInterface {
         for (String cbPseudo: this.convCallbacks.keySet()) {
             ConversationCallbackInterface convCallback = this.convCallbacks.get(cbPseudo);
             convCallback.nouvelleConversation(refConv);
+        }
+    }
+
+    public void informerClientsSuppression(int refConv, int index) throws RemoteException {
+        for (String cbPseudo: this.callbacks.keySet()) {
+            MessageCallbackInterface callback = this.callbacks.get(cbPseudo);
+            callback.supprimerMessage(refConv, index);
         }
     }
 }

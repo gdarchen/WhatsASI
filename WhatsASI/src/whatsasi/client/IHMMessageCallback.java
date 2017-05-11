@@ -28,6 +28,15 @@ public class IHMMessageCallback extends UnicastRemoteObject implements MessageCa
         }
     }
 
+    public void supprimerMessage(int refConv, int index) throws RemoteException {
+        if (this.refConv == refConv) {
+            // client.loadConvMessages();
+            client.removeMessage(index);
+            System.out.println("On veut supprimer le message à l'index "+index);
+        }
+    }
+
+
     public void setRefConv(int refConv) throws RemoteException {
         this.refConv = refConv;
     }
