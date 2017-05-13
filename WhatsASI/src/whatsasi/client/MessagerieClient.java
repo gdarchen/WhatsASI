@@ -99,6 +99,7 @@ public class MessagerieClient extends Application {
     final FileChooser fileChooser = new FileChooser();
     Button connexionOK = new Button("Se connecter");
     private CheckBox checkBoxModerateur = new CheckBox("Modérateur");
+    private boolean premiereFois = true;
 
     //==== Filter nodes
     TextField filterTextField = new TextField();
@@ -106,6 +107,7 @@ public class MessagerieClient extends Application {
     Label filterTextFieldAlert = new Label("Ce mot est déjà dans la liste !");
     ObservableList<String> filterList;
     Button filterOK = new Button("Valider");
+    private CheckBox checkBoxFiltre = new CheckBox("Activer le filtrage");
 
     //==== Chat nodes
     private static ObservableList<String> items;
@@ -232,7 +234,6 @@ public class MessagerieClient extends Application {
         public void handle(ActionEvent e) {
             try {
                 // Indique si premiere connexion
-                boolean premiereFois = (pseudo == null);
                 String oldPseudo = null;
                 if (!premiereFois) {
                     oldPseudo = pseudo;
@@ -252,9 +253,11 @@ public class MessagerieClient extends Application {
                         if (premiereFois) {
                             if (checkBoxModerateur.isSelected()) {
                                 messagerie.creerModerateur(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                                premiereFois = false;
                             }
                             else {
                                 messagerie.creerCompte(pseudo, fromFXImage(avatarView.getImage()), Mode.DEFAUT, null, new IHMConversationCallback(me));
+                                premiereFois = false;
                             }
                         }
                         else {
@@ -299,6 +302,36 @@ public class MessagerieClient extends Application {
         grid.add(new Label("Saisissez un mot-filtre :"), 0, 0);
         grid.add(filterTextField, 1, 0);
         grid.add(addFilteredWord, 2, 0);
+
+        checkBoxFiltre.setSelected(true);
+        checkBoxFiltre.setStyle(
+            "-fx-border-color: blue; "
+            + "-fx-border-insets: -5; "
+            + "-fx-border-radius: 5;"
+            + "-fx-border-style: dotted;"
+            + "-fx-border-width: 2;"
+        );
+
+        checkBoxFiltre.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                if (!checkBoxFiltre.isSelected()){
+                    try{
+                        messagerie.desactiverFiltre(pseudo);
+                    }catch(RemoteException e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    try{
+                        messagerie.activerFiltre(pseudo);
+                    }catch(RemoteException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        grid.add(checkBoxFiltre, 0, 2);
+
         filterTextFieldAlert.setStyle("-fx-text-fill: red");
         filterTextFieldAlert.setVisible(false);
         grid.add(filterTextFieldAlert, 1, 1);

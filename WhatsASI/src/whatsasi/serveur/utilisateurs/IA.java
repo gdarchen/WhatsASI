@@ -72,22 +72,22 @@ public class IA extends Compte implements Serializable {
 
 	public String messageHelpProfil(){
 
-		return "Pour modifier le filtre sélectionner filtre en haut des conversations \n Pour modifier l'image double cliquer sur la photo ";
+		return "Pour modifier le filtre sélectionner filtre en haut des conversations \nPour modifier l'image cliquer sur \"Changer d'avatar\" ";
 	}
 
 
 	public String messageHelpChatUn(){
 		StringBuilder msgIA = new StringBuilder();
-		msgIA.append("Pour créer une conversation : Selection de pane chat" +"\n");
-		msgIA.append("  Signifier création  : Selection de +" +"\n");
-		msgIA.append("  Ouverture d'une pop up  : Entrez nom de la conversation" +"\n");
+		msgIA.append("Pour créer une conversation : sélection de l'onglet \"Chat\"" +"\n");
+		msgIA.append("Signifier création : cliquer sur le bouton \"+\"" +"\n");
+		msgIA.append("Ouverture d'une pop-up : entrez le nom de la conversation" +"\n");
 		return msgIA.toString();
 	}
 
 	public String messageHelpChatDeux(){
 		StringBuilder msgIA = new StringBuilder();
-		msgIA.append("Sélection de la fonctionnalité conversation : Cliquer sur le pan chat"+"\n");
-		msgIA.append("Sélection d'une conversation : Cliquer sur la conversation"+"\n");
+		msgIA.append("Sélection de la fonctionnalité conversation : cliquer sur l'onglet \"Chat\""+"\n");
+		msgIA.append("Sélection d'une conversation : cliquer sur la conversation"+"\n");
 		return msgIA.toString();
 	}
 	public String messageHelpAudio(){
@@ -100,9 +100,9 @@ public class IA extends Compte implements Serializable {
 
 	public String messageHelpFiltre(){
 		StringBuilder msgIA = new StringBuilder();
-		msgIA.append("Se placer dans les filtres : Selection de pane Filtre" +"\n");
-		msgIA.append("  Ajouter un mot  : Selection de +" +"\n");
-		msgIA.append("  Supprimer un mot  : Selection de -" +"\n");
+		msgIA.append("Se placer dans les filtres : sélection de l'onglet \"Filtre\"" +"\n");
+		msgIA.append("Ajouter un mot  : entrer le mot et cliquer sur \"ajouter\"" +"\n");
+		msgIA.append("Supprimer un mot  : sélection du bouton \"-\" associé au mot" +"\n");
 		return msgIA.toString();
 	}
 
