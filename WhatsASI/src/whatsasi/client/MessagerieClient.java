@@ -121,7 +121,7 @@ public class MessagerieClient extends Application {
         try {
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             messagerie = (MessagerieInterface) registry.lookup("Messagerie");
-            messagerie.setIAIcon();
+            messagerie.setIAIcon(fromFXImage(new Image("file:res/sophisme.png")));
             Application.launch(args);
         } catch (RemoteException e) {
             e.toString();
@@ -712,7 +712,8 @@ public class MessagerieClient extends Application {
                 setDate(DateFormat.getDateTimeInstance(
                         DateFormat.SHORT, DateFormat.SHORT).format(msg.getDate()));
                 setExpediteur(msg.getPseudo());
-                setAvatar(msg.getAvatar(), msg.getAvatarWidth(), msg.getAvatarHeight());
+                if (msg.getAvatar() != null)
+                    setAvatar(msg.getAvatar(), msg.getAvatarWidth(), msg.getAvatarHeight());
                 initCell();
             }
         }

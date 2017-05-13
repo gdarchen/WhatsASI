@@ -25,7 +25,7 @@ public interface MessagerieInterface extends Remote {
 
     public int creerConversation(List<Message> messages, String pseudo, String titre, Mode mode, List<MessageDeModeration> messagesDeModeration, MessageCallbackInterface callback) throws RemoteException;
 
-    public void setIAIcon() throws RemoteException;
+    public void setIAIcon(ImageIcon img) throws RemoteException;
 
     public Compte getCompte(String pseudo) throws RemoteException;
 

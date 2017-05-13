@@ -41,13 +41,12 @@ public class Messagerie implements MessagerieInterface {
         this.comptes.put(ia.getPseudo(), ia);
     }
 
-    public void setIAIcon(){
-        this.ia.setAvatar(new ImageIcon("file:res/sophisme.png"));
+    public void setIAIcon(ImageIcon img){
+        this.ia.setAvatar(img);
     }
 
     @Override
-    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre
-            filtre) {
+    public boolean creerCompte(String pseudo, ImageIcon avatar, Mode mode, Filtre filtre) {
         if (isPseudoAvailable(pseudo)) {
             addCompte(new Utilisateur(pseudo, avatar, mode, filtre));
             return true;

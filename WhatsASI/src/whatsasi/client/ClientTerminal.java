@@ -40,6 +40,7 @@ public class ClientTerminal {
         try{
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             MessagerieInterface messagerie = (MessagerieInterface) registry.lookup("Messagerie");
+            refresh();
             connection();
             interceptShutdown(messagerie);
             System.out.println(ANSI_GREEN+messagerie.sayHi()+ANSI_RESET);

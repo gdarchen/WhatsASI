@@ -28,7 +28,10 @@ public abstract class Compte implements Serializable {
     }
 
     public Image getAvatar() {
-        return avatar.getImage();
+        if (this.avatar != null)
+            return avatar.getImage();
+        else
+            return null;
     }
 
     public void setAvatar(ImageIcon avatar) {
