@@ -31,6 +31,7 @@
 \usepackage{caption}
 \usepackage{minitoc}
 %\usepackage{tikz}
+\usepackage{listings}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{float}
@@ -50,6 +51,28 @@
 
 \geometry{hmargin=2.5cm,vmargin=2cm}
 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\footnotesize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=false,
+  breakatwhitespace=true,
+  tabsize=3
+}
 
 
 \setcounter{secnumdepth}{4}
@@ -437,10 +460,10 @@ Nous avons choisi de travailler avec des threads et callback. Comme indiqué sur
 
 
 \chapter{Conception détaillée}
-%\begin{figure}[H]
-%\centerline{\includegraphics[width=0.7\textwidth]{diagrammes/detailedConception.png}}
-%\caption{Le diagramme de classes de conception détaillée}
-%\end{figure}
+\begin{figure}[H]
+\centerline{\includegraphics[width=0.7\textwidth]{diagrammes/detailedConception.png}}
+\caption{Le diagramme de classes de conception détaillée}
+\end{figure}
 \chapter{Implémentations et tests}
 L'objectif de cette partie est de préciser nos différents choix techniques. De même que de justifier le bon fonctionnement de nos fonctionnalités.
 \section{Choix techniques}
@@ -460,10 +483,23 @@ De plus il était nécessaire d'utiliser des threads pour avoir plusieurs client
 Voici les différentes étapes à suivre pour utiliser notre application:
 \subsubsection{Concernant l'installation}
 \begin{itemize}
-\item Compiler le projet via le fichier compile.shs
-\item Lancer le RmiRegistry ./launchRmiregistry.sh
-\item Lancer le serveur ./launchServer.sh (terminal si version terminale)
-\item Lancer le client dans un autre terminal ./launchClient.sh (terminal si version terminale)
+\item Compiler le projet via le fichier compile.sh
+\item Lancer le RmiRegistry :
+\begin{lstlisting}
+   ./launchRmiregistry.sh
+\end{lstlisting}
+\item Lancer le serveur :
+\begin{lstlisting}
+   ./launchServer.sh
+\end{lstlisting}
+\item Lancer le client en version graphique dans un autre terminal : 
+\begin{lstlisting}
+   ./launchClient.sh 
+\end{lstlisting}
+\item ...Ou lancer le client en version terminal :
+\begin{lstlisting}
+   ./launchClient.sh terminal
+\end{lstlisting}
 \end{itemize}
 
 \subsubsection{Concernant l'utilisation}
