@@ -594,7 +594,6 @@ public class MessagerieClient extends Application {
             public void handle(ContextMenuEvent event) {
                 try {
                     if (((Utilisateur)messagerie.getCompte(pseudo)).getEstModerateur()) {
-                        System.out.println("L'utilisateur courant est un modérateur");
                         menu.show(messagesListView, event.getScreenX(), event.getScreenY());
                     }
                 } catch (RemoteException e) {
