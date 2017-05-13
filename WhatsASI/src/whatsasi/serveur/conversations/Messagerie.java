@@ -101,6 +101,12 @@ public class Messagerie implements MessagerieInterface {
         return null;
     }
 
+    public void addFilters(List<String> liste,String pseudo){
+        Utilisateur c = (Utilisateur)getCompte(pseudo);
+        for (String mot : liste)
+            c.addMotInterdit(mot);
+    }
+
     public void addMotInterdit(String mot, String pseudo) {
         Compte c = getCompte(pseudo);
         if (c instanceof Utilisateur)

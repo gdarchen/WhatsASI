@@ -27,6 +27,8 @@ public interface MessagerieInterface extends Remote {
 
     public void setIAIcon(ImageIcon img) throws RemoteException;
 
+    public void addFilters(List<String> liste,String pseudo) throws RemoteException;
+
     public Compte getCompte(String pseudo) throws RemoteException;
 
     public void addMotInterdit(String mot, String pseudo) throws RemoteException;

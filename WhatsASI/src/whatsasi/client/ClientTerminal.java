@@ -109,8 +109,15 @@ public class ClientTerminal {
                      break;
             case 2 : manageFilters(messagerie);
                      break;
-            case 3 : manageAccount(messagerie);break;
+            case 3 : addFilters(messagerie);
+                     break;
+            case 4 : manageAccount(messagerie);break;
         }
+    }
+
+    public static void addFilters(MessagerieInterface messagerie) throws RemoteException{
+        messagerie.addFilters(enterFiltre(messagerie),pseudo);
+        manageAccount(messagerie);
     }
 
     public static void manageFilters(MessagerieInterface messagerie) throws RemoteException{
@@ -122,19 +129,21 @@ public class ClientTerminal {
             manageAccount(messagerie);
         }
         else {
+            System.out.println(ANSI_CYAN+"Appuyez sur '"+BACKCHAR+"' pour revenir en arriere.\n"+ANSI_RESET);
             int i = 0;
             int maxFilter;
             Map<Integer,String> listeFiltres = new HashMap<Integer,String>();
             for (String filtre : messagerie.getFiltres(pseudo)){
                 i++;
-                System.out.println(i + " : "+filtre);
+                System.out.println(" "+i + " : "+filtre);
                 listeFiltres.put(i,filtre);
             }
             maxFilter = i;
             int choix;
             Scanner s = new Scanner(System.in);
-            while ((choix = s.nextInt()) <= 0 && choix > maxFilter)
+            while ((choix = s.nextInt()) <= 0 && choix > maxFilter){
                 System.out.println(ANSI_RED+" Choix non valide."+ANSI_RESET);
+            }
             updateFilter(listeFiltres.get(choix),messagerie);
         }
     }
@@ -171,10 +180,11 @@ public class ClientTerminal {
         else
             System.out.println(" 1 - Activer les filtres");
         System.out.println(" 2 - Modifier les filtres");
-        System.out.println(" 3 - Retour\n");
+        System.out.println(" 3 - Ajouter des filtres");
+        System.out.println(" 4 - Retour\n");
         Scanner s = new Scanner(System.in);
         int choix;
-        while((choix = s.nextInt()) <= 0 || choix > 3)
+        while((choix = s.nextInt()) <= 0 || choix > 4)
             System.out.println(ANSI_RED+"Choix non valide"+ANSI_RESET);
         return choix;
     }
@@ -191,14 +201,14 @@ public class ClientTerminal {
 
     public static List<String> enterFiltre(MessagerieInterface messagerie) throws RemoteException {
         System.out.println(ANSI_BLUE+"\nVos filtres : \n"+ANSI_RESET);
-        System.out.println("Entrez 'ok' pour finir d'ajouter vos filtres.");
+        System.out.println("Entrez '"+BACKCHAR +"' pour finir d'ajouter vos filtres.");
         Scanner s = new Scanner(System.in);
         List<String> filtre = new ArrayList<String>();
         String mot;
         int i = 1;
         System.out.println(" Filtre "+i+" : ");
-        while (!((mot = s.nextLine()).equals("ok"))){
-            if (!(mot.equals("ok"))){
+        while (!((mot = s.nextLine()).equals(BACKCHAR))){
+            if (!(mot.equals(BACKCHAR))){
                 filtre.add(mot);
                 i++;
                 System.out.println(" Filtre "+i+" : ");
@@ -331,7 +341,7 @@ public class ClientTerminal {
     }
 
     public static int choixAccueil(){
-        System.out.println(ANSI_GREEN+"*******************      MENU      *****************\n"+ANSI_RESET);
+        System.out.println(ANSI_GREEN+"*******************      MENU      ********************\n"+ANSI_RESET);
         System.out.println(ANSI_CYAN+"Vous pouvez rejoindre une conversation ou en créer une nouvelle :\n"+ANSI_RESET);
         System.out.println(" 1 - Rejoindre une conversation");
         System.out.println(" 2 - Créer une nouvelle conversation");

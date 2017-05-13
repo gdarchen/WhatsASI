@@ -66,7 +66,7 @@ public class IA extends Compte implements Serializable {
 		msgIA.append("Aide Audio : \\audio" +"\n");
 		msgIA.append("Aide Salon de Chat : \\chat1" +"\n");
 		msgIA.append("Aide Conversation : \\chat2" +"\n");
-		msgIA.append("Aide Filtrel : \\filtre" +"\n");
+		msgIA.append("Aide Filtre : \\filtre" +"\n");
 		return msgIA.toString();
 	}
 
