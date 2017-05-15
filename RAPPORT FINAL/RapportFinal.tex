@@ -160,11 +160,11 @@ Concernant la première fonctionnalité, les interlocuteurs pourront s'envoyer d
 
 Le filtrage des messages prend en charge le contrôle parental et la modération. Les utilisateurs auront la possibilité de choisir d'activer ou non ce système de filtrage. De plus, ce dernier pourra être personnalisé.
 
-Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites. Cette image n'est pas animée.
+Concernant la dernière fonctionnalité, un système d'avatar pourra être utilisé par les utilisateurs pour les conversations audio et écrites.
 
 
 \section{Utilisateurs}
-Il existe plusieurs types d'utilisateurs dont les droits diffèrent.
+Il existe plusieurs types d'utilisateurs.
 \begin{description}
 \item[Utilisateur \emph{lambda} :] il peut créer (ouvrir) une conversation, participer à une conversation qu'il sélectionne. Il peut paramétrer ses filtres. À la connexion, il choisit aussi un login et un avatar.
 \item[Modérateur :] il peut émettre des messages de modération et supprimer des messages d'utilisateurs.
@@ -175,7 +175,7 @@ Il existe plusieurs types d'utilisateurs dont les droits diffèrent.
 Plusieurs utilisateurs peuvent discuter en même temps sur une même conversation.
 \end{mdframed}
 
-Les seuls prérequis à l'utilisation sont l'installation et ouverture d'une application.
+Les seuls prérequis à l'utilisation sont savoir exécuter des lignes de commandes pour installer et exécuter une application.
 \section{Contraintes}
 \subsection{Contraintes matérielles}
 L'utilisateur doit disposer d'une machine reliée à internet.
@@ -195,28 +195,27 @@ Le client doit disposer du Java Runtime Environnement 8.
 \section{Spécifications fonctionnelles}
 
 \begin{mdframed}[topline=false,rightline=false,bottomline=false, linewidth=3pt,linecolor=red]
-L'IA est basique et à l'image d'un helpbot. L'IA est donc présente sur chaque conversation. L'utilisateur peut entrer des mots-clefs dans la conversation pour avoir des indications sur l'utilisation de l'application.
 
-~\\
-Mots-clefs:
+Les comptes utilisateurs ne sont pas persistants, ils n'existent que de l'ouveture à la fermeture d'un service client. L'utilisateur peut paramétrer son compte (pseudo et avatar) avant de participer à une conversation.
+
+Les utilisateurs modérateurs peuvent supprimer des messages.
+
+Tout utilisateur peut ouvrir ou rejoindre une conversation. Les conversations existent indépendamment des utilisateurs, elles sont ouvertes aussi longtemps que le serveur les hébergeant est actif.
+
+L'IA est un helpbot présent sur chaque conversation. L'utilisateur peut l'invoquer en entrant des mots clés commençant pas un backslash.
 \begin{description}
-\item[\og \textbackslash bonjour$\_$sophisme \fg\ :] répond à l'utilisateur \og Bonjour \texttt{<login>} \fg.
-\item[\og \textbackslash help \fg\ :] affiche un menu d'aide avec l'ensemble des mots-clefs.
-\item[\og \textbackslash help$\_$profil \fg\ :] indique à l'utilisateur comment paramétrer son profil.
-\item[\og \textbackslash help$\_$filtre \fg\ :] indique à l'utilisateur comment paramétrer les filtres.
-\item[\og \textbackslash help$\_$chat1 \fg\ :] indique à l'utilisateur comment ouvrir un salon de chat.
-\item[\og \textbackslash help$\_$chat2 \fg\ :] indique à l'utilisateur comment rejoindre une conversation.
-\item[\og \textbackslash help$\_$video \fg\ :] indique à l'utilisateur comment démarrer une conversation vidéo.
-\item[\og \textbackslash help$\_$audio \fg\ :] indique à l'utilisateur comment démarrer une conversation audio.
+\item[\textbackslash bonjour] salue l'utilisateur déroule un menu d'aide.
+\item[\textbackslash profil] indique à l'utilisateur comment paramétrer son profil.
+\item[\textbackslash filtre] indique à l'utilisateur comment paramétrer les filtres.
+\item[\textbackslash chat1] indique à l'utilisateur comment ouvrir un salon de chat.
+\item[\textbackslash chat2] indique à l'utilisateur comment rejoindre une conversation.
+\item[\textbackslash video] indique à l'utilisateur comment démarrer une conversation vidéo.
+\item[\textbackslash audio] indique à l'utilisateur comment démarrer une conversation audio.
 \end{description}
 
-~\\\\
 
-Les utilisateurs ont des comptes temporaires qui n'existent que durant la durée de leur connexion au service. A l'ouverture de l'application ce dernier est redirigé vers la page \og Paramètres \fg\ où il précise différents champs le caractérisant (avatar, pseudonyme, mots à filtrer...).
-
-~\\\\
-Par défaut, lorsqu'un utilisateur démarre une conversation, il est seul avec l'IA jusqu'à l'arrivée d'autres utilisateurs.
 \end{mdframed}
+
 \subsection*{Cas d'utilisation}
 
 Cette section présente les cas d'utilisation suivants :
@@ -283,11 +282,11 @@ Cette section présente les maquettes de l'application.
 
 Le système de messagerie répond instantanément.
 
-De plus, les messages sont sauvegardés tant qu'il subsiste un utilisateur connecté à la conversation.
+Les messages sont sauvegardés tant qu'il subsiste un utilisateur connecté à la conversation.
 
-Le serveur qui héberge l'application est disponible à chaque instant $t$ pour permettre aux utilisateurs d'utiliser le service à n'importe quel moment.
+Le serveur qui héberge l'application est disponible à tout instant $t$ pour permettre aux utilisateurs d'utiliser le service à n'importe quel moment.
 
-Lors de l'utilisation de l'application, la reférence du compte est utilisée pour savoir qui participe à la conversation. Cette référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.
+Lors de l'utilisation de l'application, la reférence du compte est utilisée pour savoir qui participe à la conversation. Cette référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.\\
 
 \chapter{Conception préliminaire}
 
@@ -465,63 +464,90 @@ Nous avons choisi de travailler avec des threads et callback. Comme indiqué sur
 \caption{Le diagramme de classes de conception détaillée}
 \end{figure}
 \chapter{Implémentations et tests}
-L'objectif de cette partie est de préciser nos différents choix techniques. De même que de justifier le bon fonctionnement de nos fonctionnalités.
+Cette partie précise et justifie nos choix techniques et restitue les résultats des tests de validation.
 \section{Choix techniques}
-\subsection{Langage de programmation, librairie, technologie pour la notion d'informatique répartie}
-\subsubsection{Langage de programmation}
-Nous avons choisi d'utiliser un langage orienté objet : JAVA. L'utilisation d'un tel langage nous paraissait pertinente et adaptée à notre projet que nous voulions orienté logiciel.\\
-Premièrement, il était assez simple de passer d'une conception UML à une programmation JAVA. \\
-Deuxièmement JAVA permettait la gestion des exceptions.\\
-De plus ce langage est celui le plus maîtrisé par l'ensemble du groupe.
-Enfin il s'adaptait parfaitement à l'utilisation de RMI.\\
-\subsubsection{Librairie}
-Nous avons choisi d'utiliser java-fx, qui offre un certain nombre de fonctionnalités graphiques. Cela nous permettait de découvrir une nouvelle librairie sachant que nous connaissions déjà swing.
-\subsubsection{Technologie pour la notion d'informatique répartie}
-Nous avons fait le choix d'utiliser un système de communication RMI avec de l'appel de méthode sur des objets distants. Nous avons choisi cette technologie car elle n'est pas orientée WEB de façon pure (moins que REST) et nous souhaitions réaliser un travail basé sur un logiciel et non un site WEB.\\
-De plus il était nécessaire d'utiliser des threads pour avoir plusieurs clients. 
+\subsection{Langage de programmation}
+L'application est intégralement réalisée en Java. En effet, Java est connu de toute l'équipe et permettait une implémentation rapide des technologies d'informatique répartie apprises avant le projet.
+\subsection{Bibliothèques}
+Le client graphique est une application JavaFX. L'ensemble de l'équipe avait été initiée à Swing en ASI3 mais JavaFX est la bibliothèque graphique officielle de Java depuis la sortie de la Java SE 8 en 2014. Se tenir à jour sur les dernières technologies justifie donc ce choix.
+\subsection{Technologie répartie}
+Nous avons choisi la technologie d'informatique répartie RMI, plutôt que REST par exemple, car nous avons réalisé un logiciel indépendant du monde du Web. De plus, RMI permet de gérer de multiples clients (multi-threading). 
 \subsection{Guide d'utilisation}
-Voici les différentes étapes à suivre pour utiliser notre application:
-\subsubsection{Concernant l'installation}
-\begin{itemize}
-\item Compiler le projet via le fichier compile.sh
-\item Lancer le RmiRegistry :
+\paragraph*{Installation/Exécution}
+\begin{enumerate}
+\item Compilez le projet via le fichier \texttt{compile.sh}.
+\item Lancez le RmiRegistry.
 \begin{lstlisting}
    ./launchRmiregistry.sh
 \end{lstlisting}
-\item Lancer le serveur :
+\item Lancez le serveur (dans un autre terminal).
 \begin{lstlisting}
    ./launchServer.sh
 \end{lstlisting}
-\item Lancer le client en version graphique dans un autre terminal : 
+\item Lancez le client graphique (dans un autre terminal).
 \begin{lstlisting}
    ./launchClient.sh 
 \end{lstlisting}
-\item ...Ou lancer le client en version terminal :
+\item ... ou en ligne de commande.
 \begin{lstlisting}
    ./launchClient.sh terminal
 \end{lstlisting}
-\end{itemize}
+\end{enumerate}
 
-\subsubsection{Concernant l'utilisation}
-\begin{itemize}
-\item Suivre les instructions présentes sur l'IHM
-\item Pour lancer l'IA mettre \textbackslash bonjour, toutes les instructions apparaîtront.
-\item compléter certains trucs
-\end{itemize}
+\paragraph*{Utilisation}
+L'IHM est intuitive.
+
+\begin{enumerate}
+\item Choisissez un avater et un pseudo sur le panneau de connexion et cliquez sur "Se connecter".
+\item Un panneau s'ouvre. Saisissez des mots à filtrer dans les conversations.
+\item Le panneau des conversations s'ouvre. Créez une nouvelle conversation en cliquant sur [+] et cliquez sur un titre de conversation dans la barre latérale. Vous pouvez maintenant envoyer des messages comme dans n'importe d'autre application standards.
+\item Les informations détaillées sont fournies par l'IA d'aide, invocable en écrivant \texttt{\textbackslash bonjour} dans n'importe quelle conversation.
+\end{enumerate}
 
 \section{Tests de validation}
-A COMPLETER
 \subsection{Tests des spécifications fonctionnelles}
-\subsection{Tests des spécifications d'interface}
-\subsection{Tests des spécifications opérationnelles}
+\begin{enumerate}
+\item Les comptes utilisateurs ne persistent pas au-delà de la durée de vie d'un client de messagerie : OK
+\item L'utilisateur peut paraméter son compte, choisir un pseudo et un avatar : OK
+\item Tout utilisateur peut rejoindre une conversation : OK
+\item Les conversations persistent même quand aucun utilisateur n'y est actuellement connectée : OK
+\item L'IA répond à toutes les commandes prévues : OK
+\item Les modérateurs peuvent supprimer des messages et la suprression est propagée à la conversation et tous les utilisateurs : OK
+\item Les mots à filtrer sélectionnés par un utilisateur sont filtrés dans toutes les conversations pour cet utilisateur seulement : OK
+\end{enumerate}
 
-\chapter{Perspectives}
+\subsection{Tests des spécifications d'interface}
+\begin{enumerate}
+\item Il existe un panneau de connexion : OK
+\item Il existe un panneau de filtrage : OK
+\item Il existe un panneau de conversation où chaque message est affichée avec sa date, le pseudo et l'avatar de son expéditeur : OK
+\item Une vue étendue s'afiche pour les conversations vidéos : KO (pas implémenté)
+\end{enumerate}
+\subsection{Tests des spécifications opérationnelles}
+\begin{enumerate}
+\item Le système de messagerie répond instantanément : OK
+\item Les messages sont sauvegardés tant qu'il subsiste un utilisateur sur une conversation : OK (et plus longtemps encore)
+\item Le serveur hébergeant les conversations est disponible en tout temps : OK
+\item Chaque compte possède une référence propre : OK
+\end{enumerate}
+
+\chapter{Conclusion}
 \section{Développement}
 \subsection{Ce que nous avons développé}
-A compléter 
+\begin{enumerate}
+\item Un serveur de messagerie hébergeant des conversations.
+\item Un client graphique qui permet de créer un compte, filtrer des messages et participer à des conversations écrites.
+\item Un client terminal.
+\item Un helpbot.
+\end{enumerate}
 \subsection{Ce que nous avons abandonné}
-Nous n'avons pas pris le temps de réaliser l'échange via le flux audio et le flux vidéo par manque de temps.
-\section{Ce qui aurait pu être ajouté}
-Nous aurions pu ajouter une fonctionnalité qui permet de sécuriser le passage de la référence du compte lors de messages. En effet, dans notre cas un utilisateur malveillant peut récupérer cette référence. Le fait de la crypter ne changerait rien, ce qu'il faudrait c'est utiliser un cryptage asymétrique. Cependant en raison des objectifs pédagogiques de ce projet, de la pertinence de sécuriser cette référence, et du temps que cela impliquait nous n'avons pas réalisé cette fonctionnalité. La conséquence est minime car nos données ne sont pas stockées via une BD et non persistantes. De plus les informations qui transitent sont non sensibles. 
+La gestion de flux audio et flux vidéo.
+Solution : Utiliser un plugin permettant de gérer les flux audios et vidéos comme n'importe quel autre flux entre serveur et clients.
+\section{Perspectives}
+Gérer les flux audios/vidéos.
+
+Déployer un client Web.
+
+Sécuriser le passage des références de compte au serveur.
 
 \end{document}
