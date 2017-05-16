@@ -111,7 +111,7 @@
 { \huge \bfseries Rapport de Projet}\\[0.18cm] \HRule \\[1.5cm]
 
 \LARGE \emph{\textbf{Projet}} \\
-{Messagerie instantanée}\\[1.3cm]
+{Messagerie instantanée 1}\\[1.3cm]
 
 \large
 	\emph{\textbf{Auteurs}}\\
@@ -145,7 +145,7 @@
 
 \chapter{Introduction}
 
-L'application à développer est une plateforme de messagerie instantanée entre deux interlocuteurs. Elle permettra à ces interlocuteurs de communiquer tout en étant connectés sur des machines distantes.
+L'application à développer est une plateforme graphique répartie de messagerie instantanée. 
 
 
 \section{Fonctions principales}
@@ -195,8 +195,7 @@ Le client doit disposer du Java Runtime Environnement 8.
 \section{Spécifications fonctionnelles}
 
 \begin{mdframed}[topline=false,rightline=false,bottomline=false, linewidth=3pt,linecolor=red]
-
-Les comptes utilisateurs ne sont pas persistants, ils n'existent que de l'ouveture à la fermeture d'un service client. L'utilisateur peut paramétrer son compte (pseudo et avatar) avant de participer à une conversation.
+~\\\indent Les comptes utilisateurs ne sont pas persistants, ils n'existent que de l'ouveture à la fermeture d'un service client. L'utilisateur peut paramétrer son compte (pseudo et avatar) avant de participer à une conversation.
 
 Les utilisateurs modérateurs peuvent supprimer des messages.
 
@@ -204,10 +203,10 @@ Tout utilisateur peut ouvrir ou rejoindre une conversation. Les conversations ex
 
 L'IA est un helpbot présent sur chaque conversation. L'utilisateur peut l'invoquer en entrant des mots clés commençant pas un backslash.
 \begin{description}
-\item[\textbackslash bonjour] salue l'utilisateur déroule un menu d'aide.
+\item[\textbackslash bonjour] salue l'utilisateur et déroule un menu d'aide.
 \item[\textbackslash profil] indique à l'utilisateur comment paramétrer son profil.
 \item[\textbackslash filtre] indique à l'utilisateur comment paramétrer les filtres.
-\item[\textbackslash chat1] indique à l'utilisateur comment ouvrir un salon de chat.
+\item[\textbackslash chat1] indique à l'utilisateur comment ouvrir une conversation.
 \item[\textbackslash chat2] indique à l'utilisateur comment rejoindre une conversation.
 \item[\textbackslash video] indique à l'utilisateur comment démarrer une conversation vidéo.
 \item[\textbackslash audio] indique à l'utilisateur comment démarrer une conversation audio.
@@ -227,27 +226,26 @@ Cette section présente les cas d'utilisation suivants :
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[scale=0.55]{images/uc-discuter.png}
 \caption{Cas d'utilisation \textbf{discuter}}
+\includegraphics[width=\linewidth]{images/uc-discuter.png}
 \label{cas1}
 \end{figure}
 Le cas d'utilisation (figure \ref{cas1}) représente les interactions entre les différents interlocuteurs et les différents moyens mis à leur disposition pour communiquer.
 
 \begin{center}
 \begin{figure}[H]
-\includegraphics[scale=0.7]{images/uc-filtrerMessages.png}
-\vspace{5\baselineskip}
 \caption{Cas d'utilisation \textbf{filtrer les messages}}
+\includegraphics[width=\linewidth]{images/uc-filtrerMessages.png}
 \end{figure}
 
 \begin{figure}
-\includegraphics[scale=0.6]{images/uc-parametrerFiltrage.png}
 \caption{Cas d'utilisation \textbf{paramétrer le filtrage}}
+\includegraphics[width=\linewidth]{images/uc-parametrerFiltrage.png}
 \end{figure}
 
 \begin{figure}
-\includegraphics[scale=0.7]{images/uc-seConnecter.png}
 \caption{Cas d'utilisation \textbf{se connecter}}
+\includegraphics[width=\linewidth]{images/uc-seConnecter.png}
 \end{figure}
 
 \end{center}
@@ -258,23 +256,23 @@ Le cas d'utilisation (figure \ref{cas1}) représente les interactions entre les 
 Cette section présente les maquettes de l'application.
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.95\textwidth]{maquette/maquette1.png}}
 \caption{Un exemple de conversation texte}
+\centerline{\includegraphics[width=.9\linewidth]{maquette/maquette1.png}}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette4.png}}
 \caption{Conversation vidéo}
+\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette4.png}}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette2.png}}
 \caption{Liste des conversations}
+\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette2.png}}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette3.png}}
 \caption{Interface des paramètres}
+\centerline{\includegraphics[width=0.9\textwidth]{maquette/maquette3.png}}
 \end{figure}
 
 
@@ -284,9 +282,9 @@ Le système de messagerie répond instantanément.
 
 Les messages sont sauvegardés tant qu'il subsiste un utilisateur connecté à la conversation.
 
-Le serveur qui héberge l'application est disponible à tout instant $t$ pour permettre aux utilisateurs d'utiliser le service à n'importe quel moment.
+Tant que le serveur est actif, le service client est disponible.
 
-Lors de l'utilisation de l'application, la reférence du compte est utilisée pour savoir qui participe à la conversation. Cette référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.\\
+Lors de l'utilisation de l'application, la référence du compte est utilisée pour savoir qui participe à la conversation. Cette référence du compte transite donc entre l'application client et l'application serveur. Aucune mesure de sécurité n'est prévue pour éviter une transmission visible de cette référence.\\
 
 \chapter{Conception préliminaire}
 
@@ -300,23 +298,25 @@ Lors de l'utilisation de l'application, la reférence du compte est utilisée po
 \section{Diagrammes de séquence système}
 
 \begin{figure}[H]
+\caption{Le diagramme de séquence système de \textbf{communiquer}}
 \centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-communiquer.png}}
-\caption{Le diagramme de séquence système de \og communiquer \fg}
 \end{figure}
 
 \begin{figure}[H]
+\caption{Le diagramme de séquence système de \textbf{se connecter}}
 \centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-connexion.png}}
-\caption{Le diagramme de séquence système de \og se connecter \fg}
 \end{figure}
 
 \begin{figure}[H]
+\caption{Le diagramme de séquence système de \textbf{modérer}}
 \centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-moderer.png}}
-\caption{Le diagramme de séquence système de \og modérer \fg}
 \end{figure}
 
 \subsection{Modification du modèle du domaine}
-La logique utilisée lors de la conception est restée la même. Nous avons cependant effectuée 2 changements principaux. Nous avons inclus beaucoup plus de champs dans la classe Messagerie. En effet nous avons tous centraliser via cette classe pour structurer les encapsulations. Par exemple, cette classe contient l'IA. \\
-De plus, nous avions initialement une classe modérateur que nous avons supprimé et transformé en un booléen dans la classe utilisateur. Choix qui nous paraissait beaucoup plus pertinent.
+\begin{itemize}
+\item Ajout d'attributs dans la classe \texttt{Messagerie} qui devient une classe centrale.
+\item L'interface \texttt{Moderateur} est remplacé par un attribut booléen de la classe \texttt{Utilisateur}.
+\end{itemize}
 
 \section{Diagrammes d'activités}
 \begin{figure}[H]
@@ -339,7 +339,6 @@ De plus, nous avions initialement une classe modérateur que nous avons supprim�
 \caption{Le diagramme de l'activité \og communiquer \fg}
 \end{figure}
 
-
 \section{Diagrammes d’interaction}
 
 \begin{figure}[H]
@@ -357,8 +356,7 @@ De plus, nous avions initialement une classe modérateur que nous avons supprim�
 \caption{Le diagramme de séquence d'analyse \og Modérer Message \fg}
 \end{figure}
 
-\section{Diagramme de communication client serveur}
-
+\newpage
 \section{Découpage de l'application en \emph{packages}}
 \begin{figure}[H]
 \centerline{\includegraphics[width=0.8\textwidth]{diagrammes/package-diag.png}}
@@ -460,23 +458,26 @@ Nous avons choisi de travailler avec des threads et callback. Comme indiqué sur
 
 \chapter{Conception détaillée}
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.7\textwidth]{diagrammes/detailedConception.png}}
 \caption{Le diagramme de classes de conception détaillée}
+\centerline{\includegraphics[height=18cm]{diagrammes/detailedConception.png}}
 \end{figure}
 \chapter{Implémentations et tests}
 Cette partie précise et justifie nos choix techniques et restitue les résultats des tests de validation.
 \section{Choix techniques}
 \subsection{Langage de programmation}
-L'application est intégralement réalisée en Java. En effet, Java est connu de toute l'équipe et permettait une implémentation rapide des technologies d'informatique répartie apprises avant le projet.
+Nous avons réaliser toute l'application en Java car ce langage est connu de toute l'équipe et permettait une implémentation rapide des technologies d'informatique répartie apprises avant le projet.
 \subsection{Bibliothèques}
-Le client graphique est une application JavaFX. L'ensemble de l'équipe avait été initiée à Swing en ASI3 mais JavaFX est la bibliothèque graphique officielle de Java depuis la sortie de la Java SE 8 en 2014. Se tenir à jour sur les dernières technologies justifie donc ce choix.
+Le client graphique est une application JavaFX. L'ensemble de l'équipe avait été initiée à Swing en ASI3 mais JavaFX est la bibliothèque graphique officielle de Java depuis la sortie de la Java SE 8 en 2014. Se tenir à jour sur les dernières technologies justifiait ce choix.
 \subsection{Technologie répartie}
-Nous avons choisi la technologie d'informatique répartie RMI, plutôt que REST par exemple, car nous avons réalisé un logiciel indépendant du monde du Web. De plus, RMI permet de gérer de multiples clients (multi-threading). 
+Nous avons choisi la technologie d'informatique répartie RMI, plutôt que REST par exemple, car nous avons réalisé un logiciel non Web.
 \subsection{Guide d'utilisation}
 \paragraph*{Installation/Exécution}
 \begin{enumerate}
 \item Compilez le projet via le fichier \texttt{compile.sh}.
-\item Lancez le RmiRegistry.
+\begin{lstlisting}
+   ./compile.sh
+\end{lstlisting}
+\item Lancez le RMIRegistry.
 \begin{lstlisting}
    ./launchRmiregistry.sh
 \end{lstlisting}
@@ -498,21 +499,47 @@ Nous avons choisi la technologie d'informatique répartie RMI, plutôt que REST 
 L'IHM est intuitive.
 
 \begin{enumerate}
-\item Choisissez un avater et un pseudo sur le panneau de connexion et cliquez sur "Se connecter".
+\item Choisissez un avatar et un pseudo sur le panneau de connexion et cliquez sur \menu{Se connecter}.
 \item Un panneau s'ouvre. Saisissez des mots à filtrer dans les conversations.
-\item Le panneau des conversations s'ouvre. Créez une nouvelle conversation en cliquant sur [+] et cliquez sur un titre de conversation dans la barre latérale. Vous pouvez maintenant envoyer des messages comme dans n'importe d'autre application standards.
+\item Le panneau des conversations s'ouvre. Créez une nouvelle conversation en cliquant sur \menu{+} et cliquez sur un titre de conversation dans la barre latérale. Vous pouvez maintenant envoyer des messages comme dans n'importe d'autre application standards.
 \item Les informations détaillées sont fournies par l'IA d'aide, invocable en écrivant \texttt{\textbackslash bonjour} dans n'importe quelle conversation.
 \end{enumerate}
+
+\paragraph*{Exemples d'utilisation}
+La figure \ref{illuConn} illustre la connexion d'un utilisateur modérateur.
+
+La figure \ref{illuFiltre} illustre le paramétrage des filtres de ce même utilisateur.
+
+La figure \ref{illuConv} illustre une conversation entre deux utilisateurs dont celui de gauche, A. Pauchet, a filtré le mot \og 20 \fg{}. On constate sur la fenêtre de droite, du modérateur, que celui-ci peut supprimer un message.
+
+\begin{figure}[H]
+\caption{Panneau de connexion}
+\label{illuConn}
+\centerline{\includegraphics[width=0.5\textwidth]{images/illuConnexion.png}}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Panneau de filtrage}
+\label{illuFiltre}
+\centerline{\includegraphics[width=0.5\textwidth]{images/illuFiltres.png}}
+\end{figure}
+
+\begin{figure}[H]
+\caption{Panneau de conversation}
+\label{illuConv}
+\centerline{\includegraphics[width=1.2\textwidth]{images/illuConv.png}}
+\end{figure}
+
 
 \section{Tests de validation}
 \subsection{Tests des spécifications fonctionnelles}
 \begin{enumerate}
 \item Les comptes utilisateurs ne persistent pas au-delà de la durée de vie d'un client de messagerie : OK
-\item L'utilisateur peut paraméter son compte, choisir un pseudo et un avatar : OK
+\item L'utilisateur peut paramétrer son compte, choisir un pseudo et un avatar : OK
 \item Tout utilisateur peut rejoindre une conversation : OK
-\item Les conversations persistent même quand aucun utilisateur n'y est actuellement connectée : OK
+\item Les conversations persistent même quand aucun utilisateur n'y est actuellement connecté : OK
 \item L'IA répond à toutes les commandes prévues : OK
-\item Les modérateurs peuvent supprimer des messages et la suprression est propagée à la conversation et tous les utilisateurs : OK
+\item Les modérateurs peuvent supprimer des messages et la suppression est propagée à la conversation et tous les utilisateurs : OK
 \item Les mots à filtrer sélectionnés par un utilisateur sont filtrés dans toutes les conversations pour cet utilisateur seulement : OK
 \end{enumerate}
 
@@ -520,14 +547,15 @@ L'IHM est intuitive.
 \begin{enumerate}
 \item Il existe un panneau de connexion : OK
 \item Il existe un panneau de filtrage : OK
-\item Il existe un panneau de conversation où chaque message est affichée avec sa date, le pseudo et l'avatar de son expéditeur : OK
-\item Une vue étendue s'afiche pour les conversations vidéos : KO (pas implémenté)
+\item Il existe un panneau de conversation où chaque message est affiché avec sa date, le pseudo et l'avatar de son expéditeur : OK
+\item Une vue étendue s'affiche pour les conversations vidéos : KO (pas implémenté)
+\item Les conversations audios sont supportées : KO
 \end{enumerate}
 \subsection{Tests des spécifications opérationnelles}
 \begin{enumerate}
 \item Le système de messagerie répond instantanément : OK
 \item Les messages sont sauvegardés tant qu'il subsiste un utilisateur sur une conversation : OK (et plus longtemps encore)
-\item Le serveur hébergeant les conversations est disponible en tout temps : OK
+\item Le service client est toujours accessible tant qu'est activé le serveur : OK
 \item Chaque compte possède une référence propre : OK
 \end{enumerate}
 
@@ -542,12 +570,12 @@ L'IHM est intuitive.
 \end{enumerate}
 \subsection{Ce que nous avons abandonné}
 La gestion de flux audio et flux vidéo.
-Solution : Utiliser un plugin permettant de gérer les flux audios et vidéos comme n'importe quel autre flux entre serveur et clients.
+Solution : utiliser un plugin permettant de gérer les flux audios et vidéos comme n'importe quel autre flux entre serveur et clients.
 \section{Perspectives}
-Gérer les flux audios/vidéos.
-
-Déployer un client Web.
-
-Sécuriser le passage des références de compte au serveur.
+\begin{itemize}
+\item Gérer les flux audios/vidéos.
+\item Déployer un client Web.
+\item Sécuriser le passage des références de compte au serveur avec un chiffrement asymétrique.
+\end{itemize}
 
 \end{document}
