@@ -74,7 +74,7 @@ import java.util.logging.Filter;
 
 public class MessagerieClient extends Application {
     private static final int PORTRMI = 1099;
-    private static final String ENDPOINT = "localhost";
+    private static String ENDPOINT = "localhost";
     private static Stage primaryStage;
     private static MessagerieInterface messagerie;
     private static String pseudo;
@@ -121,6 +121,9 @@ public class MessagerieClient extends Application {
 
     public static void main(String[] args) {
         try {
+            if (args.length > 0){
+                ENDPOINT = args[0];
+            }
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             messagerie = (MessagerieInterface) registry.lookup("Messagerie");
             messagerie.setIAIcon(fromFXImage(new Image("file:res/sophisme.png")));
