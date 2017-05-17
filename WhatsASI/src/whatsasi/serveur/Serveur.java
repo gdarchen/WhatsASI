@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.server.*;
+import java.net.InetAddress;
 
 public class Serveur {
     private static final int portRMI = 1099;
@@ -19,6 +21,8 @@ public class Serveur {
 
     public static void main(String[] args) {
         try {
+            String hostname = InetAddress.getLocalHost().getHostAddress();
+            System.setProperty("java.rmi.server.hostname",hostname);
             MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie(),0);
             System.out.println("Server is now online.");
             Registry registry = LocateRegistry.getRegistry(portRMI);

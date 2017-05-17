@@ -10,11 +10,12 @@ public class IHMConversationCallback extends UnicastRemoteObject implements Conv
     private MessagerieClient client;
 
     public IHMConversationCallback(MessagerieClient client) throws RemoteException {
+        super();
         this.client = client;
     }
 
     public void nouvelleConversation(int refConv) throws RemoteException {
-            client.receiveConversation(refConv);
+        client.receiveConversation(refConv);
     }
 
 }

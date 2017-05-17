@@ -14,10 +14,12 @@ public class TerminalMessageCallback extends UnicastRemoteObject implements Mess
     public static final String ANSI_RESET = "\u001B[0m";
 
     public TerminalMessageCallback(String pseudo) throws RemoteException {
+        super();
         this.pseudo = pseudo;
     }
 
     public TerminalMessageCallback(int refConv, String pseudo) throws RemoteException {
+        super();
         this.refConv = refConv;
         this.pseudo = pseudo;
     }

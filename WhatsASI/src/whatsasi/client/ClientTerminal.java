@@ -9,18 +9,20 @@ import java.net.UnknownHostException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.Remote;
+import java.rmi.server.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import whatsasi.serveur.conversations.MessagerieInterface;
 import whatsasi.serveur.conversations.Conversation;
 import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.filtrage.Filtre;
+import java.net.InetAddress;
 
 public class ClientTerminal {
 
     private static final int PORTRMI = 1099;
     private static final int PORTSOCKET = 2009;
-    private static final String ENDPOINT = "localhost";
+    private static final String ENDPOINT = "192.168.1.49";
     private static final String BACKCHAR = "/b";
     private static String pseudo;
     private static int refConv = -1;
@@ -38,6 +40,8 @@ public class ClientTerminal {
 
     public static void main(String[] args) {
         try{
+            String hostname = InetAddress.getLocalHost().getHostAddress();
+            System.setProperty("java.rmi.server.hostname",hostname);
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             MessagerieInterface messagerie = (MessagerieInterface) registry.lookup("Messagerie");
             refresh();
@@ -48,11 +52,11 @@ public class ClientTerminal {
             createAccount(messagerie);
             indexActions(messagerie);
         }catch(RemoteException e) {
-            //e.toString();
-            //e.printStackTrace();
+            e.toString();
+            e.printStackTrace();
         }catch(Exception e) {
-            //e.toString();
-            //e.printStackTrace();
+            e.toString();
+            e.printStackTrace();
         }
 
     }
@@ -129,7 +133,6 @@ public class ClientTerminal {
             manageAccount(messagerie);
         }
         else {
-            System.out.println(ANSI_CYAN+"Appuyez sur '"+BACKCHAR+"' pour revenir en arriere.\n"+ANSI_RESET);
             int i = 0;
             int maxFilter;
             Map<Integer,String> listeFiltres = new HashMap<Integer,String>();
@@ -138,13 +141,18 @@ public class ClientTerminal {
                 System.out.println(" "+i + " : "+filtre);
                 listeFiltres.put(i,filtre);
             }
+            i++;
+            System.out.println(" "+i+" - retour au menu précédent");
             maxFilter = i;
             int choix;
             Scanner s = new Scanner(System.in);
             while ((choix = s.nextInt()) <= 0 && choix > maxFilter){
                 System.out.println(ANSI_RED+" Choix non valide."+ANSI_RESET);
             }
-            updateFilter(listeFiltres.get(choix),messagerie);
+            if (choix == maxFilter)
+                manageAccount(messagerie);
+            else
+                updateFilter(listeFiltres.get(choix),messagerie);
         }
     }
 
@@ -368,8 +376,10 @@ public class ClientTerminal {
 
     public static void logOut(MessagerieInterface messagerie) throws RemoteException{
         System.out.println(ANSI_GREEN+"Deconnexion..."+ANSI_RESET);
-        if (pseudo != null && refConv != -1)
+        if (refConv != -1 )
             messagerie.removeUserFromConv(pseudo,refConv);
+        if (pseudo != null)
+            messagerie.removeUser(pseudo);
         sendRequest("logout");
     }
 

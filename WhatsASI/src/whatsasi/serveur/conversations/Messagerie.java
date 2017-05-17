@@ -166,6 +166,10 @@ public class Messagerie implements MessagerieInterface {
         this.callbacks.remove(pseudo);
     }
 
+    public void removeUser(String pseudo){
+        this.comptes.remove(pseudo);
+    }
+
     public void addMessage(String msg, int refConv, String pseudo) throws RemoteException {
         this.getConversation(refConv).addMessage(msg, getCompte(pseudo));
         System.out.println(getCompte(pseudo).getPseudo() + " sent : "+msg);

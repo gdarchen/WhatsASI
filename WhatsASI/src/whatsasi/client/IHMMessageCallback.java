@@ -12,6 +12,7 @@ public class IHMMessageCallback extends UnicastRemoteObject implements MessageCa
     private MessagerieClient client;
 
     public IHMMessageCallback(String pseudo, MessagerieClient client) throws RemoteException {
+        super();
         this.pseudo = pseudo;
         this.client = client;
     }

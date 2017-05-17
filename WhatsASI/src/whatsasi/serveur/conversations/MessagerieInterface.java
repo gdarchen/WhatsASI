@@ -41,6 +41,8 @@ public interface MessagerieInterface extends Remote {
 
     public void removeUserFromConv(String pseudo, int refConv) throws RemoteException;
 
+    public void removeUser(String pseudo) throws RemoteException;
+
     public boolean modifierPseudo(String old, String newPseudo) throws RemoteException;
 
     public void activerFiltre(String pseudo) throws RemoteException;
