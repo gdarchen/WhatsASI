@@ -17,6 +17,7 @@ import whatsasi.serveur.conversations.Conversation;
 import whatsasi.serveur.conversations.Mode;
 import whatsasi.serveur.filtrage.Filtre;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 
 public class ClientTerminal {
 
@@ -42,6 +43,8 @@ public class ClientTerminal {
         try{
             String hostname = InetAddress.getLocalHost().getHostAddress();
             System.setProperty("java.rmi.server.hostname",hostname);
+            System.out.println(hostname);
+            getPrivateIp();/*
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             MessagerieInterface messagerie = (MessagerieInterface) registry.lookup("Messagerie");
             refresh();
@@ -50,15 +53,27 @@ public class ClientTerminal {
             System.out.println(ANSI_GREEN+messagerie.sayHi()+ANSI_RESET);
             displayBACKCHAR();
             createAccount(messagerie);
-            indexActions(messagerie);
-        }catch(RemoteException e) {
+            indexActions(messagerie);*/
+        }/*catch(RemoteException e) {
             e.toString();
             e.printStackTrace();
-        }catch(Exception e) {
+        }*/catch(Exception e) {
             e.toString();
             e.printStackTrace();
         }
 
+    }
+
+    private static void getPrivateIp() throws Exception{
+        Enumeration en = NetworkInterface.getNetworkInterfaces();
+while(en.hasMoreElements()){
+    NetworkInterface ni=(NetworkInterface) en.nextElement();
+    Enumeration ee = ni.getInetAddresses();
+    while(ee.hasMoreElements()) {
+        InetAddress ia= (InetAddress) ee.nextElement();
+        System.out.println(ia.getHostAddress());
+    }
+ }
     }
 
     public static void displayBACKCHAR(){
