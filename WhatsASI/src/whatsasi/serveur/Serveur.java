@@ -23,7 +23,7 @@ public class Serveur {
         try {
             String hostname = InetAddress.getLocalHost().getHostAddress();
             System.setProperty("java.rmi.server.hostname",hostname);
-            System.out.println(hostname);
+            //System.out.println(hostname);
             MessagerieInterface skeleton = (MessagerieInterface) UnicastRemoteObject.exportObject(new Messagerie(),0);
             System.out.println("Server is now online.");
             Registry registry = LocateRegistry.getRegistry(portRMI);
