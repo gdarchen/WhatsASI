@@ -2,6 +2,8 @@
 
 *** Compilation instructions ***
 
+    0 - before compiling, set the ENDPOINT correspoding to your server's url in ClientTerminal or MessagerieClient.
+
     1 - ./compile.sh
         compile client et server
 
