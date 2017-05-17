@@ -468,6 +468,14 @@ Nous avons réaliser toute l'application en Java car ce langage est connu de tou
 Le client graphique est une application JavaFX. L'ensemble de l'équipe avait été initiée à Swing en ASI3 mais JavaFX est la bibliothèque graphique officielle de Java depuis la sortie de la Java SE 8 en 2014. Se tenir à jour sur les dernières technologies justifiait ce choix.
 \subsection{Technologie répartie}
 Nous avons choisi la technologie d'informatique répartie RMI, plutôt que REST par exemple, car nous avons réalisé un logiciel non Web.
+\subsection{Difficultés}
+La prise en main de JavaFX n'a pas été aisée, en particulier la manipulation des \texttt{ListView} qui sont des objets graphiques permettant de visualiser une liste d'éléments (des messages dans une conversation, ici).
+
+Aussi, le fait que la mise à jour des éléments graphiques de JavaFX est asynchrone et difficilement forçable a parfois posé problème sur la mise à jour des conversations qui ne se faisait pas en temps réel selon l'ordinateur.
+
+Nous avons également été confronté à un problème de sérialisation avec les images. En effet, dans toute la Java SE 8, seule la classe d'image \texttt{IconImage} est sérialisable. Mais la taille d'une image ne peut être sauvegardée, cela a donc posé des problèmes d'affichage (de \emph{resizing}) que nous avons résolus en imposant le choix d'avatars à taille fixe.
+
+Enfin, la fonction de \emph{callback} permettant la mise à jour des conversations côté client à chaque évènement côté serveur n'était pas une partie facile.
 \subsection{Guide d'utilisation}
 \paragraph*{Installation/Exécution}
 \begin{enumerate}
@@ -528,7 +536,6 @@ La figure \ref{illuConv} illustre une conversation entre deux utilisateurs dont 
 \centerline{\includegraphics[width=1.2\textwidth]{images/illuConv.png}}
 \end{figure}
 
-
 \section{Tests de validation}
 \subsection{Tests des spécifications fonctionnelles}
 \begin{enumerate}
@@ -576,12 +583,6 @@ Solution : utiliser un plugin permettant de gérer les flux audios et vidéos co
 \item Sécuriser le passage des références de compte au serveur avec un chiffrement asymétrique.
 \end{itemize}
 
-\section{Ce que nous avons appris}
-\begin{itemize}
-	\item Développer une application RMI.
-	\item Quelques bases de JavaFX, notamment le fait que la mise à jour de ses éléments graphiques est asynchrone et difficelement forçable.
-	\item Nous avons été confronté à un problème de sérialisation avec les images. Seule la classe \texttt{IconImage} de Java est sérialisable, mais la taille d'une image ne peut être sauvegardée, cela a posé des problèmes d'affichage que nous avons résolus en choisissant une taille d'image fixe.
-\end{itemize}
 
 
 \end{document}
