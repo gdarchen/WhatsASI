@@ -59,6 +59,8 @@ import java.rmi.registry.Registry;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 
 
 import whatsasi.serveur.conversations.*;
@@ -124,6 +126,8 @@ public class MessagerieClient extends Application {
             if (args.length > 0){
                 ENDPOINT = args[0];
             }
+            String hostname = InetAddress.getLocalHost().getHostAddress();
+            System.setProperty("java.rmi.server.hostname",hostname);
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             messagerie = (MessagerieInterface) registry.lookup("Messagerie");
             messagerie.setIAIcon(fromFXImage(new Image("file:res/sophisme.png")));
