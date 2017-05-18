@@ -102,16 +102,15 @@
 \begin{titlepage}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \center
-\vspace*{\stretch{1}}\textsc{\huge Institut National des Sciences Appliquées de Rouen}\\[0.7cm]
+\vspace*{\stretch{1}}\textsc{\huge INSA Rouen Normandie}\\[0.7cm]
 \LARGE Département ASI~\\[0.5cm]
-\Large{Architecture des Systèmes d'Information} ~\\[1.5cm]
+\Large{4ème année} ~\\[1.5cm]
 \textsc{\Large EC Informatique Répartie}\\[0.5cm]
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Rapport de Projet}\\[0.18cm] \HRule \\[1.5cm]
+{ \huge \bfseries Messagerie instantanée 1}\\[0.18cm] \HRule \\[1.5cm]
 
-\LARGE \emph{\textbf{Projet}} \\
-{Messagerie instantanée 1}\\[1.3cm]
+\LARGE \emph{\textbf{Rapport de projet}} \\[1.3cm]
 
 \large
 	\emph{\textbf{Auteurs}}\\
@@ -120,10 +119,6 @@
 	Marie-Andrée \textsc{Jolibois} \\
 	Romain \textsc{Judic} \\
 	Alexandre \textsc{Le Lain}\\[0.3cm]
-
-~\\[0.5cm]
-\Large \emph{\textbf{Version}}\\
-	\textsc{v0.00}
 
 \vfill{\today}
 
@@ -188,7 +183,14 @@ La majorité des calculs est réalisée côté serveur, ce qui n'implique pas un
 
 \subsection{Contraintes logicielles}
 
-Le client doit disposer du Java Runtime Environnement 8.
+Le client doit disposer du Java Runtime Environnement 8 et de la bibliothèque JavaFX.\\
+
+Installer JavaFX en ligne de commande sous Ubuntu 16.04+ :
+
+\begin{lstlisting}
+sudo apt-get update
+sudo apt-get install openjfx
+\end{lstlisting}
 
 \chapter{Spécifications}
 
@@ -256,7 +258,7 @@ Le cas d'utilisation (figure \ref{cas1}) représente les interactions entre les 
 Cette section présente les maquettes de l'application.
 
 \begin{figure}[H]
-\caption{Un exemple de conversation texte}
+\caption{Exemple de conversation texte}
 \centerline{\includegraphics[width=.9\linewidth]{maquette/maquette1.png}}
 \end{figure}
 
@@ -291,76 +293,76 @@ Lors de l'utilisation de l'application, la référence du compte est utilisée p
 \section{Modèle du domaine}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.95\textwidth]{diagrammes/class-diag.png}}
 \caption{Modèle du domaine}
+\centerline{\includegraphics[width=0.95\textwidth]{diagrammes/class-diag.png}}
 \end{figure}
 
 \section{Diagrammes de séquence système}
 
 \begin{figure}[H]
-\caption{Le diagramme de séquence système de \textbf{communiquer}}
+\caption{Diagramme de séquence système de \textbf{communiquer}}
 \centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-communiquer.png}}
 \end{figure}
 
 \begin{figure}[H]
-\caption{Le diagramme de séquence système de \textbf{se connecter}}
+\caption{Diagramme de séquence système de \textbf{se connecter}}
 \centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-connexion.png}}
 \end{figure}
 
 \begin{figure}[H]
-\caption{Le diagramme de séquence système de \textbf{modérer}}
+\caption{Diagramme de séquence système de \textbf{modérer}}
 \centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dss-moderer.png}}
 \end{figure}
 
 \subsection{Modification du modèle du domaine}
 \begin{itemize}
-\item Ajout d'attributs dans la classe \texttt{Messagerie} qui devient une classe centrale.
+\item Ajout d'attributs dans la classe \texttt{Messagerie}.
 \item L'interface \texttt{Moderateur} est remplacé par un attribut booléen de la classe \texttt{Utilisateur}.
 \end{itemize}
 
 \section{Diagrammes d'activités}
 \begin{figure}[H]
+\caption{Diagramme d'activité de \textbf{se connecter}}
 \centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-settings-diag.png}}
-\caption{Le diagramme de l'activité \og se connecter \fg}
 \end{figure}
 
 \begin{figure}[H]
+\caption{Diagramme d'activité de \textbf{choisir une conversation}}
 \centerline{\includegraphics[width=0.95\textwidth]{diagrammes/activity-convList-diag.png}}
-\caption{Le diagramme de l'activité \og choisir une conversation \fg}
 \end{figure}
 
 \begin{figure}[H]
+\caption{Diagramme d'activité d'\textbf{ouvrir une conversation}}
 \centerline{\includegraphics[width=0.75\textwidth]{diagrammes/activity-openConv-diag.png}}
-\caption{Le diagramme de l'activité \og ouvrir une conversation \fg}
 \end{figure}
 
 \begin{figure}[H]
+\caption{Diagramme d'activité de \textbf{communiquer}}
 \centerline{\includegraphics[width=0.8\textwidth]{diagrammes/activity-sendMsg-diag.png}}
-\caption{Le diagramme de l'activité \og communiquer \fg}
 \end{figure}
 
 \section{Diagrammes d’interaction}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-connexion.png}}
-\caption{Le diagramme de séquence d'analyse \og se connecter \fg}
+\caption{Diagramme de séquence d'analyse de \textbf{se connecter}}
+\centerline{\includegraphics[width=\textwidth]{diagrammes/dsa-connexion.png}}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.9\textwidth]{diagrammes/dsa-communiquer.png}}
-\caption{Le diagramme de séquence d'analyse \og Communiquer \fg}
+\caption{Diagramme de séquence d'analyse de \textbf{communiquer}}
+\centerline{\includegraphics[width=\textwidth]{diagrammes/dsa-communiquer.png}}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.75\textwidth]{diagrammes/dsa-moderer.png}}
-\caption{Le diagramme de séquence d'analyse \og Modérer Message \fg}
+\caption{Diagramme de séquence d'analyse de \textbf{modérer un message}}
+\centerline{\includegraphics[width=\textwidth]{diagrammes/dsa-moderer.png}}
 \end{figure}
 
 \newpage
 \section{Découpage de l'application en \emph{packages}}
 \begin{figure}[H]
+\caption{Diagramme de packages}
 \centerline{\includegraphics[width=0.8\textwidth]{diagrammes/package-diag.png}}
-\caption{Le diagramme de packages}
 \end{figure}
 
 
@@ -452,13 +454,9 @@ Lors de l'utilisation de l'application, la référence du compte est utilisée p
 %\end{itemize}
 %
 
-Nous avons choisi de travailler avec des threads et callback. Comme indiqué sur la figure ci dessous. Nous sommes en multiclient: il y a donc un callback par client.
-
-
-
 \chapter{Conception détaillée}
 \begin{figure}[H]
-\caption{Le diagramme de classes de conception détaillée}
+\caption{Diagramme de classes de conception détaillée}
 \centerline{\includegraphics[height=18cm]{diagrammes/detailedConception.png}}
 \end{figure}
 \chapter{Implémentations et tests}
@@ -470,6 +468,14 @@ Nous avons réaliser toute l'application en Java car ce langage est connu de tou
 Le client graphique est une application JavaFX. L'ensemble de l'équipe avait été initiée à Swing en ASI3 mais JavaFX est la bibliothèque graphique officielle de Java depuis la sortie de la Java SE 8 en 2014. Se tenir à jour sur les dernières technologies justifiait ce choix.
 \subsection{Technologie répartie}
 Nous avons choisi la technologie d'informatique répartie RMI, plutôt que REST par exemple, car nous avons réalisé un logiciel non Web.
+\subsection{Difficultés}
+La prise en main de JavaFX n'a pas été aisée, en particulier la manipulation des \texttt{ListView} qui sont des objets graphiques permettant de visualiser une liste d'éléments (des messages dans une conversation, ici).
+
+Aussi, le fait que la mise à jour des éléments graphiques de JavaFX est asynchrone et difficilement forçable a parfois posé problème sur la mise à jour des conversations qui ne se faisait pas en temps réel selon l'ordinateur.
+
+Nous avons également été confronté à un problème de sérialisation avec les images. En effet, dans toute la Java SE 8, seule la classe d'image \texttt{IconImage} est sérialisable. Mais la taille d'une image ne peut être sauvegardée, cela a donc posé des problèmes d'affichage (de \emph{resizing}) que nous avons résolus en imposant le choix d'avatars à taille fixe.
+
+Enfin, la fonction de \emph{callback} permettant la mise à jour des conversations côté client à chaque évènement côté serveur n'était pas une partie facile.
 \subsection{Guide d'utilisation}
 \paragraph*{Installation/Exécution}
 \begin{enumerate}
@@ -530,7 +536,6 @@ La figure \ref{illuConv} illustre une conversation entre deux utilisateurs dont 
 \centerline{\includegraphics[width=1.2\textwidth]{images/illuConv.png}}
 \end{figure}
 
-
 \section{Tests de validation}
 \subsection{Tests des spécifications fonctionnelles}
 \begin{enumerate}
@@ -577,5 +582,7 @@ Solution : utiliser un plugin permettant de gérer les flux audios et vidéos co
 \item Déployer un client Web.
 \item Sécuriser le passage des références de compte au serveur avec un chiffrement asymétrique.
 \end{itemize}
+
+
 
 \end{document}
