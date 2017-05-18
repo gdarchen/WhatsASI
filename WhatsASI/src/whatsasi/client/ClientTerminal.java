@@ -23,7 +23,7 @@ public class ClientTerminal {
 
     private static final int PORTRMI = 1099;
     private static final int PORTSOCKET = 2009;
-    private static final String ENDPOINT = "192.168.1.49";
+    private static final String ENDPOINT = "172.18.17.30";
     private static final String BACKCHAR = "/b";
     private static String pseudo;
     private static int refConv = -1;
@@ -41,8 +41,8 @@ public class ClientTerminal {
 
     public static void main(String[] args) {
         try{
-            String hostname = InetAddress.getLocalHost().getHostAddress();
-            System.setProperty("java.rmi.server.hostname",hostname);
+            //String hostname = InetAddress.getLocalHost().getHostAddress();
+            System.setProperty("java.rmi.server.hostname",getPrivateIp());
             //System.out.println(hostname);
             Registry registry = LocateRegistry.getRegistry(ENDPOINT, PORTRMI);
             MessagerieInterface messagerie = (MessagerieInterface) registry.lookup("Messagerie");
@@ -63,16 +63,20 @@ public class ClientTerminal {
 
     }
 
-    private static void getPrivateIp() throws Exception {
+    private static String getPrivateIp() throws Exception {
         Enumeration en = NetworkInterface.getNetworkInterfaces();
         while(en.hasMoreElements()){
             NetworkInterface ni=(NetworkInterface) en.nextElement();
             Enumeration ee = ni.getInetAddresses();
             while(ee.hasMoreElements()) {
                 InetAddress ia= (InetAddress) ee.nextElement();
-                System.out.println(ia.getHostAddress());
+                if (ia.getHostAddress().startsWith("172") || ia.getHostAddress().startsWith("192")){
+                    //System.out.println(ia.getHostAddress());
+                    return ia.getHostAddress();
+                }
             }
         }
+        return "172.18.16.223";
     }
 
     public static void displayBACKCHAR(){
