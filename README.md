@@ -10,8 +10,8 @@ Finally, the user can also select words that he wants the application to filter.
 
 There are two graphic interfaces available : 
 
-    - one developed thanks to JavaFX
-    - the other one to be used in a terminal.
+- one developed thanks to JavaFX
+- the other one to be used in a terminal.
 
 ## Documentation
 
